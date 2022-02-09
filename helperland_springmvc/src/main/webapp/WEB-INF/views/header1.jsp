@@ -28,7 +28,7 @@
 									href="contact">Contact</a></li>
 								<li class="nav-item"><a
 									class="nav-link Rounded-Rectangle-5 book-a-cleaner-copy"
-									href="#">Login</a></li>
+									href="#" data-bs-toggle="modal" data-bs-target="#login">Login</a></li>
 								<li class="nav-item"><a
 									class="nav-link Rounded-Rectangle-5-copy book-a-cleaner-copy"
 									href="become-provider.html">Become a Helper</a></li>

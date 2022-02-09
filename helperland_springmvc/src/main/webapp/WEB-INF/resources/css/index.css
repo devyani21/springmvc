@@ -49,6 +49,36 @@ body {
     border-radius: 20px;
     color: white;
 }
+#forgotpassword a {
+  color: #1d7a8c;
+}
+#forgotpassword a:hover{
+  color: #6eabef;
+}
+.btn{
+  border-radius: 23px;
+  color: white;
+  background-color: #1d7a8c;
+}
+.btn-success{
+  color: white;
+  background-color: #1d7a8c;
+}
+.btn-lg{
+  color: white;
+  background-color: #1d7a8c;
+}
+.btn:hover{
+  background-color: white;
+  color: black;
+}
+@media (min-width: 576px)
+{
+.modal-dialog {
+    max-width: 350px;
+    margin: 1.75rem auto;
+}
+}
 @media screen and (max-width: 1020px){
     .navbar-brand img {
         width: 80px;

@@ -34,4 +34,9 @@ public class controller {
 	public String about() {
 		return "about";
 	}
+	
+	@RequestMapping("/customer-register")
+	public String customer_register() {
+		return "customer-register";
+	}
 }

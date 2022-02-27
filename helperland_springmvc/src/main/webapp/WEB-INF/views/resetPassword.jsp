@@ -28,7 +28,7 @@
 		<section>
 			<div class="container mt-5">
 				<div class="row">
-					<div class="col-lg col Contact-us ">Create an Account</div>
+					<div class="col-lg col Contact-us ">Reset Your Password</div>
 				</div>
 				<div class="row">
 					<div class="col-lg col">
@@ -105,34 +105,35 @@
 					<div class="col-12 col-lg-9 col-xl-7">
 						<div class="card shadow-2-strong card-registration">
 							<div class="card-body p-4 p-md-5">
-								<h6>${ error_msg }</h6>
+								<h6>${ msg }</h6>
 								<!-- <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register here</h3> -->
-								<form:form modelAttribute="user" action="registerProcess"
-									method="post" name="registration">
+								<form:form action="resetPassword"
+									method="post" name="resetPassword">
+									<input type="hidden" name="token" value="${token}" />
 									<div class="row">
 										<div class="col-md-6 mb-4">
 
 											<div class="form-outline">
-												<input type="text" id="firstname"
-													class="form-control form-control-lg" placeholder="FirstName"
-													name="first_name" /> <label class="form-label"
-													for="firstname"></label>
+												<input type="password" id="new_password"
+													class="form-control form-control-lg" placeholder="New Password"
+													name="new_password" /> <label class="form-label"
+													for="new_password"></label>
 											</div>
 
 										</div>
 										<div class="col-md-6 mb-4">
 
 											<div class="form-outline">
-												<input type="text" id="lastname"
+												<input type="password" id="confirm_password"
 													class="form-control form-control-lg"
-													placeholder="LastName" name="last_name" />
-												<label class="form-label" for="lastname"></label>
+													placeholder="Confirm Password" name="last_name" />
+												<label class="form-label" for="confirm_password"></label>
 											</div>
 
 										</div>
 									</div>
 
-									<div class="row">
+							<!--  	<div class="row">
 										<div class="col-md-6 mb-4 pb-2 mt-2">
 
 											<div class="input-group">
@@ -178,7 +179,7 @@
 											</div>
 
 										</div>
-									</div>
+									</div> -->
 
 									<div class="mb-4 mt-4 pt-1">
 										<input id="submitbtn" class="btn btn-primary btn-lg"

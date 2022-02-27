@@ -17,7 +17,7 @@
 							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 								<li class="nav-item"><a
 									class="nav-link Rounded-Rectangle-5-copy-4 book-a-cleaner-copy"
-									aria-current="page" href="#">Book Now</a></li>
+									aria-current="page" href="book-service">Book Now</a></li>
 								<li class="nav-item book-a-cleaner"><a class="nav-link"
 									href="prices">Prices & Services</a></li>
 								<li class="nav-item book-a-cleaner"><a class="nav-link"
@@ -31,7 +31,7 @@
 									href="#" data-bs-toggle="modal" data-bs-target="#login">Login</a></li>
 								<li class="nav-item"><a
 									class="nav-link Rounded-Rectangle-5-copy book-a-cleaner-copy"
-									href="become-provider.html">Become a Helper</a></li>
+									href="become-service-provider">Become a Helper</a></li>
 							</ul>
 						</div>
 					</div>

@@ -34,6 +34,20 @@ body{
     width: 73px;
     height: 54px;
   }
+  
+ a{
+ text-decoration: none;
+ color: white;
+ }
+ .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #1d7a8c;
+}
+ .is_visisted a{
+ color: #fff;
+ background-color: #1d7a8c;
+ }
+ 
 @media screen and (max-width: 1020px){
     .navbar-brand img {
         width: 80px;
@@ -108,8 +122,20 @@ body{
     margin-left: 105px;
     margin-top: 35px;
   }
+  .right{
+    float: right;
+    margin-right: 135px;
+    box-shadow: 0 0 7px -2px #6b6a6a;
+    padding: 0;
+  }
   .w-75 {
     width: 60%!important;
+}
+.w-25 {
+  width: 23%!important;
+}
+.w-50 {
+  width: 60%!important;
 }
 .select-no-of-rooms-and-bath {
   margin: auto;
@@ -158,10 +184,103 @@ hr{
   border-bottom: 2px solid #1d7a8c;
   border-radius: 0rem;
 }
-.nav-tabs .nav-link {
-  border-top-left-radius: 0rem;
-  border-top-right-radius: 0rem;
+
+.paymentsummary{
+  color: white;
+  background-color: #1d7a8c;
+  height: 46px;
+  width: 352px;
 }
+.totalpayment{
+  font-size: 20px;
+  color: #1d7a8c;
+  text-align: center;
+}
+.totalprice{
+  font-size: 30px;
+  color: #1d7a8c;
+}
+.postalcode{
+  font-size: 20px;
+  margin: auto;
+  /* margin-top: 70px; */
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.14;
+  letter-spacing: normal;
+  color: black;
+}
+.postalform{
+  width: 30%;
+}
+
+.contactdetails{
+  font-size: 20px;
+  margin: auto;
+  /* margin-top: 70px; */
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.14;
+  letter-spacing: normal;
+  color: black;
+}
+
+.add-new-address{
+  width: 23%;
+}
+.custom-address-form{
+  width: 80%;
+}
+.custom-form{
+  display: none;
+  border: 1px solid #ced4da;
+  border-radius: 0.3em;
+    width: 800px;
+    background-color: #f7f8f8;
+    margin-bottom: 15px;
+}
+.showform{
+  display: block;
+}
+.phone{
+  width: 50%;
+}
+.input-group{
+  width: 80%;
+}
+.btn{
+  border-radius: 23px;
+  color: white;
+  background-color: #1d7a8c;
+}
+.btn-success{
+  color: white;
+  background-color: #1d7a8c;
+}
+.btn-lg{
+  color: white;
+  background-color: #1d7a8c;
+}
+.btn:hover{
+  background-color: white;
+  color: black;
+}
+.btn-cancel{
+  border-radius: 23px;
+  color: black;
+  background-color: white;
+}
+.btn-continue{
+  width: 15%;
+  float: right;
+}
+
 .For-Customer {
   font-family: Roboto;
   font-size: 24px;
@@ -530,4 +649,8 @@ img.shape-5 {
   .ms-4 {
       margin-left: 4.5rem!important;
   }
+}
+
+.mystyle {
+  border: solid 3px #0d6efd;
 }

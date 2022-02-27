@@ -15,7 +15,7 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item book-a-cleaner">
                                 <a class="nav-link Rounded-Rectangle-5-copy-4 book-a-cleaner" aria-current="page"
-                                    href="#">Book Now</a>
+                                    href="#" data-bs-toggle="modal" data-bs-target="#login">Book Now</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="prices">Prices & Services</a>

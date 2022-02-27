@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +27,8 @@
 	<div class="wrapper">
 		<div id="banner" class="parallax">
 			<%@include file="header1.jsp" %>
-			<!-- Modal -->
+			
+			<!--Login  Modal -->
             <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -35,16 +38,16 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form:form modelAttribute="login" action="loginProcess" method="post">
                                 <div class="input-group mb-3">
                                     <input type="email" class="form-control" placeholder="Email"
-                                        aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        aria-label="Recipient's username" aria-describedby="basic-addon2" name="email">
                                     <span class="input-group-text" id="email"><i class="fa fa-user"
                                             aria-hidden="true"></i></span>
                                 </div>
                                 <div class="input-group mb-3">
                                     <input id="passwordshow" type="password" class="form-control" placeholder="Password"
-                                        aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        aria-label="Recipient's username" aria-describedby="basic-addon2" name="password">
                                     <span class="input-group-text" id="password"><i class="fa fa-lock"
                                             aria-hidden="true"></i></span>
                                 </div>
@@ -65,7 +68,7 @@
                                         <a href="customer-register">Create an account</a>
                                     </span>
                                 </div>
-                            </form>
+                            </form:form>
                         </div>
                         <!-- <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -74,7 +77,9 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal -->
+            
+            
+            <!-- Forgot Password Modal -->
             <div class="modal fade" id="forgot-password" data-bs-backdrop="static" data-bs-keyboard="false"
                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -84,20 +89,22 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="">
+                            <form:form modelAttribute="user"  action="forgotPassword" method="post" id="forgotpasswordform">
                                 <div class="input-group mb-3">
-                                    <input type="email" class="form-control" placeholder="Email"
-                                        aria-label="Recipient's username" aria-describedby="basic-addon2">
-                                    <span class="input-group-text" id="email"><i class="fa fa-user"
+                                    <input id="email" type="email" class="form-control" placeholder="Email"
+                                        aria-label="Recipient's username" aria-describedby="basic-addon2" name="email">
+                                    <span class="input-group-text" ><i class="fa fa-user"
                                             aria-hidden="true"></i></span>
+                                         
                                 </div>
+                                 <h6> ${ message } </h6>
                                 <div class="d-flex justify-content-center mb-3">
                                     <button type="submit" class=" form-control btn btn-success btn-lg">Send</button>
                                 </div>
                                 <div id="forgotpassword" class="d-flex justify-content-center">
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#login">Login Now</a>
                                 </div>
-                            </form>
+                            </form:form>
                         </div>
                         <!-- <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -124,6 +131,9 @@
 					</div>
 				</div>
 			</section>
+			<center>
+			<h6> ${ message } </h6>
+			</center>
 			<section>
 				<div class="row">
 					<div class="col-lg col example3">
@@ -450,6 +460,34 @@
 		crossorigin="anonymous"></script>
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/common.js' />"></script>
+		
+		<!--<script type="text/javascript">
+		$(document).ready(function () {
+			console.log("page is ready..");
+			$('#forgotpasswordform').on('submit',function(event) {
+				
+				var f = $(this).serialize();
+				console.log(f);
+				
+				
+				$.ajax({
+					url:"forgotPassword",
+					data:f,
+					type:"POST",
+					success: function(data,textStatus,jqXHR){
+						console.log(data);
+						console.log("Success...");
+						$(".errormsg").show();
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						console.log(data);
+						console.log("error...");
+					}
+				})
+				event.preventDefault();
+			})
+		})
+		</script>-->
 </body>
 
 </html>

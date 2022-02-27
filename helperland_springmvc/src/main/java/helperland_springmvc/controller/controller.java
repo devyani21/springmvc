@@ -5,15 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class controller {
-	@RequestMapping("/")
+	@RequestMapping({"/","/home"})
 	public String index() {
 		return "index";
     }
-	
-	@RequestMapping("/home")
-	public String home() {
-		return "index";
-	}
 	
 	@RequestMapping("/prices")
     public String prices() {
@@ -35,8 +30,11 @@ public class controller {
 		return "about";
 	}
 	
-	@RequestMapping("/customer-register")
-	public String customer_register() {
-		return "customer-register";
+	@RequestMapping("/become-service-provider")
+	public String become_service_provider() {
+		return "become-service-provider";
 	}
+	
+	
+
 }

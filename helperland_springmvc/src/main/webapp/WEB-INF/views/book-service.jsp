@@ -51,8 +51,9 @@
 			<div class="container w-25 right">
 				<div class="p-2 me-3 paymentsummary">Payment Summary</div>
 				<div class="p-2 d-flex">
-					<div class="col-8" >
-						<span>01/01/2018</span> @ <span>4:00 pm</span>
+					<div class="col-8" id="servicedatetime">
+						<span id="servicestartdatevalue"></span> @ <span
+							id="servicestarttimevalue"></span>
 						<!-- <div class="col-8">1 bed, 1 bath</div> -->
 					</div>
 					<!-- <div class="ms-auto">$186.76</div> -->
@@ -60,11 +61,29 @@
 				<div class="p-2 d-flex">
 					<div class="col">
 						<strong>Duration</strong>
-						<div>
-							Basic <span style="float: right;">3 Hrs</span>
+						<div id="showbasic">
+							Basic <span id="servicehoursvalue" style="float: right;"></span>
 						</div>
-						<div>
-							Inside Cabinets(Extra) <span style="float: right;">30 Mins</span>
+						<div id="extras">
+							<strong>Extras</strong>
+							<div id="extraservice1">
+								Inside Cabinets(Extra) <span style="float: right;">30
+									Mins</span>
+							</div>
+							<div id="extraservice2">
+								Inside Fridge(Extra) <span style="float: right;">30 Mins</span>
+							</div>
+							<div id="extraservice3">
+								Inside Oven(Extra) <span style="float: right;">30 Mins</span>
+							</div>
+							<div id="extraservice4">
+								Laundary Wash & Dry(Extra) <span style="float: right;">30
+									Mins</span>
+							</div>
+							<div id="extraservice5">
+								Interior Windows(Extra) <span style="float: right;">30
+									Mins</span>
+							</div>
 						</div>
 						<hr>
 					</div>
@@ -101,19 +120,14 @@
 							<a class="nav-link active For-Customer"
 								id="nav-setup-service-tab" data-bs-toggle="tab"
 								href="#setup-service" role="tab" aria-controls="setup-service"
-								aria-selected="true">Setup Service</a> 
-								
-							<a class="nav-link For-Customer" id="nav-schedule-tab"
+								aria-selected="true">Setup Service</a> <a
+								class="nav-link For-Customer" id="nav-schedule-tab"
 								data-bs-toggle="tab" href="#schedule" role="tab"
 								aria-controls="schedule" aria-selected="false" disabled>Schedule
-								& Plan</a> 
-							
-							<a class="nav-link For-Customer" id="nav-details-tab"
+								& Plan</a> <a class="nav-link For-Customer" id="nav-details-tab"
 								data-bs-toggle="tab" href="#details" role="tab"
 								aria-controls="details" aria-selected="false" disabled>Your
-								Details</a> 
-								
-							<a class="nav-link For-Customer" id="nav-payment-tab"
+								Details</a> <a class="nav-link For-Customer" id="nav-payment-tab"
 								data-bs-toggle="tab" href="#payment" role="tab"
 								aria-controls="payment" aria-selected="false" disabled>Make
 								Payment</a>
@@ -140,33 +154,36 @@
 									<br>
 
 								</form:form>
-								<div class="text-danger mb-1" style="width:30%;">
+								<div class="text-danger mb-1" style="width: 30%;">
 									<h6 id="msg"></h6>
 								</div>
 
 							</div>
 
 						</div>
-						
+
 						<!-- Schedule & Plan Tab -->
 						<div class="tab-pane fade" id="schedule" role="tabpanel"
 							aria-labelledby="nav-schedule-tab">
-							<form:form action="details" method="post" id="scheduleserviceform">
+							<form:form action="details" method="post"
+								id="scheduleserviceform">
 								<div class="row">
 									<div class="col-lg-6 col bottom-margin">
 										<div class="select-no-of-rooms-and-bath">When do you
 											need the Cleaner?</div>
-											<div id="msg"></div>
+										<div id="msg"></div>
 										<div>
-											<input name="service_start_date" class="date-picker" type="date" id="servicestartdate"
-												style="width: 180px;" /> 
-											<select name="service_start_time"
+											<input name="service_start_date" type="date"
+												class="datepicker" id="servicestartdate"
+												style="width: 180px;" required /> <select
+												name="service_start_time"
 												class="form-select user-name-select time"
-												aria-label="Default select example"  id="servicestarttime">
-												<option value="3:00 PM" selected>3:00 PM</option>
-												<option value="2:00 PM">2:00 PM</option>
-												<option value="5:00 PM">5:00 PM</option>
+												aria-label="Default select example" id="servicestarttime">
+												<option value="12:00 PM" selected>12:00 PM</option>
 												<option value="11:00 AM">11:00 AM</option>
+												<option value="1:00 PM">1:00 PM</option>
+												<option value="2:00 PM">2:00 PM</option>
+												<option value="3:00 PM">3:00 PM</option>
 											</select>
 										</div>
 										<div class="border-top"></div>
@@ -175,12 +192,14 @@
 										<div class="select-no-of-rooms-and-bath">How long do you
 											need your cleaner to stay?</div>
 										<div>
-											<select name="service_hours" class="form-select user-name-select time"
-												aria-label="Default select example" id="servicehours" >
+											<select name="service_hours"
+												class="form-select user-name-select time"
+												aria-label="Default select example" id="servicehours">
 												<option value="3" selected>3 Hrs</option>
-												<option value="1">2 Hrs</option>
+												<option value="3.5">3.5 Hrs</option>
 												<option value="4">4 Hrs</option>
-												<option value="3">5 Hrs</option>
+												<option value="4">4.5 Hrs</option>
+												<option value="5">5 Hrs</option>
 											</select>
 										</div>
 										<div class="border-top"></div>
@@ -191,54 +210,93 @@
 								</div>
 								<div class="row test">
 									<div class="col-lg-equal col test">
-										<div class="Ellipse-667" id="insideCabinets"
-											onclick="InsideCabinets()" style="cursor: pointer;">
+										<div class="mydiv" >
+											<input id="insideCabinets" type="checkbox"
+												name="insidecabinets" /> <label for="insideCabinets" style="cursor: pointer;"><img
+												src="<c:url value='/resources/img/prices/shape-1.png' />"
+												class="shape-1"></label>
+										</div>
+										<div class="Inside-cabinets">Inside cabinets</div>
+										<div class="-minutes">30 minutes</div>
+										<!-- <div class="Ellipse-667" id="insideCabinets" style="cursor: pointer;">
 											<img
 												src="<c:url value='/resources/img/prices/shape-1.png' />"
 												class="shape-1">
 										</div>
 										<div class="Inside-cabinets">Inside cabinets</div>
-										<div class="-minutes">30 minutes</div>
+										<div class="-minutes">30 minutes</div>-->
 									</div>
 									<div class="col-lg-equal col">
-										<div class="Ellipse-667" id="insideFridge"
-											onclick="InsideFridge()" style="cursor: pointer;">
+										<div class="mydiv" >
+											<input id="insideFridge" type="checkbox" name="insidefridge" />
+											<label for="insideFridge" style="cursor: pointer;"><img
+												src="<c:url value='/resources/img/prices/shape-2.png' />"
+												class="shape-1"></label>
+										</div>
+										<div class="Inside-cabinets">Inside Fridge</div>
+										<div class="-minutes">30 minutes</div>
+										<!--  <div class="Ellipse-667" id="insideFridge"
+											style="cursor: pointer;">
 											<img
 												src="<c:url value='/resources/img/prices/shape-2.png' />"
 												class="shape-2">
 										</div>
 										<div class="Inside-cabinets">Inside Fridge</div>
-										<div class="-minutes">30 minutes</div>
+										<div class="-minutes">30 minutes</div>-->
 									</div>
 									<div class="col-lg-equal col">
-										<div class="Ellipse-667" id="insideOven"
-											onclick="InsideOven()" style="cursor: pointer;">
+										<div class="mydiv" >
+											<input id="insideOven" type="checkbox" name="insideoven" />
+											<label for="insideOven" style="cursor: pointer;"><img
+												src="<c:url value='/resources/img/prices/shape-3.png' />"
+												class="shape-1"></label>
+										</div>
+										<div class="Inside-cabinets">Inside Oven</div>
+										<div class="-minutes">30 minutes</div>
+										<!-- <div class="Ellipse-667" id="insideOven"
+											style="cursor: pointer;">
 											<img
 												src="<c:url value='/resources/img/prices/shape-3.png' />"
 												class="shape-3">
 										</div>
 										<div class="Inside-cabinets">Inside Oven</div>
-										<div class="-minutes">30 minutes</div>
+										<div class="-minutes">30 minutes</div>-->
 									</div>
 									<div class="col-lg-equal col">
-										<div class="Ellipse-667" id="laundary" onclick="Laundary()"
+										<div class="mydiv" >
+											<input id="laundary" type="checkbox" name="laundary" /> <label
+												for="laundary" style="cursor: pointer;"><img
+												src="<c:url value='/resources/img/prices/shape-4.png' />"
+												class="shape-1"></label>
+										</div>
+										<div class="Inside-cabinets">Laundary Wash & Dry</div>
+										<div class="-minutes">30 minutes</div>
+										<!--  <div class="Ellipse-667" id="laundary"
 											style="cursor: pointer;">
 											<img
 												src="<c:url value='/resources/img/prices/shape-4.png' />"
 												class="shape-4">
 										</div>
 										<div class="Inside-cabinets">Laundary Wash & Dry</div>
-										<div class="-minutes">30 minutes</div>
+										<div class="-minutes">30 minutes</div>-->
 									</div>
 									<div class="col-lg-equal col">
-										<div class="Ellipse-667" id="interiorWindows"
-											onclick="InteriorWindows()" style="cursor: pointer;">
+										<div class="mydiv" >
+											<input id="interiorWindows" type="checkbox"
+												name="interiorwindows" /> <label for="interiorWindows" style="cursor: pointer;"><img
+												src="<c:url value='/resources/img/prices/shape-5.png' />"
+												class="shape-1"></label>
+										</div>
+										<div class="Inside-cabinets">Interior Windows</div>
+										<div class="-minutes">30 minutes</div>
+										<!-- <div class="Ellipse-667" id="interiorWindows"
+											style="cursor: pointer;">
 											<img
 												src="<c:url value='/resources/img/prices/shape-5.png' />"
 												class="shape-5">
 										</div>
 										<div class="Inside-cabinets">Interior Windows</div>
-										<div class="-minutes">30 minutes</div>
+										<div class="-minutes">30 minutes</div>-->
 									</div>
 									<hr>
 								</div>
@@ -246,13 +304,14 @@
 									<div>
 										<div class="mb-3">
 											<label for="comments" class="form-label">Comments</label>
-											<textarea class="form-control"
-												id="comments" rows="3" name="comments"></textarea>
+											<textarea class="form-control" id="comments" rows="3"
+												name="comments"></textarea>
 										</div>
 										<div class="form-check mb-3">
 											<input class="form-check-input" type="checkbox" value="1"
-												id="haspets" name="has_pets"> 
-												<label class="form-check-label" for="haspets"> I have pets at home </label>
+												id="haspets" name="has_pets"> <label
+												class="form-check-label" for="haspets"> I have pets
+												at home </label>
 										</div>
 										<div class="border-top"></div>
 									</div>
@@ -362,7 +421,7 @@
 									style="float: right;">Continue</button>
 							</div>
 						</div>
-						
+
 						<!-- Payment Tab -->
 						<div class="tab-pane fade" id="payment" role="tabpanel"
 							aria-labelledby="nav-payment-tab"></div>
@@ -427,107 +486,212 @@
 		src="<c:url value='/resources/js/common.js' />"></script>
 
 	<script type="text/javascript">
-	$(document).ready(function() {
-		console.log("page is ready..");
-		$('#zipcodeform').on('submit', function(event) {
-			event.preventDefault();
-			searchpincode();
-		});
-	});
+		
+	</script>
 
- function searchpincode() {
-		var search = {};
-		search["zip_code_value"] = $("#zipcodevalue").val();
-		console.log(search);
-		$.ajax({
-			url : "setup-service",
-			type : "POST",
-			data : $("#zipcodevalue").val(),
-			success : function(data, textStatus, jqXHR) {
-				console.log(data);
-				console.log("Success...");
-				if (data == "true") {
-					$("#nav-schedule-tab").prop("disabled", false);
-					document.getElementById("nav-schedule-tab").click();
-				}
-			     else {
-					$("#msg").html("We are not providing service in this area.We'll notify you if any helper would start working near your area")
-				}
-				},
-			error : function(e) {
-				console.log(data);
-				console.log("error...");
-			}
+	<script type="text/javascript">
+		console.log(document.getElementById("insideCabinets").classList
+				.contains("mystyle"));
+		$("#insideCabinets").on("click", function() {
+			this.classList.toggle("mystyle");
+
 		})
 
-	}
- 
+		$("#insideFridge").on("click", function() {
+			this.classList.toggle("mystyle");
+		})
+
+		$("#insideOven").on("click", function() {
+			this.classList.toggle("mystyle");
+		})
+
+		$("#laundary").on("click", function() {
+			this.classList.toggle("mystyle");
+		})
+
+		$("#interiorWindows").on("click", function() {
+			this.classList.toggle("mystyle");
+		})
+
+		$(document)
+
+		console.log($("#insideCabinets").hasClass("mystyle"));
 	</script>
+
 	<script type="text/javascript">
-	$(document).ready(function() {
-		console.log("page is ready..");
-		$('#scheduleserviceform').on('submit', function(event) {
-			$("#nav-details-tab").prop("disabled", false);
-			document.getElementById("nav-details-tab").click();
-			event.preventDefault();
+		$(document).ready(
+				function() {
+					var date = new Date();
+					var year = date.getFullYear();
+					var month = ("0" + (date.getMonth() + 1)).slice(-2);
+					var todayDate = ("0" + date.getDate()).slice(-2);
+					var datePattern = year + '-' + month + '-' + todayDate;
+					$("#servicestartdate").attr('min', datePattern);
+					console.log(datePattern);
+					$("#servicestartdate").val(datePattern);
+					var newdate = datePattern.slice(8, 10) + "/"
+							+ datePattern.slice(5, 7) + "/"
+							+ datePattern.slice(0, 4);
+					console.log(newdate);
+					$("#servicestartdatevalue").html(newdate);
+
+					document.getElementById('servicestartdate')
+							.addEventListener(
+									'change',
+									function() {
+										newdate = (this.value).slice(8, 10)
+												+ "/"
+												+ (this.value).slice(5, 7)
+												+ "/"
+												+ (this.value).slice(0, 4);
+										$("#servicestartdatevalue").html(
+												newdate);
+										$("#servicedatetime").show();
+									});
+
+					console.log($("select#servicestarttime").val());
+					$("#servicestarttimevalue").html(servicestarttime.value);
+
+					$("select#servicestarttime").change(function() {
+						$("#servicestarttimevalue").html(this.value);
+					})
+
+					console.log($("select#servicehours").val());
+					$("#servicehoursvalue").html(servicehours.value + " Hrs");
+
+					$("select#servicehours").change(
+							function() {
+								console.log(this.value);
+								$("#servicehoursvalue").html(
+										servicehours.value + " Hrs");
+							})
+
+					//console.log($("#insideCabinets").hasClass('mystyle'));
+
+					//$("#insideCabinets").change(function(){
+					//	console.log($("#insideCabinets").hasClass('mystyle'));
+					//});
+
+					//if(($("#insideCabinets").hasClass('mystyle')) || ($("#insideFridge").hasClass('mystyle')) || 
+					//		($("#insideOven").hasClass('mystyle')) || ($("#laundary").hasClass('mystyle')) || 
+					//	($("#interioWindows").hasClass('mystyle'))){
+					//$("#extras").show();
+					//}
+				});
+
+		//document.write(datePattern);
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#zipcodeform').on('submit', function(event) {
+				event.preventDefault();
+				searchpincode();
+			});
 		});
-	});	
-	
+
+		function searchpincode() {
+			var search = {};
+			search["zip_code_value"] = $("#zipcodevalue").val();
+			console.log(search);
+			$
+					.ajax({
+						url : "setup-service",
+						type : "POST",
+						data : $("#zipcodevalue").val(),
+						success : function(data, textStatus, jqXHR) {
+							console.log(data);
+							console.log("Success...");
+							if (data == "true") {
+								$("#nav-schedule-tab").prop("disabled", false);
+								document.getElementById("nav-schedule-tab")
+										.click();
+							} else {
+								$("#msg")
+										.html(
+												"We are not providing service in this area.We'll notify you if any helper would start working near your area")
+							}
+						},
+						error : function(e) {
+							console.log(data);
+							console.log("error...");
+						}
+					})
+
+		}
 	</script>
-	
 	<script type="text/javascript">
-	
-	$("#nav-setup-service-tab").on("click" , function(){
-        if($("#nav-setup-service-tab").hasClass("active")){
-        	$("#nav-setup-service-tab").addClass("is_visited");
-            
-            $("#nav-schedule-tab").removeClass("is_visisted")
-            $("#nav-details-tab").removeClass("is_visited");
-            $("#nav-payment-tab").removeClass("is_visited");
-            $("#nav-schedule-tab").prop('disabled' , true);
-            $("#nav-details-tab").prop('disabled' , true);
-            $("#nav-payment-tab").prop('disabled' , true);
-        }
-    });
+		$(document).ready(function() {
+			$('#scheduleserviceform').on('submit', function(event) {
+				event.preventDefault();
+				console.log("setup-service...");
+				$.ajax({
+					type : "POST",
+					url : "details",
+					data : $("#scheduleserviceform").serialize(),
+					success : function(data, textStatus, jqXHR) {
+						console.log("success..")
+						console.log(data);
+						$("#nav-details-tab").prop("disabled", false);
+						document.getElementById("nav-details-tab").click();
+					},
+					error : function(data) {
+						console.log(data);
+					}
+				})
+			});
+		});
+	</script>
 
-    $("#nav-schedule-tab").on("click" , function(){
-        if($("#nav-schedule-tab").hasClass("active")){
-        	$("#nav-schedule-tab").addClass("is_visited");   	
-            $("#nav-setup-service-tab").addClass("is_visited");
-            
-            $("#nav-details-tab").removeClass("is_visited");
-            $("#nav-payment-tab").removeClass("is_visited")
-            $("#nav-details-tab").prop('disabled' , true);
-            $("#nav-payment-tab").prop('disabled' , true);
-        }
-    });
+	<script type="text/javascript">
+		$("#nav-setup-service-tab").on("click", function() {
+			if ($("#nav-setup-service-tab").hasClass("active")) {
+				$("#nav-setup-service-tab").addClass("is_visited");
 
-    $("#nav-details-tab").on("click" , function(){
-        if($("#nav-details-tab").hasClass("active")){
-        	$("#nav-details-tab").addClass("is_visited")
-            $("#nav-setup-service-tab").addClass("is_visited");
-            $("#nav-schedule-tab").addClass("is_visited");
+				$("#nav-schedule-tab").removeClass("is_visisted")
+				$("#nav-details-tab").removeClass("is_visited");
+				$("#nav-payment-tab").removeClass("is_visited");
+				$("#nav-schedule-tab").prop('disabled', true);
+				$("#nav-details-tab").prop('disabled', true);
+				$("#nav-payment-tab").prop('disabled', true);
+			}
+		});
 
-            $("#nav-payment-tab").removeClass("is_visited")
+		$("#nav-schedule-tab").on("click", function() {
+			if ($("#nav-schedule-tab").hasClass("active")) {
+				$("#nav-schedule-tab").addClass("is_visited");
+				$("#nav-setup-service-tab").addClass("is_visited");
 
-            $("#nav-payment-tab").prop('disabled' , true);
-        }
-    });
-    
-    $("#nav-payment-tab").on("click" , function(){
-        if($("#nav-payment-tab").hasClass("active")){
+				$("#nav-details-tab").removeClass("is_visited");
+				$("#nav-payment-tab").removeClass("is_visited")
+				$("#nav-details-tab").prop('disabled', true);
+				$("#nav-payment-tab").prop('disabled', true);
+			}
+		});
 
-            $("#nav-payment-tab").addClass("is_visited")
-            $("#nav-setup-service-tab").addClass("is_visited");
-            $("#nav-schedule-tab").addClass("is_visited");
-            $("#nav-details-tab").addClass("is_visited");
+		$("#nav-details-tab").on("click", function() {
+			if ($("#nav-details-tab").hasClass("active")) {
+				$("#nav-details-tab").addClass("is_visited")
+				$("#nav-setup-service-tab").addClass("is_visited");
+				$("#nav-schedule-tab").addClass("is_visited");
 
-        }
-    });
+				$("#nav-payment-tab").removeClass("is_visited")
 
-    
+				$("#nav-payment-tab").prop('disabled', true);
+			}
+		});
 
-</script>
+		$("#nav-payment-tab").on("click", function() {
+			if ($("#nav-payment-tab").hasClass("active")) {
+
+				$("#nav-payment-tab").addClass("is_visited")
+				$("#nav-setup-service-tab").addClass("is_visited");
+				$("#nav-schedule-tab").addClass("is_visited");
+				$("#nav-details-tab").addClass("is_visited");
+
+			}
+		});
+	</script>
 
 </body>
 

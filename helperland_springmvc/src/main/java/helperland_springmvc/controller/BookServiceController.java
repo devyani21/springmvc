@@ -58,14 +58,14 @@ public class BookServiceController {
 //	  }
 	  
 	  @RequestMapping(value = "/details", method = RequestMethod.POST)
-	  public String handleServiceRequest(@ModelAttribute("serviceRequest") ServiceRequest serviceRequest,HttpServletRequest request) {
+	  public @ResponseBody String handleServiceRequest(@ModelAttribute("serviceRequest") ServiceRequest serviceRequest) {
 		  System.out.println(serviceRequest);
-		  return "book-service";
+		  return "true";
 	  }
 	  
 //	  @RequestMapping(value="/setup-service", method = RequestMethod.POST)
 //	  public @ResponseBody List<ServiceRequest> ajaxSearch(HttpServletRequest request, HttpServletResponse response, @RequestBody ServiceRequest servicerequest){
 //		  
 //	  }
-	
+		
 }

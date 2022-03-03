@@ -86,10 +86,11 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel">Forgot Password</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button id="modalclosebutton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form:form modelAttribute="user"  action="forgotPassword" method="post" id="forgotpasswordform">
+                                <span id="message" class="text-danger"><h6> </h6></span>
                                 <div class="input-group mb-3">
                                     <input id="email" type="email" class="form-control" placeholder="Email"
                                         aria-label="Recipient's username" aria-describedby="basic-addon2" name="email">
@@ -97,7 +98,7 @@
                                             aria-hidden="true"></i></span>
                                          
                                 </div>
-                                 <h6> ${ message } </h6>
+                                 
                                 <div class="d-flex justify-content-center mb-3">
                                     <button type="submit" class=" form-control btn btn-success btn-lg">Send</button>
                                 </div>
@@ -450,9 +451,6 @@
 		<%@include file="footer1.jsp" %>
 			</div>
 
-	<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
-		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-		crossorigin="anonymous"></script> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -461,23 +459,31 @@
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/common.js' />"></script>
 		
-		<!--<script type="text/javascript">
+		<script type="text/javascript">
 		$(document).ready(function () {
 			console.log("page is ready..");
 			$('#forgotpasswordform').on('submit',function(event) {
-				
-				var f = $(this).serialize();
-				console.log(f);
-				
+				event.preventDefault();
 				
 				$.ajax({
 					url:"forgotPassword",
-					data:f,
+					data:$("#forgotpasswordform").serialize(),
 					type:"POST",
 					success: function(data,textStatus,jqXHR){
 						console.log(data);
 						console.log("Success...");
-						$(".errormsg").show();
+						if(data == "true"){
+							document.getElementById("forgotpasswordform").reset();
+							$("#forgotformpassword").modal('toggle');
+							$("#modalclosebutton").click();
+							alert("Email sent on your mail id");
+							
+							
+						}
+						else{
+							document.getElementById("forgotpasswordform").reset();
+							$("#message").html("User with this email id does not exist!");
+						}
 					},
 					error: function(jqXHR, textStatus, errorThrown){
 						console.log(data);
@@ -487,7 +493,7 @@
 				event.preventDefault();
 			})
 		})
-		</script>-->
+		</script>
 </body>
 
 </html>

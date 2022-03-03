@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sun.xml.bind.Util;
 
 import net.bytebuddy.utility.*;
+import helperland_springmvc.controller.Utility;
 import helperland_springmvc.model.Login;
 import helperland_springmvc.service.EmailService;
 import helperland_springmvc.service.UserService;
@@ -57,14 +58,14 @@ public class ForgotPassword {
 	
 	@RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
 	
-	public @ResponseBody ModelAndView forgotPassword(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("user") User user) {
-		ModelAndView mav = null;
+	public @ResponseBody String forgotPassword(HttpServletRequest request, HttpServletResponse response,@ModelAttribute("user") User user) {
+		//ModelAndView mav = null;
 
 //		String custString=cust.toString();
 		
 		if(userService.preventDuplicateEmail(user)) {
 			System.out.println("forgotPassword...");
-			return new ModelAndView("index","message","User does not exist!");
+			return "false";
 		}
 		else {
 			String token = RandomString.make(36);
@@ -84,7 +85,7 @@ public class ForgotPassword {
 			String from = "helperlandproject@gmail.com";
 			emailService.sendEmail(message, subject, to, from);
 			System.out.println("email sent");
-			return new ModelAndView("index", "message","Email sent on your email id");
+			return "true";
 		}
 		
 				
@@ -124,7 +125,7 @@ public class ForgotPassword {
 	}
 }
 
-class Utility {
+ class Utility {
     public static String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");

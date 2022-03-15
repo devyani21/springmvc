@@ -34,6 +34,8 @@
 	<bean class="helperland_springmvc.service.EmailServiceImpl" name="emailService" />
 	<bean class="helperland_springmvc.service.BookServiceImpl" name="bookservice" />
 	<bean class="helperland_springmvc.dao.BookServiceDaoImpl" name="bookservicedao" />
+	<bean class="helperland_springmvc.service.ContactusServiceImpl" name="contactusService"/>
+	<bean class="helperland_springmvc.dao.ContactusDaoImpl" name="contactusDao"/>
 	<bean
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		name="dataSource">

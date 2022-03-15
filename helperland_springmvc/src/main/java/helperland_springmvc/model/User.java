@@ -113,5 +113,11 @@ public class User {
 		this.user_type_id = user_type_id;
 		this.resetToken = resetToken;
 	}
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", mobile="
+				+ mobile + ", email=" + email + ", password=" + password + ", created_date=" + created_date
+				+ ", user_type_id=" + user_type_id + ", resetToken=" + resetToken + "]";
+	}
 	
 	}

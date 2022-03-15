@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,14 +71,15 @@
                         <div class="card shadow-2-strong card-registration">
                             <div class="card-body p-4 p-md-5">
                                 <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Get in Touch with Us</h3>
-                                <form>
+                                <h4 class="text-danger text-center">${ errmsg } </h4>
+                                <form action="contact" method="post">
 
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
 
                                             <div class="form-outline">
                                                 <input type="text" id="firstName" class="form-control form-control-lg"
-                                                    placeholder="Firstname" />
+                                                    placeholder="Firstname" name="first_name" />
                                                 <label class="form-label" for="firstName"></label>
                                             </div>
 
@@ -86,7 +88,7 @@
 
                                             <div class="form-outline">
                                                 <input type="text" id="lastName" class="form-control form-control-lg"
-                                                    placeholder="Lastname" />
+                                                    placeholder="Lastname" name="last_name"/>
                                                 <label class="form-label" for="lastName"></label>
                                             </div>
 
@@ -98,7 +100,7 @@
 
                                             <div class="form-outline">
                                                 <input type="tel" id="phoneNumber"
-                                                    class="form-control form-control-lg" placeholder="Phone Number"/>
+                                                    class="form-control form-control-lg" placeholder="Phone Number" name="phone_no"/>
                                                 <label class="form-label" for="phoneNumber"></label>
                                             </div>
 
@@ -107,7 +109,7 @@
 
                                             <div class="form-outline">
                                                 <input type="email" id="emailAddress"
-                                                    class="form-control form-control-lg" placeholder="Email"/>
+                                                    class="form-control form-control-lg" placeholder="Email" name="email"/>
                                                 <label class="form-label" for="emailAddress"></label>
                                             </div>
 
@@ -118,11 +120,11 @@
                                     <div class="row">
                                         <div class="col-md-12 mb-4 pb-2">
                                             <div class="form-outline">
-                                            <select class=" select form-control form-control-lg">
-                                                <option value="1" disabled>Choose option</option>
-                                                <option value="2">Subject 1</option>
-                                                <option value="3">Subject 2</option>
-                                                <option value="4">Subject 3</option>
+                                            <select class=" select form-control form-control-lg" name="subject_type">
+                                                <option value="general" selected>General</option>
+                                                <option value="subject 1">Subject 1</option>
+                                                <option value="subject 2">Subject 2</option>
+                                                <option value="subject 3">Subject 3</option>
                                             </select>
                                             <label class="form-label select-label"></label>
                                             </div>
@@ -131,7 +133,7 @@
                                     <div class="row">
                                         <div class="col-md-12 mb-4 pb-2">
                                             <div class="form-outline">
-                                                <textarea class="form-control" rows="5" placeholder="Message" id="message"></textarea>
+                                                <textarea class="form-control" rows="5" placeholder="Message" id="message" name="message"></textarea>
                                                 <label class="form-label" for="message"></label>
                                             </div>
                                         </div>

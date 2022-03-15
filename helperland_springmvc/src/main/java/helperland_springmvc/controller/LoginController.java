@@ -2,6 +2,7 @@ package helperland_springmvc.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,8 +37,9 @@ public class LoginController {
     User user = userService.validateUser(login);
 
     if (user != null) {
-    	System.out.println("Running if condition...");
-        mav = new ModelAndView("registerProcess");
+    	HttpSession session = request.getSession();
+    	session.setAttribute("userinfo", user);
+        mav = new ModelAndView("customer-dashboard");
         mav.addObject("first_name", user.getFirst_name());
         } else {
         	System.out.println("Running else condition...");
@@ -47,5 +49,12 @@ public class LoginController {
 
         return mav;
       }
+  
+  @RequestMapping(value="/logout")
+  public String Logout(HttpServletRequest request, HttpServletResponse response) {
+	  HttpSession session = request.getSession();
+	  session.invalidate();
+	  return "redirect:/";
+  }
 
     }

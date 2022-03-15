@@ -35,6 +35,10 @@ body{
     height: 54px;
   }
   
+.form-check-input{
+	margin-top: 1.25 em;
+}
+  
  a{
  text-decoration: none;
  color: white;
@@ -48,6 +52,28 @@ body{
  background-color: #1d7a8c;
  }
  
+ @media (min-width: 576px)
+{
+.modal-dialog {
+    max-width: 350px;
+    margin: 1.75rem auto;
+}
+}
+form#login .input-group{
+	width: 100%;
+}
+form#forgotpasswordform .input-group{
+	width: 100%;
+}
+
+#forgotpassword a {
+  color: #1d7a8c;
+}
+#forgotpassword a:hover{
+  color: #6eabef;
+}
+ 
+
 @media screen and (max-width: 1020px){
     .navbar-brand img {
         width: 80px;
@@ -192,7 +218,7 @@ hr{
   width: 352px;
 }
 .totalpayment{
-  font-size: 20px;
+  font-size: 28px;
   color: #1d7a8c;
   text-align: center;
 }
@@ -656,10 +682,6 @@ img.shape-5 {
 }
 
 #servicedatetime{
-	display: none;
-}
-
-#extras{
 	display: none;
 }
 

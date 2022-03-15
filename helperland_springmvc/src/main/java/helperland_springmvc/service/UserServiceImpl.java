@@ -1,5 +1,6 @@
 package helperland_springmvc.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import helperland_springmvc.dao.UserDao;
 import helperland_springmvc.model.Login;
 import helperland_springmvc.model.User;
+import helperland_springmvc.model.UserAddress;
 
 public class UserServiceImpl implements UserService {
 	
@@ -44,6 +46,27 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		userDao.updatePassword(user, new_password);
 	}
+	
+	public User getUserByEmail(String email){
+		return userDao.getUserByEmail(email);
+	}
+	
+	public void saveUserAddress(UserAddress userAddress) {
+		userDao.saveUserAddress(userAddress);
+	}
+
+	public List<UserAddress> getAllUserAddressByUserId(int user_id) {
+		// TODO Auto-generated method stub
+		return userDao.getAllUserAddressByUserId(user_id);
+	}
+
+	public UserAddress getAllUserAddressByAddressId(int address_id) {
+		// TODO Auto-generated method stub
+		return userDao.getAllUserAddressByAddressId(address_id);
+	}
+	
+	
+	
 	
 
 //	public void updateResetPasswordToken(User user, String token, String email) {

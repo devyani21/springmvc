@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import helperland_springmvc.model.Login;
 import helperland_springmvc.model.User;
+import helperland_springmvc.model.UserAddress;
 
 public class UserDaoImpl implements UserDao {
 
@@ -53,6 +54,12 @@ public class UserDaoImpl implements UserDao {
 
 	}
 	
+	public User getUserByEmail(String email){
+		String sql = "select * from user where email='" + email + "'";
+		List<User> users = jdbcTemplate.query(sql, new UserMapper());
+		return users.size() > 0 ? users.get(0) : null;
+	}
+	
 	public void updateResetPasswordToken(User user) {
 		// TODO Auto-generated method stub
 		System.out.println(user.getEmail() + " " + user.getReset_token());
@@ -76,20 +83,68 @@ public class UserDaoImpl implements UserDao {
 		jdbcTemplate.update(query);
 		System.out.println(user.getPassword() + user.getEmail());
 	}
+	
+	public void saveUserAddress(UserAddress userAddress) {
+		// TODO Auto-generated method stub
+		String sql = "insert into user_address(user_id,address_line1,address_line2,city,postal_code,mobile,email,type,is_deleted,is_default) values(?,?,?,?,?,?,?,?,?,?)";
+		jdbcTemplate.update(sql, new Object[] { userAddress.getUser_id(), userAddress.getAddress_line1(), userAddress.getAddress_line2(),
+				userAddress.getCity(), userAddress.getPostal_code(), userAddress.getMobile() ,userAddress.getEmail(), userAddress.getType(), userAddress.getIs_deleted(), userAddress.getIs_default() });
+		
+	}
+	
+	public List<UserAddress> getAllUserAddressByUserId(int user_id){
+		String sql = "select * from user_address where user_id = '" + user_id + "' and is_deleted = '" + 0 + "'";
+		List<UserAddress> userAddresses = jdbcTemplate.query(sql, new UserAddressMapper());
+		return userAddresses;
+	}
+	
+	
+	public UserAddress getAllUserAddressByAddressId(int address_id){
+		String sql = "select * from user_address where address_id = '" + address_id + "' and is_deleted = '" + 0 + "'";
+		List<UserAddress> userAddresses = jdbcTemplate.query(sql, new UserAddressMapper());
+		return userAddresses.get(0);
+	}
+	
+	
+
 
 	class UserMapper implements RowMapper<User> {
 		public User mapRow(ResultSet rs, int args1) throws SQLException {
 			User user = new User();
+			user.setUser_id(rs.getInt("user_id"));
+			user.setUser_type_id(rs.getInt("user_type_id"));
 			user.setFirst_name(rs.getString("first_name"));
 			user.setLast_name(rs.getString("last_name"));
 			user.setEmail(rs.getString("email"));
 			user.setMobile(rs.getString("mobile"));
 			user.setPassword(rs.getString("password"));
 			user.setReset_token(rs.getString("reset_token"));
+			user.setCreated_date(rs.getDate("created_date"));
 			return user;
 		}
 	}
+	
+	class UserAddressMapper implements RowMapper<UserAddress>{
+		public UserAddress mapRow(ResultSet rs, int args1) throws SQLException{
+			UserAddress useraddress = new UserAddress();
+			useraddress.setUser_id(rs.getInt("user_id"));
+			useraddress.setAddress_id(rs.getInt("address_id"));
+			useraddress.setAddress_line1(rs.getString("address_line1"));
+			useraddress.setAddress_line2(rs.getString("address_line2"));
+			useraddress.setCity(rs.getString("city"));
+			useraddress.setPostal_code(rs.getString("postal_code"));
+			useraddress.setEmail(rs.getString("email"));
+			useraddress.setMobile(rs.getString("mobile"));
+			useraddress.setType(rs.getInt("type"));
+			useraddress.setIs_default(rs.getInt("is_default"));
+			useraddress.setIs_deleted(rs.getInt("is_deleted"));;
+			return useraddress;
+		}
+	}
 
+	
+
+	
 	
 
 

@@ -1,7 +1,10 @@
 package helperland_springmvc.dao;
 
+import java.util.List;
+
 import helperland_springmvc.model.Login;
 import helperland_springmvc.model.User;
+import helperland_springmvc.model.UserAddress;
 
 public interface UserDao {
 	
@@ -11,4 +14,8 @@ public interface UserDao {
 	void updateResetPasswordToken(User user);
 	User getByResetPasswordToken(String token);
 	void updatePassword(User user, String new_password);
+	User getUserByEmail(String email);
+	void saveUserAddress(UserAddress userAddress);
+	List<UserAddress> getAllUserAddressByUserId(int user_id);
+	UserAddress getAllUserAddressByAddressId(int address_id);
 }

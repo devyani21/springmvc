@@ -15,7 +15,7 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item book-a-cleaner">
                                 <a class="nav-link Rounded-Rectangle-5-copy-4 book-a-cleaner" aria-current="page"
-                                    href="#" data-bs-toggle="modal" data-bs-target="#login">Book Now</a>
+                                    href="book-service">Book Now</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="prices">Prices & Services</a>
@@ -30,10 +30,10 @@
                                 <a class="nav-link" href="contact">Contact</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link Rounded-Rectangle-5 book-a-cleaner" href="#">Login</a>
+                                <a class="nav-link Rounded-Rectangle-5 book-a-cleaner" href="#" data-bs-toggle="modal" data-bs-target="#login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link Rounded-Rectangle-5-copy book-a-cleaner" href="#">Become a
+                                <a class="nav-link Rounded-Rectangle-5-copy book-a-cleaner" href="become-service-provider">Become a
                                     Helper</a>
                             </li>
                         </ul>

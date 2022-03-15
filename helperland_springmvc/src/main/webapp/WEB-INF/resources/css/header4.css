@@ -1,0 +1,29 @@
+@charset "ISO-8859-1";
+.start-100 {
+  left: 56%!important;
+  bottom: 25%;
+}
+.top-0 {
+  top: 32%!important;
+}
+.left-margin{
+  margin-left: 20px !important;
+}
+.right-margin{
+  margin-right: 20px !important;
+}
+img.avatar {
+  width: 35px;
+  height: 32px;
+  /* margin: 8px 7px 10px 18px; */
+  object-fit: contain;
+  background-color: var(--white);
+}
+img.Icon-Notification {
+  width: 29px;
+  height: 32px;
+  /* margin: 10px 25px 12px 16px; */
+  object-fit: contain;
+  background-color: var(--white);
+}
+

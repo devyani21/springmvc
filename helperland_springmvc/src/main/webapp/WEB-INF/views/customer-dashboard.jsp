@@ -12,6 +12,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sevice History</title>
+    
+    <c:set var="usertypeid" value="${userinfo.user_type_id }"/>
+    
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet"
@@ -28,7 +31,13 @@
 
 <body>
     <div class="wrapper">
-        <%@ include file="customer-header.jsp" %>
+    <c:if test="${usertypeid  == 1}">
+			<%@include file="customer-header.jsp" %>
+		</c:if>
+	<c:if test="${usertypeid == 2 }">
+			<%@ include file="SP-header.jsp" %>
+		</c:if>
+        
         <section class="welcome">
             <div class="container">
                 <div class="row">

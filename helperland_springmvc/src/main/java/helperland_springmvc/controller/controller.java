@@ -24,12 +24,12 @@ public class controller {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userinfo") != null) {
 			User userinfo = (User)session.getAttribute("userinfo");
-			model.addAttribute("usertypeid", userinfo.getUser_type_id());
-			request.setAttribute("userid", userinfo.getUser_id());
+			//model.addAttribute("usertypeid", userinfo.getUser_type_id());
+			//request.setAttribute("userid", userinfo.getUser_id());
 			return "index";
 		}
 		else {
-			model.addAttribute("usertypeid",5);
+			//model.addAttribute("usertypeid",5);
 			return "index";
 		}
 

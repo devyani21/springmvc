@@ -79,7 +79,12 @@ public class UserDaoImpl implements UserDao {
 	public void updatePassword(User user, String new_password) {
 		System.out.println(new_password);
 		System.out.println(user.getPassword() + user.getEmail());
-		String query = "update user set Password='" + new_password + "' where Email='" + user.getEmail() + "' ";
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String current_date = sdf.format(dt);
+		String query = "update user set password='" + new_password + "',modified_date='"+current_date+"',modified_by='"+user.getModified_by()+"' where email='" + user.getEmail() + "' and user_id='"+user.getUser_id()+"' ";
 		jdbcTemplate.update(query);
 		System.out.println(user.getPassword() + user.getEmail());
 	}
@@ -105,7 +110,60 @@ public class UserDaoImpl implements UserDao {
 		return userAddresses.get(0);
 	}
 	
+	public void updateCustomerDetails(User user, int userid) {
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String current_date = sdf.format(dt);
+		
+		java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dob = sf.format(user.getDate_of_birth());
+		System.out.println(dob);
+		
+		String sql="update user set first_name='"+ user.getFirst_name() +"',last_name='"+ user.getLast_name() +"',mobile='"+ user.getMobile() +"',date_of_birth='"+ dob +"',modified_by='"+ user.getModified_by() +"',modified_date='"+ current_date + "',email='"+user.getEmail()+ "'where user_id='"+ userid +"' ";  
+		jdbcTemplate.update(sql);
+	}
 	
+	public String getUserPasswordByUserId(int userid) {
+		String sql = "select * from user where user_id='"+userid +"'";
+		List<User> users = jdbcTemplate.query(sql, new UserMapper());
+		System.out.println("old password is " + users.get(0).getPassword());
+		return users.get(0).getPassword();
+	}
+	
+	public void changeUserPassword(User user, int userid, String newpassword) {
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String current_date = sdf.format(dt);
+		String sql="update user set password='"+ newpassword +"',modified_by='"+ user.getModified_by() +"',modified_date='"+ current_date + "'where user_id='"+ userid +"' ";  
+		jdbcTemplate.update(sql);
+	}
+	
+	public void updateCustomerAddress(UserAddress useraddress) {
+		// TODO Auto-generated method stub
+		System.out.println("userDaoImpl:- "+ useraddress.toString());
+		String sql ="update user_address set address_line1='"+ useraddress.getAddress_line1()+"',address_line2='"+useraddress.getAddress_line2()+"',postal_code='"+useraddress.getPostal_code()+"',city='"+useraddress.getCity()+"',mobile='"+useraddress.getMobile()+"' where address_id='"+useraddress.getAddress_id()+"'";
+		jdbcTemplate.update(sql);
+		System.out.println("address updated successfully...");
+	}
+	
+	public void deleteCustomerAddress(int address_id) {
+		// TODO Auto-generated method stub
+		System.out.println("userDaoImpl:- " + address_id);
+		String sql = "delete from user_address where address_id='"+address_id+"'";
+		jdbcTemplate.update(sql);
+		System.out.println("address deleted successfully...");
+	}
+	
+	public User getUserByUserId(int userid) {
+		// TODO Auto-generated method stub
+		String sql = "select * from user where user_id='"+ userid + "'and user_type_id='"+ 2+ "'";
+		List<User> users = jdbcTemplate.query(sql, new UserMapper());
+		return users.get(0);
+	}
 
 
 	class UserMapper implements RowMapper<User> {
@@ -141,6 +199,13 @@ public class UserDaoImpl implements UserDao {
 			return useraddress;
 		}
 	}
+
+	
+	
+
+	
+
+	
 
 	
 

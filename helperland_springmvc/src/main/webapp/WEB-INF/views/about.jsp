@@ -17,7 +17,11 @@
 
 <body>
     <div class="wrapper">
-        <%@include file="header2.jsp" %>
+    <%@ include file="../views/headers/header2.jsp" %>
+    
+    <%@ include file="../views/modals/loginModal.jsp" %>
+    <%@ include file="../views/modals/forgotPasswordModal.jsp" %>   
+        
         <div id="banner4"></div>
         <section>
         <div class="container w-75">
@@ -115,7 +119,7 @@
             </div>
         </section>
 
-        <%@include file="footer2.jsp" %>
+<%@include file="../views/footers/footer2.jsp" %>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

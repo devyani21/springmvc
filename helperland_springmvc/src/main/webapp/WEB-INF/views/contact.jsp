@@ -14,30 +14,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/contact.css' />">
-	<c:if test="${usertypeid == 1}">
-		<link rel="stylesheet" href="<c:url value='/resources/css/customer-dashboard.css' />" />
-	</c:if>
-	<c:if test="${usertypeid == 2}">
-		<link rel="stylesheet" href="<c:url value='/resources/css/customer-dashboard.css' />" />
-	</c:if>
-    
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/contact.css' />">
+    <c:if test="${userinfo.user_type_id == 1}">
+	<link href="<c:url value="/resources/css/header4.css" />"
+		rel="stylesheet" />
+		</c:if>
+	<c:if test="${userinfo.user_type_id == 2}">
+	<link href="<c:url value="/resources/css/SP-header2.css" />"
+		rel="stylesheet" />
+		</c:if>
     
 </head>
 
 <body>
     <div class="wrapper">
     <c:if test="${usertypeid  == 1}">
-			<%@include file="customer-header.jsp" %>
+    <%@ include file="../views/headers/header4.jsp" %>
 		</c:if>
-	<c:if test="${usertypeid == 2 }">
-			<%@ include file="SP-header2.jsp" %>
+		<c:if test="${usertypeid == 2 }">
+		<%@ include file="../views/headers/SP-header2.jsp" %>
 		</c:if>
-	<c:if test="${usertypeid == 5 }">
-			<%@include file="header2.jsp" %>
+		<c:if test="${usertypeid == null }">
+		<%@ include file="../views/headers/header2.jsp" %>
 		</c:if>
-    
-    
+		
+		<%@ include file="../views/modals/loginModal.jsp" %>
+        <%@ include file="../views/modals/forgotPasswordModal.jsp" %>   
+        
         <div id="banner3"></div>
         <section>
             <div class="container">
@@ -210,7 +213,7 @@
             </div>
         </section>
 
-        <%@include file="footer2.jsp" %>
+<%@include file="../views/footers/footer2.jsp" %>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

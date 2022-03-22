@@ -31,164 +31,17 @@
 <body>
 	<div class="wrapper">
 		<c:if test="${usertypeid  == 1}">
-			<%@include file="header4.jsp"%>
+		<%@ include file="../views/headers/header4.jsp" %>
 		</c:if>
 		<c:if test="${usertypeid == null }">
-			<%@include file="header2.jsp"%>
+		<%@ include file="../views/headers/header2.jsp" %>
 		</c:if>
 
-		<!--Login  Modal -->
-		<div class="modal fade" id="login" data-bs-backdrop="static"
-			data-bs-keyboard="false" tabindex="-1"
-			aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Login to
-							your account</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form:form modelAttribute="login" action="loginProcess"
-							method="post">
-							<div class="input-group mb-3">
-								<input type="email" class="form-control" placeholder="Email"
-									aria-label="Recipient's username"
-									aria-describedby="basic-addon2" name="email"> <span
-									class="input-group-text" id="email"><i
-									class="fa fa-user" aria-hidden="true"></i></span>
-							</div>
-							<div class="input-group mb-3">
-								<input id="passwordshow" type="password" class="form-control"
-									placeholder="Password" aria-label="Recipient's username"
-									aria-describedby="basic-addon2" name="password"> <span
-									class="input-group-text" id="password"><i
-									class="fa fa-lock" aria-hidden="true"></i></span>
-							</div>
-							<div class="mb-3 form-check">
-								<input type="checkbox" class="form-check-input"
-									id="exampleCheck1"> <label class="form-check-label"
-									for="exampleCheck1">Remember me</label>
-							</div>
-							<div class="d-flex justify-content-center mb-3">
-								<button type="submit"
-									class=" form-control btn btn-success btn-lg">Submit</button>
-							</div>
-							<div id="forgotpassword" class="d-flex justify-content-center">
-								<a href="#" data-bs-toggle="modal"
-									data-bs-target="#forgot-password">Forgot Password?</a>
-							</div>
-							<div class="d-flex justify-content-center mb-5">
-								<span>Don't have an account? </span> <span id="forgotpassword"
-									class="d-flex justify-content-center"> <a
-									href="customer-register">Create an account</a>
-								</span>
-							</div>
-						</form:form>
-					</div>
-					<!-- <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Understood</button>
-                        </div> -->
-				</div>
-			</div>
-		</div>
-
-		<!-- Forgot Password Modal -->
-		<div class="modal fade" id="forgot-password" data-bs-backdrop="static"
-			data-bs-keyboard="false" tabindex="-1"
-			aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="staticBackdropLabel">Forgot
-							Password</h5>
-						<button id="modalclosebutton" type="button" class="btn-close"
-							data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<form:form modelAttribute="user" action="forgotPassword"
-							method="post" id="forgotpasswordform">
-							<span id="message" class="text-danger"><h6></h6></span>
-							<div class="input-group mb-3">
-								<input id="email" type="email" class="form-control"
-									placeholder="Email" aria-label="Recipient's username"
-									aria-describedby="basic-addon2" name="email"> <span
-									class="input-group-text"><i class="fa fa-user"
-									aria-hidden="true"></i></span>
-
-							</div>
-
-							<div class="d-flex justify-content-center mb-3">
-								<button type="submit"
-									class=" form-control btn btn-success btn-lg">Send</button>
-							</div>
-							<div id="forgotpassword" class="d-flex justify-content-center">
-								<a href="#" data-bs-toggle="modal" data-bs-target="#login">Login
-									Now</a>
-							</div>
-						</form:form>
-					</div>
-					<!-- <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Understood</button>
-                        </div> -->
-				</div>
-			</div>
-		</div>
+		<%@ include file="../views/modals/loginModal.jsp" %>
+        <%@ include file="../views/modals/forgotPasswordModal.jsp" %>   
+        <%@ include file="../views/modals/Success.jsp" %>
+        <%@ include file="../views/modals/Error.jsp" %>		
 		
-		<!-- Success Modal -->
-            <div class="modal fade" id="success" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header" style="border: none;">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="success">
-                                <div style="text-align: center;">
-                                <i class="fa fa-check-circle" style="font-size:65px;color:rgb(7, 167, 7)"></i>
-                            </div>
-                            <div style="text-align: center;">
-                                <h5>Booking has been successfully submited</h5>
-                            </div>
-                            <div style="text-align: center;"><h6>Service Booking Id is <span id="serviceid"></span></h6></div>
-                                <div class="d-flex justify-content-center mb-3" id="okbutton">
-                                    <button type="submit" class=" form-control btn btn-success btn-lg">OK</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Error Modal -->
-            <div class="modal fade" id="error" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header" style="border: none;">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="success">
-                                <div style="text-align: center;">
-                                <i class="fa fa-warning" style="font-size:65px;color:red"></i>
-                            </div>
-                            <div style="text-align: center;">
-                                <h5>Please try again after some time</h5>
-                            </div>
-                            <div style="text-align: center;"><h6 class="text-danger">Some error occured!</h6></div>
-                                <div class="d-flex justify-content-center mb-3" id="okbutton">
-                                    <button type="submit" class=" form-control btn btn-success btn-lg">OK</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
             
 		<div id="banner6"></div>
 		<section>
@@ -636,8 +489,7 @@
 		</div>
 	</section>
 
-	<%@include file="footer2.jsp"%>
-
+<%@include file="../views/footers/footer2.jsp" %>
 	</div>
 
 	<script

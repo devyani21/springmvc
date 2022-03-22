@@ -64,6 +64,40 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userDao.getAllUserAddressByAddressId(address_id);
 	}
+
+	public void updateCustomerDetails(User user, int userid) {
+		// TODO Auto-generated method stub
+		userDao.updateCustomerDetails(user,userid);
+	}
+
+	public String getUserPasswordByUserId(int userid) {
+		// TODO Auto-generated method stub
+		return userDao.getUserPasswordByUserId(userid);
+	}
+
+	public void changeUserPassword(User user,int userid, String newpassword) {
+		// TODO Auto-generated method stub
+		userDao.changeUserPassword(user, userid, newpassword);
+	}
+
+	public void updateCustomerAddress(UserAddress useraddress) {
+		// TODO Auto-generated method stub
+		userDao.updateCustomerAddress(useraddress);
+	}
+
+	public void deleteCustomerAddress(int address_id) {
+		// TODO Auto-generated method stub
+		userDao.deleteCustomerAddress(address_id);
+	}
+
+	public User getUserByUserId(int userid) {
+		// TODO Auto-generated method stub
+		return userDao.getUserByUserId(userid);
+	}
+	
+    
+	
+}
 	
 	
 	
@@ -85,4 +119,3 @@ public class UserServiceImpl implements UserService {
 //		userDao.updatePassword(user, String new_password);
 //	}
 
-}

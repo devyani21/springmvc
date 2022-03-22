@@ -18,4 +18,10 @@ public interface UserDao {
 	void saveUserAddress(UserAddress userAddress);
 	List<UserAddress> getAllUserAddressByUserId(int user_id);
 	UserAddress getAllUserAddressByAddressId(int address_id);
+	void updateCustomerDetails(User user, int userid);
+	String getUserPasswordByUserId(int userid);
+	void changeUserPassword(User user, int userid, String newpassword);
+	void updateCustomerAddress(UserAddress useraddress);
+	void deleteCustomerAddress(int address_id);
+	User getUserByUserId(int userid);
 }

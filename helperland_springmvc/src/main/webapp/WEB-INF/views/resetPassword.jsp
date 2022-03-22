@@ -24,7 +24,9 @@
 
 <body>
 	<div class="wrapper">
-		<%@include file="header2.jsp"%>
+	<%@ include file="../views/headers/header2.jsp" %>
+	<%@ include file="../views/modals/loginModal.jsp" %>
+    <%@ include file="../views/modals/forgotPasswordModal.jsp" %>
 		<section>
 			<div class="container mt-5">
 				<div class="row">
@@ -223,8 +225,7 @@
 			</div>
 		</section>
 
-		<%@include file="footer2.jsp"%>
-
+<%@include file="../views/footers/footer2.jsp" %>
 	</div>
 
 	<script

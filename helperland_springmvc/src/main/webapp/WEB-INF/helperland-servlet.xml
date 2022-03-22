@@ -36,6 +36,8 @@
 	<bean class="helperland_springmvc.dao.BookServiceDaoImpl" name="bookservicedao" />
 	<bean class="helperland_springmvc.service.ContactusServiceImpl" name="contactusService"/>
 	<bean class="helperland_springmvc.dao.ContactusDaoImpl" name="contactusDao"/>
+	<bean class="helperland_springmvc.service.ServiceRequestServiceImpl" name="serviceRequestService"  />
+	<bean class="helperland_springmvc.dao.ServiceRequestDaoImpl" name="serviceRequestDao"/>
 	<bean
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		name="dataSource">

@@ -20,8 +20,9 @@
 <body>
     <div class="wrapper">
         <div id="banner" class="parallax">
-            <%@include file="header1.jsp" %>
-            
+        <%@ include file="../views/headers/header1.jsp" %> 
+        <%@ include file="../views/modals/loginModal.jsp" %>
+        <%@ include file="../views/modals/forgotPasswordModal.jsp" %>           
             <section class="vh-100">
                 <div class="mask d-flex align-items-center h-100 gradient-custom-3">
                     <div class="container h-100">
@@ -193,8 +194,7 @@
                 </div>
             </div>
         </section>
-        <%@include file="footer2.jsp" %>
-
+<%@include file="../views/footers/footer2.jsp" %>
     </div>
 
     <!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->

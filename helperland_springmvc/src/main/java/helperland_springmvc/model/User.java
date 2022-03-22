@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Entity;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "user")
@@ -38,6 +39,10 @@ public class User {
 	@Column(name = "reset_token")
 	private String resetToken;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date date_of_birth;
+	private Date modified_date;
+	private int modified_by;
 	public int getUser_id() {
 		return user_id;
 	}
@@ -69,6 +74,18 @@ public class User {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	public Date getModified_date() {
+		return modified_date;
+	}
+	public void setModified_date(Date modified_date) {
+		this.modified_date = modified_date;
+	}
+	public int getModified_by() {
+		return modified_by;
+	}
+	public void setModified_by(int modified_by) {
+		this.modified_by = modified_by;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -96,12 +113,18 @@ public class User {
 		this.user_type_id = user_type_id;
 	}
 	
+	public Date getDate_of_birth() {
+		return date_of_birth;
+	}
+	public void setDate_of_birth(Date date_of_birth) {
+		this.date_of_birth = date_of_birth;
+	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public User(int user_id, String first_name, String last_name, String mobile, String email, String password,
-			Date created_date, int user_type_id, String resetToken) {
+			Date created_date, int user_type_id, String resetToken, Date date_of_birth, Date modified_date, int modified_by) {
 		super();
 		this.user_id = user_id;
 		this.first_name = first_name;
@@ -112,12 +135,19 @@ public class User {
 		this.created_date = created_date;
 		this.user_type_id = user_type_id;
 		this.resetToken = resetToken;
+		this.date_of_birth = date_of_birth;
+		
+		this.modified_date = modified_date;
+		this.modified_by = modified_by;
 	}
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", mobile="
 				+ mobile + ", email=" + email + ", password=" + password + ", created_date=" + created_date
-				+ ", user_type_id=" + user_type_id + ", resetToken=" + resetToken + "]";
+				+ ", user_type_id=" + user_type_id + ", resetToken=" + resetToken + ", date_of_birth=" + date_of_birth
+				+ ", modified_date=" + modified_date + ", modified_by=" + modified_by + "]";
 	}
+	
+	
 	
 	}

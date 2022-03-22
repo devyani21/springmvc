@@ -39,7 +39,7 @@ public class LoginController {
     if (user != null) {
     	HttpSession session = request.getSession();
     	session.setAttribute("userinfo", user);
-        mav = new ModelAndView("customer-dashboard");
+        mav = new ModelAndView("redirect:/customer-dashboard");
         mav.addObject("first_name", user.getFirst_name());
         } else {
         	System.out.println("Running else condition...");

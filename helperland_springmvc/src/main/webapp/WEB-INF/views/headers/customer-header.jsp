@@ -5,12 +5,12 @@
                 data-hidden="false" data-accordion="true">
 
                 <ul class="sidenav-menu" id="sidenav-li">
-                    <li class="sidenav-item li-class active">
+                    <li class="sidenav-item li-class">
                         <a class="sidenav-link" href="customer-dashboard">
                             </i><span>Dashboard</span></a>
                     </li>
                     <li class="sidenav-item li-class">
-                        <a class="sidenav-link" href="customer-service-history.html"><span>Service History</span></a>
+                        <a class="sidenav-link" href="customer-service-history"><span>Service History</span></a>
                     </li>
                     <li class="sidenav-item li-class">
                         <a class="sidenav-link" href="upcoming-service.html"><span>Service Schedule</span></a>

@@ -36,6 +36,7 @@ body {
   .table-container {
     margin-top: 144px;
     margin-left: 65px;
+    height: 500px;
   }
   .nav-li{
     color: black;
@@ -61,10 +62,14 @@ body {
 .sidenav{
   position: absolute;
   z-index: 0;
-  height: 720px;
+  height: 400px;
 }
 .sidenav-link{
   color: white;
+}
+.sidenav .active{
+	background-color:#146371;
+	color: white;
 }
 /* .sidenav-primary .sidenav-item .sidenav-link.active {
   background-color: #146371;
@@ -110,10 +115,6 @@ body {
 .navbar{
   background-color: #525252;
 }
-.active{
-  color: white;
-  background-color: #146371 ;
-}
 .nav-scroller .nav {
   display: flex;
   flex-wrap: nowrap;
@@ -125,6 +126,10 @@ body {
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
 }
+a{
+ text-decoration: none;
+ color: white;
+ }
 .white_logo_transparent_background {
   width: 73px;
   height: 54px;
@@ -303,6 +308,7 @@ thead {
 .table-container {
   margin-top: -42px;
   margin-left: 315px;
+  height: 500px;
 }
 .btn{
   border-radius: 20px;
@@ -550,3 +556,12 @@ thead {
     background-color: #006072;
     text-align: center;
 }
+
+.sidebar-link.active,
+.sidebar-link:focus {
+  background: #e2e8ed;
+  color: grey !important;
+  text-decoration: none;
+}
+
+

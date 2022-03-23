@@ -510,6 +510,8 @@
 		src="<c:url value='/resources/js/book-service.js' />"></script>
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/common.js' />"></script>
+		
+	
 
 	<script type="text/javascript">
 		function showform() {
@@ -572,6 +574,20 @@
 						$("#servicestarttimevalue").html(this.value);
 					})
 				});
+	</script>
+	<script>
+	$("#service_start_date , #service_start_time").on(
+			"change",
+			function() {
+				var serviceDate = $("#servicestartdatevalue").val();
+				var serviceTime = $("#servicestarttimevalue").innerHTML;
+				var date = moment(serviceDate + ' ' + serviceTime).format(
+						"YYYY-MM-DD HH:mm:ss.SSS");
+				var sdate = new Date(date);
+				console.log("date date");
+				console.log(date);
+				$("#totalservicetime").val(sdate);
+			});
 	</script>
 
 	<script type="text/javascript">

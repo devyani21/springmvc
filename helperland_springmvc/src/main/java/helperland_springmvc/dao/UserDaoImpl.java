@@ -162,7 +162,7 @@ public class UserDaoImpl implements UserDao {
 		// TODO Auto-generated method stub
 		String sql = "select * from user where user_id='"+ userid + "'and user_type_id='"+ 2+ "'";
 		List<User> users = jdbcTemplate.query(sql, new UserMapper());
-		return users.get(0);
+		return users.size()>0 ? users.get(0) : null;
 	}
 
 

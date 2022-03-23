@@ -555,3 +555,9 @@ thead {
     background-color: #006072;
     text-align: center;
 }
+.sidebar-link.active,
+.sidebar-link:focus {
+  background: #e2e8ed;
+  color: grey !important;
+  text-decoration: none;
+}

@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
+import helperland_springmvc.model.ServiceRequestExtra;
 
 public class ServiceRequestDaoImpl implements ServiceRequestDao {
 
@@ -20,12 +21,16 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	//status 0 pending
+	//status 1 completed
+	//status 2 cancelled
+	
 	public List<ServiceRequest> getAllPendingRequestByUserId(int userid) {
 		// TODO Auto-generated method stub
 		String sql = "select * from service_request where user_id='"+userid+"'and status='"+0+"'";
 		List<ServiceRequest> sr = jdbcTemplate.query(sql, new ServiceRequestMapper());
 		System.out.println(sr.size());
-		return sr;
+		return sr.size()>0 ? sr : null;
 	}
 	
 	public ServiceRequestAddress getServiceRequestAddressByServiceRequestId(int service_req_id) {
@@ -35,6 +40,59 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		List<ServiceRequestAddress> sra = jdbcTemplate.query(sql, new ServiceRequestAddressMapper() );
 		return sra.size() > 0 ? sra.get(0):null;
 	}
+	
+	@Override
+	public ServiceRequest getServiceRequestById(int service_req_id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from service_request where service_req_id='"+service_req_id+"'";
+		List<ServiceRequest> sr = jdbcTemplate.query(sql, new ServiceRequestMapper() );
+		return sr.size() > 0 ? sr.get(0):null;
+	}
+
+	@Override
+	public List<ServiceRequestExtra> getServiceRequestExtraByServiceRequestId(int service_req_id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from service_req_extra where service_req_id='"+ service_req_id+"'";
+		List<ServiceRequestExtra> sre = jdbcTemplate.query(sql, new ServiceRequestExtraMapper() );
+		return sre;
+	}
+	
+	@Override
+	public void rescheduleService(int service_req_id, ServiceRequest serviceRequest) {
+		// TODO Auto-generated method stub
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String currentdate = sdf.format(dt);
+		String service_start_date = sdf.format(serviceRequest.getService_start_date());
+		String sql = "update service_request set service_start_date='"+service_start_date+"',service_start_time='"+serviceRequest.getService_start_time()+"',modified_by='"+serviceRequest.getModified_by()+"',modified_date='"+currentdate+"'where service_req_id='"+service_req_id+"'and status='"+0+"'";
+		jdbcTemplate.update(sql);
+		System.out.println("rescheduled successfully...");
+	}
+	
+	@Override
+	public void cancelService(int service_req_id, ServiceRequest serviceRequest) {
+		// TODO Auto-generated method stub
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String currentdate = sdf.format(dt);
+		String sql = "update service_request set status='"+serviceRequest.getStatus()+"',modified_by='"+serviceRequest.getModified_by()+"',modified_date='"+currentdate+"',has_issues='"+serviceRequest.getHas_issues()+"'where service_req_id='"+service_req_id+"'and status='"+0+"'";
+		jdbcTemplate.update(sql);
+		System.out.println("cancelled successfully...");
+	}
+	
+	@Override
+	public List<ServiceRequest> getServiceRequestHistoryByUserId(int userid) {
+		// TODO Auto-generated method stub
+		String sql = "select * from service_request where user_id='"+userid+"'and status='"+1+"'or status='"+2+"'";
+		List<ServiceRequest> sr = jdbcTemplate.query(sql, new ServiceRequestMapper());
+		System.out.println(sr.size());
+		return sr.size()>0 ? sr : null;
+	}
+
 	
 	class ServiceRequestMapper implements RowMapper<ServiceRequest>{
 		public ServiceRequest mapRow(ResultSet rs, int args1) throws SQLException{
@@ -70,6 +128,22 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		}
 		
 	}
+	
+	class ServiceRequestExtraMapper implements RowMapper<ServiceRequestExtra>{
+		public ServiceRequestExtra mapRow(ResultSet rs, int args1) throws SQLException {
+			ServiceRequestExtra serviceRequestExtra = new ServiceRequestExtra();
+			serviceRequestExtra.setService_req_extra_id(rs.getInt("service_req_extra_id"));
+			serviceRequestExtra.setService_req_id(rs.getInt("service_req_id"));
+			serviceRequestExtra.setService_extra_id(rs.getInt("service_extra_id"));
+			return serviceRequestExtra;
+		}
+	}
+
+	
+	
+
+	
+	
 
 
 

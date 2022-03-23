@@ -34,7 +34,7 @@ public class ServiceRequest {
 	private int laundary;
 	private int interiorwindows;
 	
-	private float total_service_time;
+	private String has_issues;
 	
 	public ServiceRequest() {
 		super();
@@ -46,7 +46,7 @@ public class ServiceRequest {
 			String service_start_time, int zip_code_value, float service_hourly_rate, float service_hours, float extra_hours,
 			float total_cost, String comments, int service_provider_id, Date sp_accepted_date, boolean has_pets,
 			int status, Date created_date, Date modified_date, int modified_by, int address_id, 
-		    int insidecabinets, int insideoven, int insidefridge, int laundary, int interiorwindows, float total_service_time) {
+		    int insidecabinets, int insideoven, int insidefridge, int laundary, int interiorwindows, String has_issues) {
 		super();
 		this.service_req_id = service_req_id;
 		this.user_id = user_id;
@@ -72,7 +72,7 @@ public class ServiceRequest {
 		this.insideoven = insideoven;
 		this.laundary = laundary;
 		this.interiorwindows = interiorwindows;
-		this.total_service_time = total_service_time;
+		this.has_issues = has_issues;
 	}
 
 	public int getService_req_id() {
@@ -283,15 +283,14 @@ public class ServiceRequest {
 		this.interiorwindows = interiorwindows;
 	}
 	
-	
 
-	public float getTotal_service_time() {
-		return total_service_time;
+	public String getHas_issues() {
+		return has_issues;
 	}
 
 
-	public void setTotal_service_time(float total_service_time) {
-		this.total_service_time = total_service_time;
+	public void setHas_issues(String has_issues) {
+		this.has_issues = has_issues;
 	}
 
 
@@ -306,8 +305,10 @@ public class ServiceRequest {
 				+ ", status=" + status + ", created_date=" + created_date + ", modified_date=" + modified_date
 				+ ", modified_by=" + modified_by + ", address_id=" + address_id + ", insidecabinets=" + insidecabinets
 				+ ", insideoven=" + insideoven + ", insidefridge=" + insidefridge + ", laundary=" + laundary
-				+ ", interiorwindows=" + interiorwindows + ", total_service_time=" + total_service_time + "]";
+				+ ", interiorwindows=" + interiorwindows + ", has_issues=" + has_issues + "]";
 	}
 
+
+	
 	
 }

@@ -38,7 +38,7 @@ public class BookServiceDaoImpl implements BookServiceDao {
 		
 	}
 	
-	public int addNewServiceRequest(ServiceRequest serviceRequest) throws SQLException {
+	public int addNewServiceRequest(ServiceRequest serviceRequest){
 		System.out.println(serviceRequest.toString());
 		Random random = new Random();
 		int service_id = random.nextInt(100000);

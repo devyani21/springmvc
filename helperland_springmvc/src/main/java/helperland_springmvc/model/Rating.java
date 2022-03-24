@@ -13,16 +13,16 @@ public class Rating {
 	private Date rating_date;
 	private boolean is_approved;
 	private boolean visible_on_homescreen;
-	private float on_time_arrival;
-	private float friendly;
-	private float quality_of_service;
+	private int on_time_arrival;
+	private int friendly;
+	private int quality_of_service;
 	public Rating() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public Rating(int rating_id, int service_req_id, int rating_from, int rating_to, float ratings, String comments,
-			Date rating_date, boolean is_approved, boolean visible_on_homescreen, float on_time_arrival, float friendly,
-			float quality_of_service) {
+			Date rating_date, boolean is_approved, boolean visible_on_homescreen, int on_time_arrival, int friendly,
+			int quality_of_service) {
 		super();
 		this.rating_id = rating_id;
 		this.service_req_id = service_req_id;
@@ -91,24 +91,33 @@ public class Rating {
 	public void setVisible_on_homescreen(boolean visible_on_homescreen) {
 		this.visible_on_homescreen = visible_on_homescreen;
 	}
-	public float getOn_time_arrival() {
+	public int getOn_time_arrival() {
 		return on_time_arrival;
 	}
-	public void setOn_time_arrival(float on_time_arrival) {
+	public void setOn_time_arrival(int on_time_arrival) {
 		this.on_time_arrival = on_time_arrival;
 	}
-	public float getFriendly() {
+	public int getFriendly() {
 		return friendly;
 	}
-	public void setFriendly(float friendly) {
+	public void setFriendly(int friendly) {
 		this.friendly = friendly;
 	}
-	public float getQuality_of_service() {
+	public int getQuality_of_service() {
 		return quality_of_service;
 	}
-	public void setQuality_of_service(float quality_of_service) {
+	public void setQuality_of_service(int quality_of_service) {
 		this.quality_of_service = quality_of_service;
 	}
+	@Override
+	public String toString() {
+		return "Rating [rating_id=" + rating_id + ", service_req_id=" + service_req_id + ", rating_from=" + rating_from
+				+ ", rating_to=" + rating_to + ", ratings=" + ratings + ", comments=" + comments + ", rating_date="
+				+ rating_date + ", is_approved=" + is_approved + ", visible_on_homescreen=" + visible_on_homescreen
+				+ ", on_time_arrival=" + on_time_arrival + ", friendly=" + friendly + ", quality_of_service="
+				+ quality_of_service + "]";
+	}
+	
 	
 	
 	

@@ -18,6 +18,7 @@
 <c:set var="sr" value="${servicerequests }" />
 <c:set var="u" value="${users }" />
 <c:set var="sra" value="${srAddress }" />
+<c:set var="spRating" value="${spRating }"/>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css"
 	integrity="sha512-thoh2veB35ojlAhyYZC0eaztTAUhxLvSZlWrNtlV01njqs/UdY3421Jg7lX0Gq9SRdGVQeL8xeBp9x1IPyL1wQ=="
@@ -107,6 +108,55 @@
 										<c:if test="${u.user_id == sr.service_provider_id}">${u.first_name } ${u.last_name }
 		                                        		</c:if>
 									</c:forEach>
+									<div>
+									<c:forEach items="${spRating}" var="spRating">
+													        <c:if test="${spRating.key == sr.service_provider_id }">
+													        	<c:if test="${spRating.value == 0}">
+													        		<span class="icon" id="icon1" style="color: #e1e1e1">&star;</span>
+													        		<span class="icon" id="icon2" style="color: #e1e1e1">&star;</span>
+							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&star;</span>
+							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&star;</span>
+				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&star;</span>	
+													        	</c:if>	
+													        	<c:if test="${spRating.value == 1}">
+													        		<span class="icon" id="icon1" style="color: #ECB91C">&star;</span>
+													        		<span class="icon" id="icon2" style="color: #e1e1e1">&star;</span>
+							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&star;</span>
+							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&star;</span>
+				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&star;</span>	
+													        	</c:if>	
+													        	<c:if test="${spRating.value == 2}">
+													        		<span class="icon" id="icon1" style="color: #ECB91C">&star;</span>
+													        		<span class="icon" id="icon2" style="color: #ECB91C">&star;</span>
+							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&star;</span>
+							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&star;</span>
+				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&star;</span>	
+													        	</c:if>	
+													        	<c:if test="${spRating.value == 3}">
+													        		<span class="icon" id="icon1" style="color: #ECB91C">&star;</span>
+													        		<span class="icon" id="icon2" style="color: #ECB91C">&star;</span>
+							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&star;</span>
+							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&star;</span>
+				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&star;</span>	
+													        	</c:if>	
+													        	<c:if test="${spRating.value == 4}">
+													        		<span class="icon" id="icon1" style="color: #ECB91C">&star;</span>
+													        		<span class="icon" id="icon2" style="color: #ECB91C">&star;</span>
+							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&star;</span>
+							                                    	<span class="icon" id="icon4" style="color: #ECB91C">&star;</span>
+				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&star;</span>	
+													        	</c:if>	
+													        	<c:if test="${spRating.value == 5}">
+													        		<span class="icon" id="icon1" style="color: #ECB91C">&star;</span>
+													        		<span class="icon" id="icon2" style="color: #ECB91C">&star;</span>
+							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&star;</span>
+							                                    	<span class="icon" id="icon4" style="color: #ECB91C">&star;</span>
+				                                    				<span class="icon" id="icon5" style="color: #ECB91C">&star;</span>	
+													        	</c:if>	
+			                                                	<p class="mb-0">${spRating.value }</p>
+													        </c:if>
+													    </c:forEach>
+													    </div>
 									<!--<div>
                                     <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
                                     <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">

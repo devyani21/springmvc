@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import helperland_springmvc.model.Rating;
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
 import helperland_springmvc.model.ServiceRequestExtra;
@@ -92,6 +93,31 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		System.out.println(sr.size());
 		return sr.size()>0 ? sr : null;
 	}
+	
+	@Override
+	public void addServiceRating(Rating ratings) {
+		// TODO Auto-generated method stub
+		System.out.println(ratings.toString());
+		String sql = "insert into rating(service_req_id,rating_from,rating_to,ratings,comments,rating_date,is_approved,visible_on_homescreen,on_time_arrival,friendly,quality_of_service) values(?,?,?,?,?,?,?,?,?,?,?)";
+		jdbcTemplate.update(sql, new Object[] {ratings.getService_req_id(), ratings.getRating_from(),ratings.getRating_to(),ratings.getRatings(),ratings.getComments(),ratings.getRating_date(),ratings.isIs_approved(),ratings.isVisible_on_homescreen(),ratings.getOn_time_arrival(),ratings.getFriendly(),ratings.getQuality_of_service()});
+		System.out.println("inserted successfully..");
+	}
+	
+	@Override
+	public List<Rating> getRatingsByServiceRequestId(int service_req_id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from rating where service_req_id='"+ service_req_id+"'";
+		List<Rating> ratings = jdbcTemplate.query(sql, new RatingMapper());
+		return ratings;
+	}
+	
+	@Override
+	public List<Rating> getRatingsByRatingTo(int service_provider_id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from rating where rating_to='"+ service_provider_id+"'";
+		List<Rating> ratings = jdbcTemplate.query(sql, new RatingMapper());
+		return ratings;
+	}
 
 	
 	class ServiceRequestMapper implements RowMapper<ServiceRequest>{
@@ -109,6 +135,7 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 			servicerequest.setService_start_date(rs.getDate("service_start_date"));
 			servicerequest.setService_start_time(rs.getString("service_start_time"));
 			servicerequest.setTotal_cost(rs.getFloat("total_cost"));
+			servicerequest.setStatus(rs.getInt("status"));
 			return servicerequest;
 		}
 	}
@@ -137,7 +164,33 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 			serviceRequestExtra.setService_extra_id(rs.getInt("service_extra_id"));
 			return serviceRequestExtra;
 		}
+		
+		
 	}
+
+	class RatingMapper implements RowMapper<Rating>{
+		public Rating mapRow(ResultSet rs, int args1) throws SQLException{
+			Rating rating = new Rating();
+			rating.setRating_id(rs.getInt("rating_id"));
+			rating.setService_req_id(rs.getInt("service_req_id"));
+			rating.setRating_from(rs.getInt("rating_from"));
+			rating.setRating_to(rs.getInt("rating_to"));
+			rating.setRating_date(rs.getDate("rating_date"));
+			rating.setIs_approved(rs.getBoolean("is_approved"));
+			rating.setVisible_on_homescreen(rs.getBoolean("visible_on_homescreen"));
+			rating.setComments(rs.getString("comments"));
+			rating.setRatings(rs.getFloat("ratings"));
+			rating.setFriendly(rs.getInt("friendly"));
+			rating.setOn_time_arrival(rs.getInt("on_time_arrival"));
+			rating.setQuality_of_service(rs.getInt("quality_of_service"));
+			return rating;
+		}
+	}
+
+	
+	
+
+	
 
 	
 	

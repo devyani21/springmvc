@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import helperland_springmvc.dao.ServiceRequestDao;
+import helperland_springmvc.model.Rating;
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
 import helperland_springmvc.model.ServiceRequestExtra;
@@ -47,6 +48,23 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 	public List<ServiceRequest> getServiceRequestHistoryByUserId(int userid) {
 		// TODO Auto-generated method stub
 		return serviceRequestDao.getServiceRequestHistoryByUserId(userid);
+	}
+	@Override
+	public void addServiceRating(Rating ratings) {
+		// TODO Auto-generated method stub
+		serviceRequestDao.addServiceRating(ratings);
+		
+	}
+	@Override
+	public List<Rating> getRatingsByServiceRequestId(int service_req_id) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getRatingsByServiceRequestId(service_req_id);
+	}
+	
+	@Override
+	public List<Rating> getRatingsByRatingTo(int service_provider_id) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getRatingsByRatingTo(service_provider_id);
 	}
 	
 	

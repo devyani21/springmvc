@@ -1,2 +1,4 @@
 eclipse.preferences.version=1
 encoding//src/main/webapp/WEB-INF/views/customer/customer-dashboard.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/customer/customer-service-history.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modals/rateSPModal.jsp=UTF-8

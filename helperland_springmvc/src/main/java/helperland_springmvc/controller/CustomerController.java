@@ -6,8 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sun.istack.logging.Logger;
 
 import helperland_springmvc.model.User;
+import helperland_springmvc.model.Rating;
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
 import helperland_springmvc.model.ServiceRequestExtra;
@@ -58,6 +62,26 @@ public class CustomerController {
 		return outFormat.parse(twentyfourhourtime);
 	}
 	
+	public int avgRatingCount(int service_provider_id) {
+		
+		List<Rating> ratings = serviceRequestService.getRatingsByRatingTo(service_provider_id);
+		
+		
+		int avgRating = 0; 
+		
+		for(Rating i : ratings) {
+			   avgRating = (int) (avgRating + i.getRatings());
+		}
+		
+		if(ratings.size() == 0) {
+			avgRating = avgRating / 1;
+		}
+		else {
+			avgRating = avgRating / ratings.size();
+		}			
+		
+		return avgRating;
+}
 	
 	@RequestMapping(value="/customer-dashboard")
 	public String showCustomerDashboard(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -69,37 +93,40 @@ public class CustomerController {
 			List<ServiceRequest> sr = serviceRequestService.getAllPendingRequestByUserId(userid);
 			Set<User> users = new HashSet<User>();
 			List<ServiceRequestAddress> srAddress = new ArrayList<ServiceRequestAddress>();
-			//Map<Integer, Integer> spRating = new HashMap<Integer, Integer>();
+			Map<Integer, Integer> spRating = new HashMap<Integer, Integer>();
 			users.add(userinfo);
-			for(ServiceRequest i : sr) {
-				System.out.println("service_req_id is");
-				ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
-				srAddress.add(a);
-				if(i.getUser_id() != i.getService_provider_id()) {
-					User userSP = this.userService.getUserByUserId(i.getService_provider_id());
-					users.add(userSP);
-					//int avgRating = avgRatingCount(i.getService_provider_id());
-					//spRating.put(i.getService_provider_id(), avgRating);
+			if(sr != null) {
+				for(ServiceRequest i : sr) {
+					System.out.println("service_req_id is");
+					ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
+					srAddress.add(a);
+					if(i.getUser_id() != i.getService_provider_id()) {
+						User userSP = this.userService.getUserByUserId(i.getService_provider_id());
+						users.add(userSP);
+						int avgRating = avgRatingCount(i.getService_provider_id());
+						spRating.put(i.getService_provider_id(), avgRating);
+					}
+				}
+				for(ServiceRequest i : sr) {
+					String str = i.getService_start_time();
+					str = str.replace(" ", "");
+					try {
+				        System.out.println(convertTo24HoursFormat(str));
+				        i.setService_start_time(convertTo24HoursFormat(str));
+				        str.replace("", " ");
+				        System.out.println(convertToDate(str));
+				        Date date = convertToDate(str);
+				        System.out.println(date);
+				        //System.out.println(convertTo24HoursFormat("12:00PM")); // 12:00
+				        //System.out.println(convertTo24HoursFormat("11:59PM")); // 23:59
+				        //System.out.println(convertTo24HoursFormat("9:30PM"));  // 21:30
+				    } catch (ParseException ex) {
+				        System.out.println(ex);
+				    }
 				}
 			}
 			
-			for(ServiceRequest i : sr) {
-				String str = i.getService_start_time();
-				str = str.replace(" ", "");
-				try {
-			        System.out.println(convertTo24HoursFormat(str));
-			        i.setService_start_time(convertTo24HoursFormat(str));
-			        str.replace("", " ");
-			        System.out.println(convertToDate(str));
-			        Date date = convertToDate(str);
-			        System.out.println(date);
-			        //System.out.println(convertTo24HoursFormat("12:00PM")); // 12:00
-			        //System.out.println(convertTo24HoursFormat("11:59PM")); // 23:59
-			        //System.out.println(convertTo24HoursFormat("9:30PM"));  // 21:30
-			    } catch (ParseException ex) {
-			        System.out.println(ex);
-			    }
-			}
+			
 			
 			
 			
@@ -122,6 +149,7 @@ public class CustomerController {
 			model.addAttribute("servicerequests", sr);
 			model.addAttribute("users" , users);
 			model.addAttribute("srAddress" , srAddress);
+			model.addAttribute("spRating", spRating);
 			return "/customer/customer-dashboard";
 		}
 		else {
@@ -139,20 +167,21 @@ public class CustomerController {
 			List<ServiceRequest> sr = serviceRequestService.getServiceRequestHistoryByUserId(userid);
 			Set<User> users = new HashSet<User>();
 			List<ServiceRequestAddress> srAddress = new ArrayList<ServiceRequestAddress>();
-			//Map<Integer, Integer> spRating = new HashMap<Integer, Integer>();
+			Map<Integer, Integer> spRating = new HashMap<Integer, Integer>();
 			users.add(userinfo);
-			for(ServiceRequest i : sr) {
-				System.out.println("service_req_id is");
-				ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
-				srAddress.add(a);
-				if(i.getUser_id() != i.getService_provider_id()) {
-					User userSP = this.userService.getUserByUserId(i.getService_provider_id());
-					users.add(userSP);
-					//int avgRating = avgRatingCount(i.getService_provider_id());
-					//spRating.put(i.getService_provider_id(), avgRating);
+			if(sr != null) {
+				for(ServiceRequest i : sr) {
+					System.out.println("service_req_id is");
+					ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
+					srAddress.add(a);
+					if(i.getUser_id() != i.getService_provider_id()) {
+						User userSP = userService.getUserByUserId(i.getService_provider_id());
+						users.add(userSP);
+						int avgRating = avgRatingCount(i.getService_provider_id());
+						spRating.put(i.getService_provider_id(), avgRating);
+					}
 				}
 			}
-			
 //			for(ServiceRequest i:sr) {
 //				String str = i.getService_start_time();
 //				str = str.replaceAll("\\s.*", "");
@@ -172,6 +201,7 @@ public class CustomerController {
 			model.addAttribute("servicerequests", sr);
 			model.addAttribute("users" , users);
 			model.addAttribute("srAddress" , srAddress);
+			model.addAttribute("spRating", spRating);
 			return "/customer/customer-service-history";
 		}
 		else {
@@ -303,4 +333,65 @@ public class CustomerController {
 		}
 		return "false";
 	}
+	
+	@RequestMapping(value = "/service-rating-data/{service_req_id}")
+	public @ResponseBody List<Object> serviceRatingData(@PathVariable int service_req_id) {
+		System.out.println("service-rating-data");
+		List<Rating> existingRatings = serviceRequestService.getRatingsByServiceRequestId(service_req_id);
+		
+		if(existingRatings.size() == 0) {
+			ServiceRequest sr = serviceRequestService.getServiceRequestById(service_req_id);
+			List<Rating> ratings = serviceRequestService.getRatingsByRatingTo(sr.getService_provider_id());
+			
+			int avgRating = 0; 
+			for(Rating i : ratings) {
+				   avgRating =  (int) (avgRating + i.getRatings());
+			}
+			
+			if(ratings.size() == 0) {
+				avgRating = avgRating / 1;
+			}
+			else {
+				avgRating = avgRating / ratings.size();
+			}
+			List<Object> srList = new ArrayList<Object>();
+			
+			User sp = userService.getUserByUserId(sr.getService_provider_id());
+			Object avg = avgRating;
+			
+			srList.add(sp);
+			srList.add(avg);
+			
+			return srList;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	@RequestMapping(value = "/rate-sp" , method=RequestMethod.POST)
+	public @ResponseBody String  rateSP(@ModelAttribute("ratings") Rating ratings,HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("rate sp...");
+		System.out.println(ratings.toString());
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userinfo") != null) {
+			User userinfo = (User)session.getAttribute("userinfo");
+			
+			int averageRating = (int) Math.ceil((ratings.getFriendly() + ratings.getOn_time_arrival() + ratings.getQuality_of_service()) / 3);  
+		    Date dateToday = new Date();  
+		    
+		    ratings.setIs_approved(true);
+		    ratings.setRating_date(dateToday);
+		    ratings.setRating_from(userinfo.getUser_id());
+		    ratings.setRatings(averageRating);
+		    ratings.setVisible_on_homescreen(true);
+		    
+		    serviceRequestService.addServiceRating(ratings);
+		    System.out.println("ratings added successfully..");
+		    
+		    return "true";
+		}
+	return "false";
+	}
+	
 }

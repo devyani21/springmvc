@@ -564,4 +564,88 @@ thead {
   text-decoration: none;
 }
 
+.rating {
+  display: inline-block;
+  position: relative;
+  height: 20px;
+  line-height: 20px !important;
+  font-size: 20px !important;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+#ratingModelAvgStars .icon{
+	color: #ECB91C;
+}
+
+#sdModelAvgStars .icon{
+	color: #ECB91C;
+}
+.rating label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating label:last-child .icon {
+  color: #e1e1e1 ;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: #ECB91C;
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #e1e1e1;
+  text-shadow: 0 0 5px #ECB91C;
+}
+
+.fc-content{
+	text-align: center;
+}
+
+.fc-left{
+	font-size: 12px;
+}
+.fc-left h2{
+	font-size: 20px;
+	color: #212529;
+}
 

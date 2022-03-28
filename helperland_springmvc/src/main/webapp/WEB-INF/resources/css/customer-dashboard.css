@@ -67,10 +67,10 @@ body {
 .sidenav-link{
   color: white;
 }
-.sidenav .active{
+/*.sidenav .active{
 	background-color:#146371;
 	color: white;
-}
+}*/
 /* .sidenav-primary .sidenav-item .sidenav-link.active {
   background-color: #146371;
 }
@@ -308,6 +308,7 @@ thead {
 .table-container {
   margin-top: -42px;
   margin-left: 315px;
+  height: 800px;
 }
 .btn{
   border-radius: 20px;

@@ -19,4 +19,8 @@ public interface ServiceRequestService {
 	void addServiceRating(Rating ratings);
 	List<Rating> getRatingsByServiceRequestId(int service_req_id);
 	List<Rating> getRatingsByRatingTo(int service_provider_id);
+	List<ServiceRequest> getAllServiceRequestByPostalCode(String postalcode);
+	List<ServiceRequest> getAllServiceRequestByPostalCodeHavingNoPets(String postalcode);
+	List<ServiceRequest> getServiceRequestBySPIdAndStatus(int user_id , int status);
+	void updateServiceRequestStatus(ServiceRequest sr);
 }

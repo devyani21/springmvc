@@ -62,6 +62,8 @@ public class CustomerController {
 		return outFormat.parse(twentyfourhourtime);
 	}
 	
+	
+	
 	public int avgRatingCount(int service_provider_id) {
 		
 		List<Rating> ratings = serviceRequestService.getRatingsByRatingTo(service_provider_id);
@@ -94,58 +96,31 @@ public class CustomerController {
 			Set<User> users = new HashSet<User>();
 			List<ServiceRequestAddress> srAddress = new ArrayList<ServiceRequestAddress>();
 			Map<Integer, Integer> spRating = new HashMap<Integer, Integer>();
-			users.add(userinfo);
 			if(sr != null) {
 				for(ServiceRequest i : sr) {
-					System.out.println("service_req_id is");
+					System.out.println(i);
+					//System.out.println("service_req_id is");
 					ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
 					srAddress.add(a);
 					if(i.getUser_id() != i.getService_provider_id()) {
-						User userSP = this.userService.getUserByUserId(i.getService_provider_id());
+						User userSP = userService.getUserByUserId(i.getService_provider_id());
 						users.add(userSP);
 						int avgRating = avgRatingCount(i.getService_provider_id());
 						spRating.put(i.getService_provider_id(), avgRating);
 					}
 				}
-				for(ServiceRequest i : sr) {
-					String str = i.getService_start_time();
-					str = str.replace(" ", "");
-					try {
-				        System.out.println(convertTo24HoursFormat(str));
-				        i.setService_start_time(convertTo24HoursFormat(str));
-				        str.replace("", " ");
-				        System.out.println(convertToDate(str));
-				        Date date = convertToDate(str);
-				        System.out.println(date);
-				        //System.out.println(convertTo24HoursFormat("12:00PM")); // 12:00
-				        //System.out.println(convertTo24HoursFormat("11:59PM")); // 23:59
-				        //System.out.println(convertTo24HoursFormat("9:30PM"));  // 21:30
-				    } catch (ParseException ex) {
-				        System.out.println(ex);
-				    }
-				}
 			}
 			
+			for(ServiceRequest i: sr) {
+				System.out.println(i);
+			}
 			
-			
-			
-			
-//			for(ServiceRequest i:sr) {
-//				String str = i.getService_start_time();
-//				str = str.replaceAll("\\s.*", "");
-//				str = str.replaceAll(":", ".");
-//				i.setService_start_time(str);
-//				System.out.println("str:-" +str);
-//				float service_start_time = Float.parseFloat(str);
-//				System.out.println("service_start_time:-" + service_start_time);
-//				float total_service_time = service_start_time + i.getService_hours() + i.getExtra_hours();
-//				System.out.println("total_service_time:- "+total_service_time);
-//				String newstr = String.valueOf(total_service_time);
-//				System.out.println("newstr= " + newstr);
-//				newstr = newstr.replace(".", ":");
-//				System.out.println("newstr:- " + newstr);
-//				i.setTotal_service_time(newtotalservicetime);	
-//			}
+			System.out.println("users :-" + users);
+			for(int key : spRating.values()) {
+				System.out.println(key);
+			}
+			System.out.println("spRating :-"+ spRating);
+			//System.out.println(users);
 			model.addAttribute("servicerequests", sr);
 			model.addAttribute("users" , users);
 			model.addAttribute("srAddress" , srAddress);
@@ -153,7 +128,7 @@ public class CustomerController {
 			return "/customer/customer-dashboard";
 		}
 		else {
-			return "index";
+			return "redirect:/";
 		}
 	}
 	
@@ -168,9 +143,12 @@ public class CustomerController {
 			Set<User> users = new HashSet<User>();
 			List<ServiceRequestAddress> srAddress = new ArrayList<ServiceRequestAddress>();
 			Map<Integer, Integer> spRating = new HashMap<Integer, Integer>();
-			users.add(userinfo);
+			//users.add(userinfo);
+			
 			if(sr != null) {
 				for(ServiceRequest i : sr) {
+					System.out.println(i.getService_start_date());
+					//Date newdate = new Date(i.getService_start_date())
 					System.out.println("service_req_id is");
 					ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
 					srAddress.add(a);
@@ -182,6 +160,17 @@ public class CustomerController {
 					}
 				}
 			}
+			
+			for(ServiceRequest i: sr) {
+				System.out.println(i);
+			}
+			
+			System.out.println("users :-" + users);
+			for(int key : spRating.values()) {
+				System.out.println(key);
+			}
+			System.out.println("spRating :-"+ spRating);
+			
 //			for(ServiceRequest i:sr) {
 //				String str = i.getService_start_time();
 //				str = str.replaceAll("\\s.*", "");

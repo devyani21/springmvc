@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 import helperland_springmvc.model.Login;
 import helperland_springmvc.model.User;
 import helperland_springmvc.model.UserAddress;
+import helperland_springmvc.model.Zipcode;
 
 public class UserDaoImpl implements UserDao {
 
@@ -94,6 +95,16 @@ public class UserDaoImpl implements UserDao {
 		String sql = "insert into user_address(user_id,address_line1,address_line2,city,postal_code,mobile,email,type,is_deleted,is_default) values(?,?,?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, new Object[] { userAddress.getUser_id(), userAddress.getAddress_line1(), userAddress.getAddress_line2(),
 				userAddress.getCity(), userAddress.getPostal_code(), userAddress.getMobile() ,userAddress.getEmail(), userAddress.getType(), userAddress.getIs_deleted(), userAddress.getIs_default() });
+		String q2 = "update user set postal_code='"+userAddress.getPostal_code()+"'where user_id='"+userAddress.getUser_id()+"'";
+		jdbcTemplate.update(q2);
+		String q1 = "select * from zipcode where zip_code_value='"+userAddress.getPostal_code()+"'";
+		List<Zipcode> zipcodes = jdbcTemplate.query(q1,new ZipcodeMapper());
+		for(Zipcode z : zipcodes) {
+			if(z.getZip_code_value() != userAddress.getPostal_code()) {
+				String query = "insert into zipcode(zip_code_value) values(?)";
+				jdbcTemplate.update(query, new Object[] {userAddress.getPostal_code()});
+			}
+		}
 		
 	}
 	
@@ -160,7 +171,7 @@ public class UserDaoImpl implements UserDao {
 	
 	public User getUserByUserId(int userid) {
 		// TODO Auto-generated method stub
-		String sql = "select * from user where user_id='"+ userid + "'and user_type_id='"+ 2+ "'";
+		String sql = "select * from user where user_id='"+ userid +"'";
 		List<User> users = jdbcTemplate.query(sql, new UserMapper());
 		return users.size()>0 ? users.get(0) : null;
 	}
@@ -178,6 +189,7 @@ public class UserDaoImpl implements UserDao {
 			user.setPassword(rs.getString("password"));
 			user.setReset_token(rs.getString("reset_token"));
 			user.setCreated_date(rs.getDate("created_date"));
+			user.setPostal_code(rs.getString("postal_code"));
 			return user;
 		}
 	}
@@ -197,6 +209,14 @@ public class UserDaoImpl implements UserDao {
 			useraddress.setIs_default(rs.getInt("is_default"));
 			useraddress.setIs_deleted(rs.getInt("is_deleted"));;
 			return useraddress;
+		}
+	}
+	
+	class ZipcodeMapper implements RowMapper<Zipcode> {
+		public Zipcode mapRow(ResultSet rs, int args1) throws SQLException {
+			Zipcode zipcode = new Zipcode();
+			zipcode.setZip_code_value(rs.getString("zip_code_value"));	
+			return zipcode;
 		}
 	}
 

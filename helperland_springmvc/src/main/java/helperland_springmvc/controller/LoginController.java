@@ -39,9 +39,19 @@ public class LoginController {
     if (user != null) {
     	HttpSession session = request.getSession();
     	session.setAttribute("userinfo", user);
-        mav = new ModelAndView("redirect:/customer-dashboard");
-        mav.addObject("first_name", user.getFirst_name());
-        } else {
+    	if(user.getUser_type_id() == 1) {
+	        mav = new ModelAndView("redirect:/customer-dashboard");
+	        //mav.addObject("first_name", user.getFirst_name());
+    	}
+    	else if(user.getUser_type_id() == 2) {
+    		mav = new ModelAndView("redirect:/sp-dashboard");
+	        //mav.addObject("first_name", user.getFirst_name());
+    	}
+    	else {
+    		mav = new ModelAndView("redirect:/");
+    	}
+    	
+     } else {
         	System.out.println("Running else condition...");
         mav = new ModelAndView("loginProcess");
         mav.addObject("invalid_login", "Username or Password is wrong!!");

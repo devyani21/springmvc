@@ -66,6 +66,26 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 		// TODO Auto-generated method stub
 		return serviceRequestDao.getRatingsByRatingTo(service_provider_id);
 	}
+	@Override
+	public List<ServiceRequest> getAllServiceRequestByPostalCode(String postalcode) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getAllServiceRequestByPostalCode(postalcode);
+	}
+	@Override
+	public List<ServiceRequest> getAllServiceRequestByPostalCodeHavingNoPets(String postalcode) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getAllServiceRequestByPostalCodeHavingNoPets(postalcode);
+	}
+	@Override
+	public List<ServiceRequest> getServiceRequestBySPIdAndStatus(int user_id, int status) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getServiceRequestBySPIdAndStatus(user_id , status);
+	}
+	@Override
+	public void updateServiceRequestStatus(ServiceRequest sr) {
+		// TODO Auto-generated method stub
+		serviceRequestDao.updateServiceRequestStatus(sr);
+	}
 	
 	
 }

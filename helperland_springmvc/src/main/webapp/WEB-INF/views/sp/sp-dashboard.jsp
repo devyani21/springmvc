@@ -18,7 +18,6 @@
 <c:set var="sr" value="${servicerequests }" />
 <c:set var="u" value="${users }" />
 <c:set var="sra" value="${srAddress }" />
-<c:set var="spRating" value="${spRating }"/>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css"
 	integrity="sha512-thoh2veB35ojlAhyYZC0eaztTAUhxLvSZlWrNtlV01njqs/UdY3421Jg7lX0Gq9SRdGVQeL8xeBp9x1IPyL1wQ=="
@@ -49,6 +48,8 @@
 		<%@ include file="../modals/rescheduleServiceModal.jsp" %>
 		<%@ include file="../modals/rescheduleModal.jsp" %>
 		<%@ include file="../modals/cancelModal.jsp" %>
+		<%@ include file="../modals/acceptModal.jsp" %>
+		<%@ include file="../modals/Conflict.jsp" %>
 		<section class="welcome">
 			<div class="container">
 				<div class="row">
@@ -63,19 +64,30 @@
 
 	<section>
 		<div class="container table-container w-75">
+		<div class="row">
+			<div>
+				<form class="d-flex" id="include_pets_form" method="get" action="sp-dashboard">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <input type="checkbox" class="me-2" name="pets" id = "include_pets" <c:if test="${sr_type == 1}">checked</c:if> value="1">
+                            <input type="checkbox" class="me-2 d-none" name="pets" id = "include_pets_hidden" value="0">
+                            <label for="pets" style="font-size: 14px;">Include Pet at home</label>
+                        </div>
+                    </form>
+			</div>
+		</div>
 			<table id="example" class="table" style="width: 100%">
 				<thead>
 					<tr>
 						<th>Service Id</th>
 						<th>Service Details</th>
-						<th>Service Provider</th>
+						<th>Customer Details</th>
 						<th>Payment</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="sr" items="${servicerequests}" varStatus="i">
-						<tr data-bs-toggle="modal" data-bs-target="#rescheduleServiceModal" onClick="rescheduleService(${sr.service_req_id})">
+						<tr onClick="rescheduleService(${sr.service_req_id})" style="cursor:pointer;">
 							<td>${sr.service_id }</td>
 							<td>
 								<div>
@@ -93,88 +105,42 @@
 							</td>
 							<td>
 
-								<div style="display: inline-block; margin-top: 17px">
+								<div style="display: inline-block; margin-top: 20px">
 									<c:forEach var="u" items="${users }">
-										<c:if test="${u.user_id == sr.service_provider_id}">
-											<img src="<c:url value='/resources/img/customer/cap.png' />"
+										<c:if test="${u.user_id == sr.user_id}">
+											<img src="<c:url value='/resources/img/customer/house-icon.png' />"
 												class="cap">
 										</c:if>
 									</c:forEach>
 								</div>
 								<div
-									style="display: block; margin-left: 35px; margin-top: -40px">
+									style="display: block; margin-left: 35px; margin-top: -40px;text-transform: capitalize">
 									<c:forEach var="u" items="${users }">
-										<c:if test="${u.user_id == sr.service_provider_id}">${u.first_name } ${u.last_name }
+										<c:if test="${u.user_id == sr.user_id}">${u.first_name } ${u.last_name }
 		                                        		</c:if>
 									</c:forEach>
 									<div>
-									<c:if test="${u.user_id == sr.service_provider_id }">
-									<c:forEach items="${spRating}" var="spRating">
-													        <c:if test="${spRating.key == sr.service_provider_id }">
-													        	<c:if test="${spRating.value == 0}">
-													        		<span class="icon" id="icon1" style="color: #e1e1e1">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 1}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 2}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 3}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 4}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #ECB91C">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 5}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #ECB91C">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #ECB91C">&bigstar;</span>	
-													        	</c:if>	
-			                                                	<p class="mb-0">${spRating.value }</p>
-													        </c:if>
-													    </c:forEach>
-													    </c:if>
-													    </div>
-									<!--<div>
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                </div>-->
+									<c:forEach var="sra" items="${srAddress }">
+	                                            		<c:if test="${sr.service_req_id == sra.service_req_id }">
+	                                            			${sra.address_line1 } ${sra.address_line2 } 
+	                                            			<div>${sra.postal_code } ${sra.city }</div>
+	                                            		</c:if>
+	                                </c:forEach>
+	                                </div>
 								</div>
+								
 
 							</td>
 							<td><span class="payment"> <span class="text-style-1">$
 								</span>${sr.total_cost }
 							</span></td>
-							<td><button type="button" class="btn btn-success"
-									data-bs-toggle="modal" data-bs-target="#rescheduleModal" onClick="rescheduleServiceFun(${sr.service_req_id})">Reschedule</button>
-								<button type="button" class="btn btn-danger rate"
-									data-bs-toggle="modal" data-bs-target="#cancelModal" onClick="cancelServiceFun(${sr.service_req_id})">Cancel</button></td>
+							<td>
+							
+							<button type="button" class="btn btn-success"
+									 onClick="acceptservicefun(${sr.service_req_id})">Accept</button>
+						
+							<!--<c:if test="${sr.status == 3 }"><span class="text-success">Accepted</span></c:if>-->
+							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -221,9 +187,18 @@
 		});
 	</script>
 	
+	
 	<script>
     
     	$(document).ready(function() {
+    		
+    		$("#include_pets").val(1);
+    		<c:if test="${sr_type == all} ">
+	    		$("#include_pets").attr('checked' , true);	
+    		</c:if>
+    		<c:if test="${sr_type == filtered} ">
+	    		$("#include_pets").attr('checked' , false);	
+			</c:if>
     		
     		<c:forEach var="sr" items="${servicerequests }" varStatus="i">
     			
@@ -252,6 +227,57 @@
     		</c:forEach>
     	})
     	
+    </script>
+    
+    <script type="text/javascript">
+    
+    function acceptservicefun(id){
+    	event.preventDefault();
+		$.ajax({
+			url : "/helperland_springmvc/accept-service/"+id,
+			type : "GET",
+			contentType : "application/json",
+			success : function(data,textStatus,jqXHR) {
+				if(data == "updated"){
+					$("#setstatus").html("Service Accepted!!");
+					$("#acceptModal").modal('show'); 
+				}
+				if(data.substring(0 , 8) == "conflict"){
+					$("#conflict").modal('show');
+					$("#conflictmsg").html("Another service request # <b>" + data.substring(8 , d.length) + " </b> has already been assigned which has time overlap with this service request. You can’t pick this one!");
+				}
+				if(data == "expired"){
+					$("#conflict").modal('show');
+					$("#conflictmsg").html("This service request is expired");
+				}
+				if(data == "already accepted"){
+					$("#conflict").modal('show');
+					$("#conflictmsg").html("Sorry, This ServiceRequest is already accepted by another Service Provicer.");	
+				}
+			},
+			error : function(data) {
+				alert("some error occured");
+			}
+		})
+		
+	}
+    
+    $("#include_pets").on("change" , function(){
+			if (this.checked == true)
+				{
+	            	$(this).val("1");
+	            	$("#include_pets_hidden").attr('checked' , false);	
+				} 
+	        else{
+	        	$("#include_pets_hidden").attr('checked' , true);
+	        }
+			$("#include_pets_form").submit();     			
+	})
+	
+    </script>
+    
+    <script>
+    
     </script>
 	
     	
@@ -341,6 +367,7 @@
  					//$("#postal_code").val(data.postal_code);
  					//$("#mobile").val(data.mobile);
  					//$("#city").val(data.city);
+ 					$("#rescheduleServiceModal").modal('show');
  				},
  				error : function(xml, textStatus, xhr) {
  					alert("Some error occured");
@@ -471,6 +498,7 @@
 					//})
 				});
 	</script>
+		
     	
 
 

@@ -6,7 +6,7 @@
 
                 <ul class="sidenav-menu" id="sidenav-li">
                     <li class="sidenav-item li-class active">
-                        <a class="sidenav-link" href="customer-dashboard">
+                        <a class="sidenav-link" href="sp-dashboard">
                             </i><span>Dashboard</span></a>
                     </li>
                     <li class="sidenav-item li-class">
@@ -34,7 +34,7 @@
                     <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item left-margin right-margin invisible2">
-                                <a class="nav-link" aria-current="page" href="customer-dashboard"><span class="nav-li">Dashboard
+                                <a class="nav-link" aria-current="page" href="sp-dashboard"><span class="nav-li">Dashboard
                                     </span></a>
                             </li>
                             <li class="nav-item left-margin right-margin invisible2">
@@ -99,7 +99,7 @@
                                     class="rounded-circle avatar" alt="" loading="lazy" /></a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown01">
                                 <li><a class="dropdown-item" href="#" disabled>Welcome<div style="text-transform:capitalize;">${userinfo.first_name}</div></a></li>
-                                <li><a class="dropdown-item" href="customer-dashboard">My Dashboard</a></li>
+                                <li><a class="dropdown-item" href="sp-dashboard">My Dashboard</a></li>
                                 <li>
                                     <a class="dropdown-item" href="customer-settings">My Settings</a>
                                 </li>

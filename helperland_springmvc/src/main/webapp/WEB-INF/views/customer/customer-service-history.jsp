@@ -90,7 +90,7 @@
 								<div>
 									<img
 										src="<c:url value='/resources/img/customer/clock-icon.png' />"
-										alt="" class="calender-icon"><span>${sr.service_start_time}
+										alt="" class="calender-icon"><span><span id="starttime${i.index }"></span>
 										- <span id="endTime${i.index }"></span></span>
 								</div>
 							</td>
@@ -187,7 +187,7 @@
 							</c:if>
 							<c:if test="${sr.status == 1 }">
 								<button type="button" class="btn btn-success"
-									data-bs-toggle="modal" data-bs-target="#rateSPModal" onClick="ratingModalFun(${sr.service_req_id},${sr.service_provider_id })" >Rate SP</button>
+									 onClick="ratingModalFun(${sr.service_req_id},${sr.service_provider_id })" >Rate SP</button>
 							</c:if>
 							<!-- <button type="button" class="btn btn-success"
 									 onClick="ratingModalFun(${sr.service_req_id},${sr.service_provider_id })" >Rate SP</button>-->
@@ -239,6 +239,39 @@
 			$(this).addClass("active");
 		});
 	</script>
+	
+	<script>
+    
+    	$(document).ready(function() {
+    		
+    		<c:forEach var="sr" items="${servicerequests }" varStatus="i">
+    			
+	    		var d = new Date("${sr.service_start_date}" + " " + "${sr.service_start_time}");
+				var t1 = d.getHours()+"."+d.getMinutes();
+				var var1 = d.getHours().toString();
+				var var2 = d.getMinutes().toString();
+				console.log(var1.padStart(2,"0") + ":" + var2.padStart(2,"0"));
+				$("#starttime${i.index}").html(var1.padStart(2,"0") + ":" + var2.padStart(2,"0"));
+				var a = parseFloat("${sr.service_hours}") ;  
+				var b = parseFloat("${sr.extra_hours}");
+				var totalTime = a+b ; 
+				var dt1 = ((d.getHours() * 60) + d.getMinutes()) / 60;
+				var dt2 = (dt1 + totalTime) * 60;
+				var h1 = Math.floor(dt2 / 60);
+				var m1 = dt2 % 60;
+				if(m1==0){
+					var time2 = h1 + ":00	";	
+					$("#endTime${i.index}").html(time2);
+				}
+				else{
+					var time2 = h1 + ":" + m1;
+					$("#endTime${i.index}").html(time2);
+				}
+    			
+    		</c:forEach>
+    	})
+    	
+    </script>
 	
 	<script>
         $("input[name= on_time_arrival] , input[name= friendly] , input[name= quality_of_service]").change(function(){

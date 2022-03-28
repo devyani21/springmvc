@@ -25,6 +25,7 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 	//status 0 pending
 	//status 1 completed
 	//status 2 cancelled
+	//status 3 accepted
 	
 	public List<ServiceRequest> getAllPendingRequestByUserId(int userid) {
 		// TODO Auto-generated method stub
@@ -118,11 +119,53 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		List<Rating> ratings = jdbcTemplate.query(sql, new RatingMapper());
 		return ratings;
 	}
+	
+	@Override
+	public List<ServiceRequest> getAllServiceRequestByPostalCode(String postalcode) {
+		// TODO Auto-generated method stub
+		System.out.println(postalcode);
+		String query = "select * from service_request where zip_code='"+postalcode+"' and status='"+0+"'and has_pets='"+1+"' or status='"+3+"'";
+		List<ServiceRequest> sr = jdbcTemplate.query(query, new ServiceRequestMapper());
+		System.out.println("ServiceRequestDaoImpl"+ sr.toString());
+		return sr.size()>0 ? sr : null;
+	}
+	
+	@Override
+	public List<ServiceRequest> getAllServiceRequestByPostalCodeHavingNoPets(String postalcode) {
+		// TODO Auto-generated method stub
+		System.out.println(postalcode);
+		String query = "select * from service_request where zip_code='"+postalcode+"' and status='"+0+"'and has_pets='"+0+"'or status='"+3+"'";
+		List<ServiceRequest> sr = jdbcTemplate.query(query, new ServiceRequestMapper());
+		System.out.println("ServiceRequestDaoImpl"+ sr.toString());
+		return sr.size()>0 ? sr : null;
+	}
+
+	@Override
+	public List<ServiceRequest> getServiceRequestBySPIdAndStatus(int user_id, int status) {
+		// TODO Auto-generated method stub
+		String query = "select * from service_request where service_provider_id='"+user_id+"'and status='"+status+"'or status='"+2+"'";
+		List<ServiceRequest> sr = jdbcTemplate.query(query, new ServiceRequestMapper());
+		return sr.size()>0 ? sr:null;
+	}
+	
+	@Override
+	public void updateServiceRequestStatus(ServiceRequest sr) {
+		// TODO Auto-generated method stub
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String sp_accepted_date = sdf.format(sr.getSp_accepted_date());
+		String modified_date = sdf.format(sr.getModified_date());
+		System.out.println(sr.toString());
+		String query = "update service_request set service_provider_id='"+sr.getService_provider_id()+"',sp_accepted_date='"+sp_accepted_date+"',status='"+sr.getStatus()+"',modified_date='"+modified_date+"',modified_by='"+sr.getModified_by()+"' where service_req_id='"+sr.getService_req_id()+"'";
+		jdbcTemplate.batchUpdate(query);
+		System.out.println("Status updated successfully..");
+	}
 
 	
 	class ServiceRequestMapper implements RowMapper<ServiceRequest>{
 		public ServiceRequest mapRow(ResultSet rs, int args1) throws SQLException{
 			ServiceRequest servicerequest = new ServiceRequest();
+			servicerequest.setUser_id(rs.getInt("user_id"));
 			servicerequest.setService_req_id(rs.getInt("service_req_id"));
 			servicerequest.setAddress_id(rs.getInt("address_id"));
 			servicerequest.setComments(rs.getString("comments"));
@@ -136,6 +179,7 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 			servicerequest.setService_start_time(rs.getString("service_start_time"));
 			servicerequest.setTotal_cost(rs.getFloat("total_cost"));
 			servicerequest.setStatus(rs.getInt("status"));
+			servicerequest.setZip_code_value(rs.getString("zip_code"));
 			return servicerequest;
 		}
 	}
@@ -187,6 +231,10 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		}
 	}
 
+	
+	
+
+	
 	
 	
 

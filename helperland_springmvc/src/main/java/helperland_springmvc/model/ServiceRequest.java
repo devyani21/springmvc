@@ -10,10 +10,9 @@ public class ServiceRequest {
 	private int user_id;
 	private int service_id;
 	
-	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date service_start_date;
 	private String service_start_time;
-	private int zip_code_value;
+	private String zip_code_value;
 	private float service_hourly_rate;
 	private float service_hours;
 	private float extra_hours;
@@ -43,7 +42,7 @@ public class ServiceRequest {
 	
 
 	public ServiceRequest(int service_req_id, int user_id, int service_id, Date service_start_date,
-			String service_start_time, int zip_code_value, float service_hourly_rate, float service_hours, float extra_hours,
+			String service_start_time, String zip_code_value, float service_hourly_rate, float service_hours, float extra_hours,
 			float total_cost, String comments, int service_provider_id, Date sp_accepted_date, boolean has_pets,
 			int status, Date created_date, Date modified_date, int modified_by, int address_id, 
 		    int insidecabinets, int insideoven, int insidefridge, int laundary, int interiorwindows, String has_issues) {
@@ -115,11 +114,11 @@ public class ServiceRequest {
 		this.service_start_time = service_start_time;
 	}
 
-	public int getZip_code_value() {
+	public String getZip_code_value() {
 		return zip_code_value;
 	}
 
-	public void setZip_code_value(int zip_code_value) {
+	public void setZip_code_value(String zip_code_value) {
 		this.zip_code_value = zip_code_value;
 	}
 

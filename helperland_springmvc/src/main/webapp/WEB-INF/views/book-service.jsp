@@ -188,19 +188,21 @@
 											need the Cleaner?</div>
 										<div id="msg"></div>
 										<div>
-											<input name="service_start_date" type="date"
+											<input name="servicedate" type="date"
 												class="datepicker" id="servicestartdate"
 												style="width: 180px;" required form="mainservicerequestform" />
 											<select name="service_start_time"
 												class="form-select user-name-select time"
 												aria-label="Default select example" id="servicestarttime"
 												form="mainservicerequestform">
-												<option value="12:00 PM" selected>12:00 PM</option>
-												<option value="11:00 AM">11:00 AM</option>
-												<option value="1:00 PM">1:00 PM</option>
-												<option value="2:00 PM">2:00 PM</option>
-												<option value="3:00 PM">3:00 PM</option>
+												<option value="08:00:00" selected>08:00</option>
+												<option value="08:30:00">08:30</option>
+												<option value="09:00:00">09:00</option>
+												<option value="09:30:00">09:30</option>
+												<option value="10:00:00">10:00</option>
 											</select>
+											<input type="hidden" form="mainservicerequestform"
+													id="service_start_date" name="service_start_date">
 										</div>
 										<div class="border-top"></div>
 									</div>
@@ -212,16 +214,16 @@
 												class="form-select user-name-select time"
 												aria-label="Default select example" id="servicehours"
 												form="mainservicerequestform">
-												<option value="3" selected>3 Hrs</option>
-												<option value="3.5">3.5 Hrs</option>
-												<option value="4">4 Hrs</option>
-												<option value="4.5">4.5 Hrs</option>
-												<option value="5">5 Hrs</option>
-												<option value="5.5">5.5 Hrs</option>
-												<option value="6">6 Hrs</option>
-												<option value="6.5">6.5 Hrs</option>
-												<option value="7">7 Hrs</option>
-												<option value="7.5">7.5 Hrs</option>
+												<option value=3.0 selected>3 Hrs</option>
+												<option value=3.5>3.5 Hrs</option>
+												<option value=4.0>4 Hrs</option>
+												<option value=4.5>4.5 Hrs</option>
+												<option value=5.0>5 Hrs</option>
+												<option value=5.5>5.5 Hrs</option>
+												<option value=6.0>6 Hrs</option>
+												<option value=6.5>6.5 Hrs</option>
+												<option value=7.0>7 Hrs</option>
+												<option value=7.5>7.5 Hrs</option>
 											</select>
 										</div>
 										<div class="border-top"></div>
@@ -494,6 +496,8 @@
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -575,19 +579,21 @@
 					})
 				});
 	</script>
-	<script>
-	$("#service_start_date , #service_start_time").on(
+	
+	<script type="text/javascript">
+	$("#servicestartdate , #servicestarttime").on(
 			"change",
 			function() {
-				var serviceDate = $("#servicestartdatevalue").val();
-				var serviceTime = $("#servicestarttimevalue").innerHTML;
+				var serviceDate = $("#servicestartdate").val();
+				var serviceTime = $("#servicestarttime").val();
 				var date = moment(serviceDate + ' ' + serviceTime).format(
 						"YYYY-MM-DD HH:mm:ss.SSS");
 				var sdate = new Date(date);
-				console.log("date date");
 				console.log(date);
-				$("#totalservicetime").val(sdate);
+				$("#service_start_date").val(sdate);
 			});
+
+	
 	</script>
 
 	<script type="text/javascript">

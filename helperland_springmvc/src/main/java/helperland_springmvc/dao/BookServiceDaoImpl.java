@@ -49,6 +49,7 @@ public class BookServiceDaoImpl implements BookServiceDao {
 		jdbcTemplate.update(query, new Object[] {serviceRequest.getUser_id(),service_id,serviceRequest.getService_start_date(),serviceRequest.getService_start_time(),serviceRequest.getZip_code_value(),serviceRequest.getService_hourly_rate(),
 				serviceRequest.getService_hours(),serviceRequest.getExtra_hours(),serviceRequest.getTotal_cost() , serviceRequest.getComments(),serviceRequest.getHas_pets(),serviceRequest.getStatus(),currentTime,serviceRequest.getAddress_id()});
 		System.out.println(service_id);
+		System.out.println("new service added successfully..");
 		return service_id;
 	}
 	

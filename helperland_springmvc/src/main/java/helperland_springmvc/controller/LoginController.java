@@ -47,6 +47,9 @@ public class LoginController {
     		mav = new ModelAndView("redirect:/sp-dashboard");
 	        //mav.addObject("first_name", user.getFirst_name());
     	}
+    	else if(user.getUser_type_id() == 0) {
+    		mav = new ModelAndView("redirect:/service-requests");
+    	}
     	else {
     		mav = new ModelAndView("redirect:/");
     	}

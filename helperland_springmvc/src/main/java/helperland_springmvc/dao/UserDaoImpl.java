@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import helperland_springmvc.model.FavouriteBlocked;
 import helperland_springmvc.model.Login;
 import helperland_springmvc.model.User;
 import helperland_springmvc.model.UserAddress;
@@ -175,6 +176,96 @@ public class UserDaoImpl implements UserDao {
 		List<User> users = jdbcTemplate.query(sql, new UserMapper());
 		return users.size()>0 ? users.get(0) : null;
 	}
+	
+	@Override
+	public List<FavouriteBlocked> getFavBlockByUserId(int user_id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from favourite_blocked where user_id='"+ user_id + "'";
+		List<FavouriteBlocked> fb = jdbcTemplate.query(sql, new FavouriteBlockedMapper());
+		return fb.size()>0?fb:null;
+	}
+	
+	@Override
+	public FavouriteBlocked getFavBlockByUserIdAndTargetUserId(int user_id, int id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from favourite_blocked where user_id='"+ user_id + "'and target_user_id='"+ id+ "'";
+		List<FavouriteBlocked> fb = jdbcTemplate.query(sql, new FavouriteBlockedMapper());
+		return fb.size()>0? fb.get(0):null;
+	}
+
+	@Override
+	public void addFavBlock(FavouriteBlocked newFavBlock) {
+		// TODO Auto-generated method stub
+		String sql = "insert into favourite_blocked(user_id,target_user_id,is_favourite,is_blocked) values(?,?,?,?)";
+		jdbcTemplate.update(sql, new Object[] {newFavBlock.getUser_id(), newFavBlock.getTarget_user_id(),newFavBlock.isIs_favourite(),newFavBlock.isIs_blocked()});
+	}
+	
+	@Override
+	public FavouriteBlocked getFavBlockById(int id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from favourite_blocked where id='"+ id +"'";
+		List<FavouriteBlocked> fb = jdbcTemplate.query(sql, new FavouriteBlockedMapper());
+		return fb.size()>0? fb.get(0):null;
+	}
+
+	@Override
+	public void updateFavBlock(FavouriteBlocked favBlock) {
+		// TODO Auto-generated method stub
+		System.out.println(favBlock.isIs_blocked());
+		if(favBlock.isIs_blocked()) {
+			String sql = "update favourite_blocked set is_blocked='"+1+"'where id='"+favBlock.getId()+"'";
+			jdbcTemplate.update(sql);
+		}
+		else {
+			String sql = "update favourite_blocked set is_blocked='"+0+"'where id='"+favBlock.getId()+"'";
+			jdbcTemplate.update(sql);
+		}	
+		
+	}
+	
+	@Override
+	public List<User> getAllUser() {
+		// TODO Auto-generated method stub
+		String sql = "select * from user";
+		List<User> users = jdbcTemplate.query(sql, new UserMapper());
+		return users.size()>0? users:null;
+	}
+	
+	@Override
+	public List<UserAddress> getAllUserAddress() {
+		// TODO Auto-generated method stub
+		String sql = "select * from user_address";
+		List<UserAddress> allUserAddress = jdbcTemplate.query(sql, new UserAddressMapper());
+		return allUserAddress.size()>0? allUserAddress:null;
+	}
+	
+	@Override
+	public void updateUser(User userToModify) {
+		// TODO Auto-generated method stub
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String current_date = sdf.format(dt);
+		String sql = "update user set is_active='"+userToModify.getIs_active()+"',modified_by='"+userToModify.getModified_by()+"',modified_date='"+current_date+"' where user_id='"+userToModify.getUser_id()+"'";
+		jdbcTemplate.update(sql);
+		System.out.println("status changed successfully...");
+	}
+
+	@Override
+	public void approveUser(User userToModify) {
+		// TODO Auto-generated method stub
+		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String current_date = sdf.format(dt);
+		String sql = "update user set is_approved='"+userToModify.getIs_approved()+"',modified_by='"+userToModify.getModified_by()+"',modified_date='"+current_date+"' where user_id='"+userToModify.getUser_id()+"'";
+		jdbcTemplate.update(sql);
+		System.out.println("User approved successfully...");
+	}
+
+	
 
 
 	class UserMapper implements RowMapper<User> {
@@ -190,6 +281,9 @@ public class UserDaoImpl implements UserDao {
 			user.setReset_token(rs.getString("reset_token"));
 			user.setCreated_date(rs.getDate("created_date"));
 			user.setPostal_code(rs.getString("postal_code"));
+			user.setIs_approved(rs.getInt("is_approved"));
+			user.setIs_deleted(rs.getInt("is_deleted"));
+			user.setIs_active(rs.getInt("is_active"));
 			return user;
 		}
 	}
@@ -219,7 +313,30 @@ public class UserDaoImpl implements UserDao {
 			return zipcode;
 		}
 	}
+	
+	class FavouriteBlockedMapper implements RowMapper<FavouriteBlocked>{
+		public FavouriteBlocked mapRow(ResultSet rs, int args1) throws SQLException{
+			FavouriteBlocked favouriteblocked = new FavouriteBlocked();
+			favouriteblocked.setId(rs.getInt("id"));
+			favouriteblocked.setUser_id(rs.getInt("user_id"));
+			favouriteblocked.setTarget_user_id(rs.getInt("target_user_id"));
+			favouriteblocked.setIs_favourite(rs.getBoolean("is_favourite"));
+			favouriteblocked.setIs_blocked(rs.getBoolean("is_blocked"));
+			return favouriteblocked;
+		}
+	}
 
+	
+
+	
+
+	
+	
+	
+
+	
+	
+	
 	
 	
 

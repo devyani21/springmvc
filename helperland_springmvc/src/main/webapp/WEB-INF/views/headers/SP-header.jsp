@@ -10,13 +10,16 @@
                             </i><span>Dashboard</span></a>
                     </li>
                     <li class="sidenav-item li-class">
-                        <a class="sidenav-link" href="customer-service-history.html"><span>Service History</span></a>
+                        <a class="sidenav-link" href="sp-service-history"><span>Service History</span></a>
                     </li>
                     <li class="sidenav-item li-class">
-                        <a class="sidenav-link" href="upcoming-service.html"><span>Service Schedule</span></a>
+                        <a class="sidenav-link" href="upcoming-services"><span>Upcoming Services</span></a>
                     </li>
                     <li class="sidenav-item li-class">
-                        <a class="sidenav-link"><span>Favourite Pros</span></a>
+                        <a class="sidenav-link" href="my-ratings"><span>My Ratings</span></a>
+                    </li>
+                    <li class="sidenav-item li-class">
+                        <a class="sidenav-link" href="block-customer"><span>Block Customers</span></a>
                     </li>
                     <li class="sidenav-item li-class">
                         <a class="sidenav-link"><span>Invoices</span></a>
@@ -42,8 +45,8 @@
                                         History </span></a>
                             </li>
                             <li class="nav-item left-margin right-margin invisible2">
-                                <a class="nav-link" aria-current="page" href="index.html"><span class="nav-li">Service
-                                        Schedule </span></a>
+                                <a class="nav-link" aria-current="page" href="index.html"><span class="nav-li">Upcoming
+                                        Services </span></a>
                             </li>
                             <li class="nav-item left-margin right-margin invisible2">
                                 <a class="nav-link" aria-current="page" href="index.html"><span class="nav-li">Favourite

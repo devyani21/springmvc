@@ -49,7 +49,7 @@
 							<div class="border-top"></div>
 						</div>
 					</div>
-					<div class="row mb-2">
+					<div class="row mb-2" id="customebuttons">
 						<div class="col-lg-6 col">
 							<button data-bs-toggle="modal" data-bs-target="#rescheduleModal" class="btn btn-primary" id="yesbutton">Reschedule</button>
 						</div>

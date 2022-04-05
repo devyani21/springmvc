@@ -102,7 +102,7 @@ public class CustomerController {
 					//System.out.println("service_req_id is");
 					ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
 					srAddress.add(a);
-					if(i.getUser_id() != i.getService_provider_id()) {
+					if((i.getUser_id() != i.getService_provider_id()) && (i.getService_provider_id() != 0)) {
 						User userSP = userService.getUserByUserId(i.getService_provider_id());
 						users.add(userSP);
 						int avgRating = avgRatingCount(i.getService_provider_id());
@@ -119,6 +119,7 @@ public class CustomerController {
 			for(int key : spRating.values()) {
 				System.out.println(key);
 			}
+			System.out.println("size of spRating:- "+ spRating.size());
 			System.out.println("spRating :-"+ spRating);
 			//System.out.println(users);
 			model.addAttribute("servicerequests", sr);

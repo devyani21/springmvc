@@ -2,6 +2,7 @@ package helperland_springmvc.dao;
 
 import java.util.List;
 
+import helperland_springmvc.model.FavouriteBlocked;
 import helperland_springmvc.model.Login;
 import helperland_springmvc.model.User;
 import helperland_springmvc.model.UserAddress;
@@ -24,4 +25,13 @@ public interface UserDao {
 	void updateCustomerAddress(UserAddress useraddress);
 	void deleteCustomerAddress(int address_id);
 	User getUserByUserId(int userid);
+	List<FavouriteBlocked> getFavBlockByUserId(int user_id);
+	FavouriteBlocked getFavBlockByUserIdAndTargetUserId(int user_id, int id);
+	void addFavBlock(FavouriteBlocked newFavBlock);
+	FavouriteBlocked getFavBlockById(int id);
+	void updateFavBlock(FavouriteBlocked favBlock);
+	List<User> getAllUser();
+	List<UserAddress> getAllUserAddress();
+	void updateUser(User userToModify);
+	void approveUser(User userToModify);
 }

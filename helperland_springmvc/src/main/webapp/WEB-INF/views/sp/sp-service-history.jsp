@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard</title>
+<title>Service History</title>
 
 <c:set var="usertypeid" value="${userinfo.user_type_id }" />
 <c:set var="sr" value="${servicerequests }" />
@@ -33,7 +33,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <link rel="stylesheet"
-	href="<c:url value='/resources/css/customer-dashboard.css' />" />
+	href="<c:url value='/resources/css/customer-service-history.css' />" />
 </head>
 
 <body>
@@ -48,8 +48,7 @@
 		<%@ include file="../modals/rescheduleServiceModal.jsp" %>
 		<%@ include file="../modals/rescheduleModal.jsp" %>
 		<%@ include file="../modals/cancelModal.jsp" %>
-		<%@ include file="../modals/acceptModal.jsp" %>
-		<%@ include file="../modals/Conflict.jsp" %>
+		<%@ include file="../modals/rateSPModal.jsp" %>
 		<section class="welcome">
 			<div class="container">
 				<div class="row">
@@ -64,30 +63,17 @@
 
 	<section>
 		<div class="container table-container w-75">
-		<div class="row">
-			<div>
-				<form class="d-flex" id="include_pets_form" method="get" action="sp-dashboard">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <input type="checkbox" class="me-2" name="pets" id = "include_pets" <c:if test="${sr_type == 1}">checked</c:if> value="1">
-                            <input type="checkbox" class="me-2 d-none" name="pets" id = "include_pets_hidden" value="0">
-                            <label for="pets" style="font-size: 14px;">Include Pet at home</label>
-                        </div>
-                    </form>
-			</div>
-		</div>
 			<table id="example" class="table" style="width: 100%">
 				<thead>
 					<tr>
 						<th>Service Id</th>
 						<th>Service Details</th>
 						<th>Customer Details</th>
-						<th>Payment</th>
-						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="sr" items="${servicerequests}" varStatus="i">
-						<tr onClick="rescheduleService(${sr.service_req_id})" style="cursor:pointer;">
+						<tr data-bs-toggle="modal" data-bs-target="#rescheduleServiceModal" onClick="rescheduleService(${sr.service_req_id})">
 							<td>${sr.service_id }</td>
 							<td>
 								<div>
@@ -100,11 +86,11 @@
 								<div>
 									<img
 										src="<c:url value='/resources/img/customer/clock-icon.png' />"
-										alt="" class="calender-icon"><span><span id="starttime${i.index }"></span>-<span id="endTime${i.index }"></span></span></span>
+										alt="" class="calender-icon"><span><span id="starttime${i.index }"></span>
+										- <span id="endTime${i.index }"></span></span>
 								</div>
 							</td>
 							<td>
-
 								<div style="display: inline-block; margin-top: 20px">
 									<c:forEach var="u" items="${users }">
 										<c:if test="${u.user_id == sr.user_id}">
@@ -130,16 +116,6 @@
 								</div>
 								
 
-							</td>
-							<td><span class="payment"> <span class="text-style-1">$
-								</span>${sr.total_cost }
-							</span></td>
-							<td>
-							
-							<button type="button" class="btn btn-success"
-									 onClick="acceptservicefun(${sr.service_req_id})">Accept</button>
-						
-							<!--<c:if test="${sr.status == 3 }"><span class="text-success">Accepted</span></c:if>-->
 							</td>
 						</tr>
 					</c:forEach>
@@ -180,29 +156,14 @@
 			});
 		});
 	</Script>
-	<script type="text/javascript">
-		$("a").on("click", function() {
-			$("a").removeClass("active");
-			$(this).addClass("active");
-		});
-	</script>
-	
 	
 	<script>
     
     	$(document).ready(function() {
     		
-    		$("#include_pets").val(1);
-    		<c:if test="${sr_type == all} ">
-	    		$("#include_pets").attr('checked' , true);	
-    		</c:if>
-    		<c:if test="${sr_type == filtered} ">
-	    		$("#include_pets").attr('checked' , false);	
-			</c:if>
-    		
     		<c:forEach var="sr" items="${servicerequests }" varStatus="i">
     			
-	    		var d = new Date("${sr.service_start_date}"+" "+"${sr.service_start_time}");
+	    		var d = new Date("${sr.service_start_date}" + " " + "${sr.service_start_time}");
 				var t1 = d.getHours()+"."+d.getMinutes();
 				var var1 = d.getHours().toString();
 				var var2 = d.getMinutes().toString();
@@ -228,57 +189,7 @@
     	})
     	
     </script>
-    
-    <script type="text/javascript">
-    
-    function acceptservicefun(id){
-		$.ajax({
-			url : "/helperland_springmvc/accept-service/"+id,
-			type : "GET",
-			contentType : "application/json",
-			success : function(data,textStatus,jqXHR) {
-				console.log(data);
-				if(data == "updated"){
-					$("#setstatus").html("Service Accepted!!");
-					$("#acceptModal").modal('show'); 
-				}
-				if(data.substring(0 , 8) == "conflict"){
-					$("#conflict").modal('show');
-					$("#conflictmsg").html("Another service request # <b>" + data.substring(8 , data.length) + " </b> has already been assigned which has time overlap with this service request. You can’t pick this one!");
-				}
-				if(data == "expired"){
-					$("#conflict").modal('show');
-					$("#conflictmsg").html("This service request is expired");
-				}
-				if(data == "already accepted"){
-					$("#conflict").modal('show');
-					$("#conflictmsg").html("Sorry, This ServiceRequest is already accepted by another Service Provicer.");	
-				}
-			},
-			error : function(data) {
-				alert("some error occured");
-			}
-		})
-		
-	}
-    
-    $("#include_pets").on("change" , function(){
-			if (this.checked == true)
-				{
-	            	$(this).val("1");
-	            	$("#include_pets_hidden").attr('checked' , false);	
-				} 
-	        else{
-	        	$("#include_pets_hidden").attr('checked' , true);
-	        }
-			$("#include_pets_form").submit();     			
-	})
 	
-    </script>
-    
-    <script>
-    
-    </script>
 	
     	
     	<script>
@@ -293,6 +204,7 @@
  				crossDomain : true,
  				success : function(data,textStatus,jqXHR) {
  					console.log(data);
+ 					$("#customebuttons").css("display","none");
  					var d = new Date(data[0].service_start_date);
 					var date1 = d.getDate() + "/" + (d.getMonth() + 1 ) + "/" + d.getFullYear();
 					if(d.getMinutes() == 0){
@@ -350,30 +262,23 @@
 					}
 					$("#rextras").html(extraServices);
 					
-					
-					if(!$.trim(data[1])){
-						$("#rserviceaddress").html("No Address Details");
+					if(data[1].state != null){
+						$("#rserviceaddress").html(" "+data[1].address_line1 + " " + data[1].address_line2 + ", "+data[1].postal_code +" "+data[1].city+" "+data[1].state);
 					}
-					else{
-						if(data[1].state != null){
-							$("#rserviceaddress").html(" "+data[1].address_line1 + " " + data[1].address_line2 + ", "+data[1].postal_code +" "+data[1].city+" "+data[1].state);
-						}
-						if(data[1].state == null){
-							$("#rserviceaddress").html(" "+data[1].address_line1 + " " + data[1].address_line2 + ", "+data[1].postal_code +" "+data[1].city);
-						}
-						if(data[1].mobile != null){
-							$("#rphone").html(" "+data[1].mobile);
-						}
-						if(data[1].email != null){
-							$("#remail").html(" "+data[1].email);
-						}
+					if(data[1].state == null){
+						$("#rserviceaddress").html(" "+data[1].address_line1 + " " + data[1].address_line2 + ", "+data[1].postal_code +" "+data[1].city);
+					}
+					if(data[1].mobile != null){
+						$("#rphone").html(" "+data[1].mobile);
+					}
+					if(data[1].email != null){
+						$("#remail").html(" "+data[1].email);
 					}
  					//$("#address_line1").val(data.address_line1);
  					//$("#address_line2").val(data.address_line2);
  					//$("#postal_code").val(data.postal_code);
  					//$("#mobile").val(data.mobile);
  					//$("#city").val(data.city);
- 					$("#rescheduleServiceModal").modal('show');
  				},
  				error : function(xml, textStatus, xhr) {
  					alert("Some error occured");
@@ -382,132 +287,6 @@
     	 }
     	
     	</script>
-    	
-    	<script>
-    	function rescheduleServiceFun(id){
-    		console.log(id);
-    		jQuery(document).ready(function($) {
-				$("#rescheduleserviceform").submit(function(event) {
-					event.preventDefault();
-					rescheduleserviceformfun(id);
-				});
-			});
-    	}
-    	function rescheduleserviceformfun(id) {
-    		console.log(id);
-    		console.log($("#rescheduleserviceform").serialize());
-			$
-					.ajax({
-						type : "POST",
-						url : "/helperland_springmvc/service-reschedule/"+id,
-						data : $("#rescheduleserviceform").serialize(),
-						success : function(data,textStatus,jqXHR) {
-							console.log("SUCCESS: ", data);
-							location.reload();
-							//document.getElementById('successmessage').innerHTML = 'successmessage';
-							//$('#nav-profile-tab').click();
-							//$("#editaddressmodalclose").click();
-						},
-						error : function(e) {
-							console.log("ERROR: ", e);
-							alert("some error occurred");
-						},
-						done : function(e) {
-							console.log("Done");
-						}
-					});
-		}
-    	
-    	</script>
- 
-    	<script>
-    		function cancelServiceFun(id){
-    			console.log(id);
-        		jQuery(document).ready(function($) {
-    				$("#cancelservicereqform").submit(function(event) {
-    					event.preventDefault();
-    					cancelserviceformfun(id);
-    				});
-    			});
-    		}
-    		
-    		function cancelserviceformfun(id) {
-        		console.log(id);
-        		console.log($("#cancelservicereqform").serialize());
-    			$
-    					.ajax({
-    						type : "POST",
-    						url : "/helperland_springmvc/service-cancel/"+id,
-    						data : $("#cancelservicereqform").serialize(),
-    						success : function(data,textStatus,jqXHR) {
-    							console.log("SUCCESS: ", data);
-    							location.reload();
-    							//document.getElementById('successmessage').innerHTML = 'successmessage';
-    							//$('#nav-profile-tab').click();
-    							//$("#editaddressmodalclose").click();
-    						},
-    						error : function(e) {
-    							console.log("ERROR: ", e);
-    							alert("some error occurred");
-    						},
-    						done : function(e) {
-    							console.log("Done");
-    						}
-    					});
-    		}
-    	</script>
-    	
-    	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					var date = new Date();
-					var year = date.getFullYear();
-					var month = ("0" + (date.getMonth() + 1)).slice(-2);
-					var todayDate = ("0" + date.getDate()).slice(-2);
-					var datePattern = year + '-' + month + '-' + todayDate;
-					$("#nservicestartdate").attr('min', datePattern);
-					console.log(datePattern);
-					$("#nservicestartdate").val(datePattern);
-					var newdate = datePattern.slice(8, 10) + "/"
-							+ datePattern.slice(5, 7) + "/"
-							+ datePattern.slice(0, 4);
-					console.log(newdate);
-					//$("#servicestartdatevalue").html(newdate);
-
-					document.getElementById('nservicestartdate')
-							.addEventListener(
-									'change',
-									function() {
-										newdate = (this.value).slice(8, 10)
-												+ "/"
-												+ (this.value).slice(5, 7)
-												+ "/"
-												+ (this.value).slice(0, 4);
-										var newdatevalue = (this.value).slice(
-												0, 4)
-												+ "-"
-												+ (this.value).slice(5, 7)
-												+ "-"
-												+ (this.value).slice(8, 10);
-										//$("#servicestartdatevalue").html(
-												//newdate);
-										//$("#servicedatetime").show();
-										$("#nservicestartdate")
-												.val(newdatevalue);
-									});
-
-					//console.log($("select#servicestarttime").val());
-					//$("#servicestarttimevalue").html(servicestarttime.value);
-
-					//$("select#servicestarttime").change(function() {
-						//$("#servicestarttimevalue").html(this.value);
-					//})
-				});
-	</script>
-		
-    	
-
-
 
 </body>
 

@@ -31,6 +31,9 @@ public class RegistrationController {
 	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user) {
 		if(userService.preventDuplicateEmail(user)) {
 			user.setUser_type_id(1);
+			user.setIs_active(1);
+			user.setIs_approved(1);
+			user.setIs_deleted(0);
 			userService.register(user);
 			System.out.println("addUser..");
 			return new ModelAndView("registerProcess", "first_name", user.getFirst_name());
@@ -54,6 +57,9 @@ public class RegistrationController {
 	public ModelAndView addServiceProvider(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user) {
 		if(userService.preventDuplicateEmail(user)) {
 			user.setUser_type_id(2);
+			user.setIs_active(0);
+			user.setIs_approved(0);
+			user.setIs_deleted(0);
 			userService.register(user);
 			System.out.println("addUser..");
 			return new ModelAndView("registerProcess", "first_name", user.getFirst_name());

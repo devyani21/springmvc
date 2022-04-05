@@ -47,6 +47,10 @@ public class User {
 	
 	private String postal_code;
 	
+	private int is_approved;
+	private int is_active;
+	private int is_deleted;
+	
 	public int getUser_id() {
 		return user_id;
 	}
@@ -130,12 +134,33 @@ public class User {
 	public void setPostal_code(String postal_code) {
 		this.postal_code = postal_code;
 	}
+	
+	public int getIs_approved() {
+		return is_approved;
+	}
+	public void setIs_approved(int is_approved) {
+		this.is_approved = is_approved;
+	}
+	public int getIs_active() {
+		return is_active;
+	}
+	public void setIs_active(int is_active) {
+		this.is_active = is_active;
+	}
+	public int getIs_deleted() {
+		return is_deleted;
+	}
+	public void setIs_deleted(int is_deleted) {
+		this.is_deleted = is_deleted;
+	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public User(int user_id, String first_name, String last_name, String mobile, String email, String password,
-			Date created_date, int user_type_id, String resetToken, Date date_of_birth, Date modified_date, int modified_by,String postal_code) {
+	
+public User(int user_id, String first_name, String last_name, String mobile, String email, String password,
+			Date created_date, int user_type_id, String resetToken, Date date_of_birth, Date modified_date,
+			int modified_by, String postal_code, int is_approved, int is_active, int is_deleted) {
 		super();
 		this.user_id = user_id;
 		this.first_name = first_name;
@@ -147,10 +172,12 @@ public class User {
 		this.user_type_id = user_type_id;
 		this.resetToken = resetToken;
 		this.date_of_birth = date_of_birth;
-		
 		this.modified_date = modified_date;
 		this.modified_by = modified_by;
 		this.postal_code = postal_code;
+		this.is_approved = is_approved;
+		this.is_active = is_active;
+		this.is_deleted = is_deleted;
 	}
 //	@Override
 //	public String toString() {
@@ -174,9 +201,9 @@ public class User {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((first_name == null) ? 0 : first_name.hashCode());
 //		result = prime * result + gender;
-//		result = prime * result + is_active;
-//		result = prime * result + is_approved;
-//		result = prime * result + is_deleted;
+		result = prime * result + is_active;
+		result = prime * result + is_approved;
+		result = prime * result + is_deleted;
 //		result = prime * result + is_online;
 //		result = prime * result + is_registered_user;
 		result = prime * result + ((last_name == null) ? 0 : last_name.hashCode());
@@ -225,12 +252,12 @@ public class User {
 			return false;
 //		if (gender != other.gender)
 //			return false;
-//		if (is_active != other.is_active)
-//			return false;
-//		if (is_approved != other.is_approved)
-//			return false;
-//		if (is_deleted != other.is_deleted)
-//			return false;
+		if (is_active != other.is_active)
+			return false;
+		if (is_approved != other.is_approved)
+			return false;
+		if (is_deleted != other.is_deleted)
+			return false;
 //		if (is_online != other.is_online)
 //			return false;
 //		if (is_registered_user != other.is_registered_user)

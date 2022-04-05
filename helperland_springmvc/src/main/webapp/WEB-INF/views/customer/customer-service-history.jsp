@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard</title>
+<title>Service History</title>
 
 <c:set var="usertypeid" value="${userinfo.user_type_id }" />
 <c:set var="sr" value="${servicerequests }" />
@@ -77,9 +77,9 @@
 				</thead>
 				<tbody>
 					<c:forEach var="sr" items="${servicerequests}" varStatus="i">
-						<tr data-bs-toggle="modal" data-bs-target="#rescheduleServiceModal" onClick="rescheduleService(${sr.service_req_id})">
+						<tr>
 							<td>${sr.service_id }</td>
-							<td>
+							<td data-bs-toggle="modal" data-bs-target="#rescheduleServiceModal" onClick="rescheduleService(${sr.service_req_id})">
 								<div>
 									<img
 										src="<c:url value='/resources/img/customer/calender-icon.png' />"
@@ -288,7 +288,6 @@
         function ratingModalFun(srID , spID){
         	$('#ratingTo').val(spID); 
         	$('#ratingServiceReqId').val(srID);
-        	event.preventDefault();
         	
         	$.ajax({
 				url : '/helperland_springmvc/service-rating-data/'+srID,
@@ -298,9 +297,10 @@
 					console.log(data);
 					if(!$.trim(data)){
 						alert("You have already rated this service");
-						//$("#alreadyRatedModal").modal('show');
+
 					}
 					else{
+						$("#rateSpModal").modal('show');
 						$("#ratingSpName").html(data[0].first_name + " " + data[0].last_name);
 						
 						if(data[1] == 0){
@@ -318,7 +318,7 @@
 						if(data[1] == 4){
 							$("#icon5").css("color" , "#e1e1e1");
 						}
-						$("#rateSpModal").modal('show');
+						
 					}
 					
 					//$("#ratingModalIcon").attr("src" ,  "/helperland/resources/assets/custDash/"  + data[0].user_profile_picture+ ".png "   )

@@ -14,6 +14,7 @@ import helperland_springmvc.model.Rating;
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
 import helperland_springmvc.model.ServiceRequestExtra;
+import helperland_springmvc.model.User;
 
 public class ServiceRequestDaoImpl implements ServiceRequestDao {
 
@@ -26,10 +27,11 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 	//status 1 completed
 	//status 2 cancelled
 	//status 3 accepted
+	//status 4 rescheduled
 	
 	public List<ServiceRequest> getAllPendingRequestByUserId(int userid) {
 		// TODO Auto-generated method stub
-		String sql = "select * from service_request where user_id='"+userid+"'and status='"+0+"'";
+		String sql = "select * from service_request where user_id='"+userid+"'and (status='"+0+"' or status='"+3+"')";
 		List<ServiceRequest> sr = jdbcTemplate.query(sql, new ServiceRequestMapper());
 		System.out.println(sr.size());
 		return sr.size()>0 ? sr : null;
@@ -68,7 +70,7 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 
 		String currentdate = sdf.format(dt);
 		String service_start_date = sdf.format(serviceRequest.getService_start_date());
-		String sql = "update service_request set service_start_date='"+service_start_date+"',service_start_time='"+serviceRequest.getService_start_time()+"',modified_by='"+serviceRequest.getModified_by()+"',modified_date='"+currentdate+"'where service_req_id='"+service_req_id+"'and status='"+0+"'";
+		String sql = "update service_request set service_start_date='"+service_start_date+"',service_start_time='"+serviceRequest.getService_start_time()+"',modified_by='"+serviceRequest.getModified_by()+"',modified_date='"+currentdate+"'where service_req_id='"+service_req_id+"'";
 		jdbcTemplate.update(sql);
 		System.out.println("rescheduled successfully...");
 	}
@@ -81,7 +83,8 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String currentdate = sdf.format(dt);
-		String sql = "update service_request set status='"+serviceRequest.getStatus()+"',modified_by='"+serviceRequest.getModified_by()+"',modified_date='"+currentdate+"',has_issues='"+serviceRequest.getHas_issues()+"'where service_req_id='"+service_req_id+"'and status='"+0+"'";
+		System.out.println("cancel-service:- "+ serviceRequest.toString());
+		String sql = "update service_request set status='"+serviceRequest.getStatus()+"',modified_by='"+serviceRequest.getModified_by()+"',modified_date='"+currentdate+"',has_issues='"+serviceRequest.getHas_issues()+"'where service_req_id='"+service_req_id+"'";
 		jdbcTemplate.update(sql);
 		System.out.println("cancelled successfully...");
 	}
@@ -89,7 +92,7 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 	@Override
 	public List<ServiceRequest> getServiceRequestHistoryByUserId(int userid) {
 		// TODO Auto-generated method stub
-		String sql = "select * from service_request where user_id='"+userid+"'and status='"+1+"'or status='"+2+"'";
+		String sql = "select * from service_request where user_id='"+userid+"'and (status='"+1+"'or status='"+2+"')";
 		List<ServiceRequest> sr = jdbcTemplate.query(sql, new ServiceRequestMapper());
 		System.out.println(sr.size());
 		return sr.size()>0 ? sr : null;
@@ -117,14 +120,14 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		// TODO Auto-generated method stub
 		String sql = "select * from rating where rating_to='"+ service_provider_id+"'";
 		List<Rating> ratings = jdbcTemplate.query(sql, new RatingMapper());
-		return ratings;
+		return ratings.size() >0 ? ratings : null;
 	}
 	
 	@Override
 	public List<ServiceRequest> getAllServiceRequestByPostalCode(String postalcode) {
 		// TODO Auto-generated method stub
 		System.out.println(postalcode);
-		String query = "select * from service_request where zip_code='"+postalcode+"' and status='"+0+"'and has_pets='"+1+"' or status='"+3+"'";
+		String query = "select * from service_request where (zip_code='"+postalcode+"'and has_pets='"+1+"') and (status='"+0+"'or status='"+3+"')";
 		List<ServiceRequest> sr = jdbcTemplate.query(query, new ServiceRequestMapper());
 		System.out.println("ServiceRequestDaoImpl"+ sr.toString());
 		return sr.size()>0 ? sr : null;
@@ -134,7 +137,7 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 	public List<ServiceRequest> getAllServiceRequestByPostalCodeHavingNoPets(String postalcode) {
 		// TODO Auto-generated method stub
 		System.out.println(postalcode);
-		String query = "select * from service_request where zip_code='"+postalcode+"' and status='"+0+"'and has_pets='"+0+"'or status='"+3+"'";
+		String query = "select * from service_request where (zip_code='"+postalcode+"'and has_pets='"+0+"') and (status='"+0+"'or status='"+3+"')";
 		List<ServiceRequest> sr = jdbcTemplate.query(query, new ServiceRequestMapper());
 		System.out.println("ServiceRequestDaoImpl"+ sr.toString());
 		return sr.size()>0 ? sr : null;
@@ -143,7 +146,7 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 	@Override
 	public List<ServiceRequest> getServiceRequestBySPIdAndStatus(int user_id, int status) {
 		// TODO Auto-generated method stub
-		String query = "select * from service_request where service_provider_id='"+user_id+"'and status='"+status+"'or status='"+2+"'";
+		String query = "select * from service_request where service_provider_id='"+user_id+"'and status='"+status+"'";
 		List<ServiceRequest> sr = jdbcTemplate.query(query, new ServiceRequestMapper());
 		return sr.size()>0 ? sr:null;
 	}
@@ -157,8 +160,64 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		String modified_date = sdf.format(sr.getModified_date());
 		System.out.println(sr.toString());
 		String query = "update service_request set service_provider_id='"+sr.getService_provider_id()+"',sp_accepted_date='"+sp_accepted_date+"',status='"+sr.getStatus()+"',modified_date='"+modified_date+"',modified_by='"+sr.getModified_by()+"' where service_req_id='"+sr.getService_req_id()+"'";
-		jdbcTemplate.batchUpdate(query);
+		jdbcTemplate.update(query);
 		System.out.println("Status updated successfully..");
+	}
+	
+
+	public void serviceRequestComplete(User userinfo, int service_req_id) {
+		// TODO Auto-generated method stub
+				java.util.Date dt = new java.util.Date();
+
+				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				String currentdate = sdf.format(dt);
+				//System.out.println("serviceRequestDaoImpl:- "+serviceRequest.toString());
+				String sql = "update service_request set status='"+1+"',modified_by='"+userinfo.getUser_type_id()+"',modified_date='"+currentdate+"'where service_req_id='"+service_req_id+"'and status='"+3+"'";
+				jdbcTemplate.update(sql);
+				System.out.println("completed successfully...");
+	}
+
+	@Override
+	public List<ServiceRequest> getServiceRequestBySPIdWhichArePending(int user_id, int status) {
+		// TODO Auto-generated method stub
+		String query = "select * from service_request where service_provider_id='"+user_id+"'and (status='"+status+"' or status='"+3+"')";
+		List<ServiceRequest> sr = jdbcTemplate.query(query, new ServiceRequestMapper());
+		return sr.size()>0 ? sr:null;
+	}
+	
+	@Override
+	public List<ServiceRequest> getServiceRequestHistoryBySPId(int sp_id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from service_request where service_provider_id='"+sp_id+"'and (status='"+1+"'or status='"+2+"')";
+		List<ServiceRequest> sr = jdbcTemplate.query(sql, new ServiceRequestMapper());
+		System.out.println(sr.size());
+		return sr.size()>0 ? sr : null;
+	}
+	
+	@Override
+	public List<ServiceRequest> getServiceRequestBySPId(int sp_id) {
+		// TODO Auto-generated method stub
+		String sql = "select * from service_request where service_provider_id='"+sp_id+"'";
+		List<ServiceRequest> sr = jdbcTemplate.query(sql, new ServiceRequestMapper());
+		System.out.println(sr.size());
+		return sr.size()>0 ? sr : null;
+	}
+
+	@Override
+	public List<ServiceRequest> getAllServiceRequests() {
+		// TODO Auto-generated method stub
+		String sql = "select * from service_request";
+		List<ServiceRequest> allsr = jdbcTemplate.query(sql, new ServiceRequestMapper());
+		return allsr.size()>0?allsr:null;
+	}
+	
+	@Override
+	public void updateServiceRequestAddress(ServiceRequestAddress srAddress) {
+		// TODO Auto-generated method stub
+		String sql = "update service_request_address set address_line1='"+srAddress.getAddress_line1()+"',address_line2='"+srAddress.getAddress_line2()+"',postal_code='"+srAddress.getPostal_code()+"',city='"+srAddress.getCity()+"'where service_req_id='"+srAddress.getService_req_id()+"'";
+		jdbcTemplate.update(sql);
+		System.out.println("SR Address updated successfully");
 	}
 
 	
@@ -231,6 +290,15 @@ public class ServiceRequestDaoImpl implements ServiceRequestDao {
 		}
 	}
 
+	
+
+	
+	
+
+	
+	
+	
+	
 	
 	
 

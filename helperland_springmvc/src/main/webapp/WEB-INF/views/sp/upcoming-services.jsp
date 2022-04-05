@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard</title>
+<title>Upcoming Services</title>
 
 <c:set var="usertypeid" value="${userinfo.user_type_id }" />
 <c:set var="sr" value="${servicerequests }" />
@@ -46,9 +46,8 @@
 			<%@ include file="../headers/SP-header.jsp"%>
 		</c:if>
 
-		<%@ include file="../modals/rescheduleServiceModal.jsp" %>
-		<%@ include file="../modals/rescheduleModal.jsp" %>
 		<%@ include file="../modals/cancelModal.jsp" %>
+		<%@ include file="../modals/completeModal.jsp" %>
 		<section class="welcome">
 			<div class="container">
 				<div class="row">
@@ -68,9 +67,9 @@
 					<tr>
 						<th>Service Id</th>
 						<th>Service Details</th>
-						<th>Service Provider</th>
+						<th>Customer Details</th>
 						<th>Payment</th>
-						<th>Actions</th>
+						<th style="text-align:center;">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -92,88 +91,46 @@
 								</div>
 							</td>
 							<td>
-
-								<div style="display: inline-block; margin-top: 17px">
+								<div style="display: inline-block; margin-top: 20px">
 									<c:forEach var="u" items="${users }">
-										<c:if test="${u.user_id == sr.service_provider_id}">
-											<img src="<c:url value='/resources/img/customer/cap.png' />"
+										<c:if test="${u.user_id == sr.user_id}">
+											<img src="<c:url value='/resources/img/customer/house-icon.png' />"
 												class="cap">
 										</c:if>
 									</c:forEach>
 								</div>
 								<div
-									style="display: block; margin-left: 35px; margin-top: -40px">
+									style="display: block; margin-left: 35px; margin-top: -40px;text-transform: capitalize">
 									<c:forEach var="u" items="${users }">
-										<c:if test="${u.user_id == sr.service_provider_id}">${u.first_name } ${u.last_name }
+										<c:if test="${u.user_id == sr.user_id}">${u.first_name } ${u.last_name }
 		                                        		</c:if>
 									</c:forEach>
 									<div>
-									<c:forEach items="${spRating}" var="spRating">
-													        <c:if test="${spRating.key == sr.service_provider_id }">
-													        	<c:if test="${spRating.value == 0}">
-													        		<span class="icon" id="icon1" style="color: #e1e1e1">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 1}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 2}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #e1e1e1">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 3}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #e1e1e1">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 4}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #ECB91C">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #e1e1e1">&bigstar;</span>	
-													        	</c:if>	
-													        	<c:if test="${spRating.value == 5}">
-													        		<span class="icon" id="icon1" style="color: #ECB91C">&bigstar;</span>
-													        		<span class="icon" id="icon2" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon3" style="color: #ECB91C">&bigstar;</span>
-							                                    	<span class="icon" id="icon4" style="color: #ECB91C">&bigstar;</span>
-				                                    				<span class="icon" id="icon5" style="color: #ECB91C">&bigstar;</span>	
-													        	</c:if>	
-			                                                	<p class="mb-0">${spRating.value }</p>
-													        </c:if>
-													    </c:forEach>
-													   
-													    </div>
-									<!--<div>
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                    <img src="<c:url value='/resources/img/customer/star.png' />" alt="" class="star">
-                                </div>-->
+									<c:forEach var="sra" items="${srAddress }">
+	                                            		<c:if test="${sr.service_req_id == sra.service_req_id }">
+	                                            			${sra.address_line1 } ${sra.address_line2 } 
+	                                            			<div>${sra.postal_code } ${sra.city }</div>
+	                                            		</c:if>
+	                                </c:forEach>
+	                                </div>
 								</div>
 
 							</td>
 							<td><span class="payment"> <span class="text-style-1">$
 								</span>${sr.total_cost }
 							</span></td>
-							<td><button type="button" class="btn btn-success"
-									data-bs-toggle="modal" data-bs-target="#rescheduleModal" onClick="rescheduleServiceFun(${sr.service_req_id})">Reschedule</button>
+							<td style="text-align:center;">
+							<c:choose>
+							<c:when test = "${fn:contains(completeId, sr.service_req_id)}">
+								<button type="button" class="btn btn-success"
+								 onClick="completeServiceFun(${sr.service_req_id},${sr.service_id })">Complete</button>
+							</c:when>
+							<c:otherwise>
 								<button type="button" class="btn btn-danger rate"
-									data-bs-toggle="modal" data-bs-target="#cancelModal" onClick="cancelServiceFun(${sr.service_req_id})">Cancel</button></td>
+									data-bs-toggle="modal" data-bs-target="#cancelModal" onClick="cancelServiceFun(${sr.service_req_id})">Cancel</button>
+							</c:otherwise>
+						</c:choose>
+						</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -348,47 +305,11 @@
     	 }
     	
     	</script>
-    	
-    	<script>
-    	function rescheduleServiceFun(id){
-    		console.log(id);
-    		jQuery(document).ready(function($) {
-				$("#rescheduleserviceform").submit(function(event) {
-					event.preventDefault();
-					rescheduleserviceformfun(id);
-				});
-			});
-    	}
-    	function rescheduleserviceformfun(id) {
-    		console.log(id);
-    		console.log($("#rescheduleserviceform").serialize());
-			$
-					.ajax({
-						type : "POST",
-						url : "/helperland_springmvc/service-reschedule/"+id,
-						data : $("#rescheduleserviceform").serialize(),
-						success : function(data,textStatus,jqXHR) {
-							console.log("SUCCESS: ", data);
-							location.reload();
-							//document.getElementById('successmessage').innerHTML = 'successmessage';
-							//$('#nav-profile-tab').click();
-							//$("#editaddressmodalclose").click();
-						},
-						error : function(e) {
-							console.log("ERROR: ", e);
-							alert("some error occurred");
-						},
-						done : function(e) {
-							console.log("Done");
-						}
-					});
-		}
-    	
-    	</script>
  
     	<script>
     		function cancelServiceFun(id){
     			console.log(id);
+    			console.log("calling cancel service....");
         		jQuery(document).ready(function($) {
     				$("#cancelservicereqform").submit(function(event) {
     					event.preventDefault();
@@ -423,53 +344,45 @@
     		}
     	</script>
     	
-    	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					var date = new Date();
-					var year = date.getFullYear();
-					var month = ("0" + (date.getMonth() + 1)).slice(-2);
-					var todayDate = ("0" + date.getDate()).slice(-2);
-					var datePattern = year + '-' + month + '-' + todayDate;
-					$("#nservicestartdate").attr('min', datePattern);
-					console.log(datePattern);
-					$("#nservicestartdate").val(datePattern);
-					var newdate = datePattern.slice(8, 10) + "/"
-							+ datePattern.slice(5, 7) + "/"
-							+ datePattern.slice(0, 4);
-					console.log(newdate);
-					//$("#servicestartdatevalue").html(newdate);
-
-					document.getElementById('nservicestartdate')
-							.addEventListener(
-									'change',
-									function() {
-										newdate = (this.value).slice(8, 10)
-												+ "/"
-												+ (this.value).slice(5, 7)
-												+ "/"
-												+ (this.value).slice(0, 4);
-										var newdatevalue = (this.value).slice(
-												0, 4)
-												+ "-"
-												+ (this.value).slice(5, 7)
-												+ "-"
-												+ (this.value).slice(8, 10);
-										//$("#servicestartdatevalue").html(
-												//newdate);
-										//$("#servicedatetime").show();
-										$("#nservicestartdate")
-												.val(newdatevalue);
-									});
-
-					//console.log($("select#servicestarttime").val());
-					//$("#servicestarttimevalue").html(servicestarttime.value);
-
-					//$("select#servicestarttime").change(function() {
-						//$("#servicestarttimevalue").html(this.value);
-					//})
-				});
-	</script>
+    	<script>
+    		function completeServiceFun(id,service_id){
+    			console.log(id);
+    			console.log("calling complete service fun....");
+        		jQuery(document).ready(function($) {
+        			$("#completeModal").modal('show');
+        			$("#completemsg").html(service_id);
+    				$("#completeservicereqform").submit(function(event) {
+    					event.preventDefault();
+    					completeserviceformfun(id);
+    				});
+    			});
+    		}
+    		
+    		function completeserviceformfun(id) {
+        		console.log(id);
+        		console.log($("#completeservicereqform").serialize());
+    			$
+    					.ajax({
+    						type : "POST",
+    						url : "/helperland_springmvc/service-complete/"+id,
+    						data : $("#completeservicereqform").serialize(),
+    						success : function(data,textStatus,jqXHR) {
+    							console.log("SUCCESS: ", data);
+    							location.reload();
+    							//document.getElementById('successmessage').innerHTML = 'successmessage';
+    							//$('#nav-profile-tab').click();
+    							//$("#editaddressmodalclose").click();
+    						},
+    						error : function(e) {
+    							console.log("ERROR: ", e);
+    							alert("some error occurred");
+    						},
+    						done : function(e) {
+    							console.log("Done");
+    						}
+    					});
+    		}
+    	</script>
     	
 
 

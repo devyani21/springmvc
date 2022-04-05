@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sun.istack.logging.Logger;
 
 import helperland_springmvc.model.User;
+import helperland_springmvc.model.FavouriteBlocked;
 import helperland_springmvc.model.Rating;
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
@@ -84,7 +85,7 @@ public class SPController {
 }
 	
 	@RequestMapping(value="/sp-dashboard")
-	public String showCustomerDashboard(HttpServletRequest request, HttpServletResponse response, Model model,@RequestParam(value="pets",defaultValue="1") int pets) {
+	public String showSPDashboard(HttpServletRequest request, HttpServletResponse response, Model model,@RequestParam(value="pets",defaultValue="1") int pets) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userinfo") != null) {
 			User userinfo = (User)session.getAttribute("userinfo");
@@ -153,20 +154,26 @@ public class SPController {
 	
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value="/accept-service/{service_req_id}", method=RequestMethod.GET)
-	public @ResponseBody String acceptServiceRequest(@PathVariable int service_req_id, HttpServletRequest request) {
+	public @ResponseBody String acceptServiceRequest(@PathVariable int service_req_id, HttpServletRequest request) throws ParseException {
 		System.out.println("accept-service :- " + service_req_id);
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userinfo") != null) {
 			User userinfo = (User)session.getAttribute("userinfo");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			ServiceRequest sr = serviceRequestService.getServiceRequestById(service_req_id);
-			List<ServiceRequest> allRequestsOfSp = serviceRequestService.getServiceRequestBySPIdAndStatus(userinfo.getUser_id() , 0);
+			sr.setService_start_date(sdf.parse(sr.getService_start_date() + " " + sr.getService_start_time()));
+			System.out.println("sr:- "+ sr.getService_start_date());
+			List<ServiceRequest> allRequestsOfSp = serviceRequestService.getServiceRequestBySPIdWhichArePending(userinfo.getUser_id() , 0);
+			System.out.println("allRequestsofSP:- "+ allRequestsOfSp);
 			if(allRequestsOfSp != null) {
 				System.out.println("if condition");
+				
 				Date todayDate = new Date();
 				for(ServiceRequest i: allRequestsOfSp) {
-						Date startdate = new Date(i.getService_start_time());
-						System.out.println(startdate);
-						long a = startdate.getTime();
+						String s = i.getService_start_date() + " " + i.getService_start_time();
+						Date sdate = sdf.parse(s);
+						System.out.println(sdate);
+						long a = sdate.getTime();
 						Date startDate = new Date(a);
 						Date endDate = new Date(a);
 						
@@ -186,7 +193,7 @@ public class SPController {
 						}	
 						
 						if(sr.getService_start_date().after(startDate) && sr.getService_start_date().before(endDate)) {
-							return "conflict" + i.getService_req_id();
+							return "conflict" + i.getService_id();
 						}
 						
 				}
@@ -196,13 +203,12 @@ public class SPController {
 				if(sr.getStatus() == 3) {
 					return "already accepted";
 				}
-			}
-			else {
+				else {
 					Date dateToday = new Date();
 					
 					sr.setService_provider_id(userinfo.getUser_id());
 					sr.setSp_accepted_date(dateToday);
-					sr.setModified_by(userinfo.getUser_id());
+					sr.setModified_by(userinfo.getUser_type_id());
 					sr.setModified_date(dateToday);
 					sr.setStatus(3);
 					serviceRequestService.updateServiceRequestStatus(sr);
@@ -212,64 +218,267 @@ public class SPController {
 					
 					return "updated";
 				}
+			}
+			
 		}
 		return "false";
 		
 	}
 	
-	/*@RequestMapping(value="/customer-service-history")
-	public String showCustomerServiceHistory(HttpServletRequest request, HttpServletResponse response, Model model) {
+	@RequestMapping(value="/sp-service-history")
+	public String showSPServiceHistory(HttpServletRequest request, HttpServletResponse response, Model model) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userinfo") != null) {
 			User userinfo = (User)session.getAttribute("userinfo");
-			System.out.println("customer dashboard controller...");
-			int userid = userinfo.getUser_id();
-			List<ServiceRequest> sr = serviceRequestService.getServiceRequestHistoryByUserId(userid);
+			System.out.println("sp service history controller...");
+			int sp_id = userinfo.getUser_id();
+			List<ServiceRequest> sr = serviceRequestService.getServiceRequestHistoryBySPId(sp_id);
+			System.out.println(sr);
 			Set<User> users = new HashSet<User>();
 			List<ServiceRequestAddress> srAddress = new ArrayList<ServiceRequestAddress>();
-			Map<Integer, Integer> spRating = new HashMap<Integer, Integer>();
 			users.add(userinfo);
 			if(sr != null) {
 				for(ServiceRequest i : sr) {
-					System.out.println("service_req_id is");
+					System.out.println("service_req_id is"+i.getService_req_id());
 					ServiceRequestAddress a = serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
 					srAddress.add(a);
-					if(i.getUser_id() != i.getService_provider_id()) {
-						User userSP = userService.getUserByUserId(i.getService_provider_id());
-						users.add(userSP);
-						int avgRating = avgRatingCount(i.getService_provider_id());
-						spRating.put(i.getService_provider_id(), avgRating);
-					}
+					System.out.println("user_id is"+i.getUser_id());
+					User customer = userService.getUserByUserId(i.getUser_id());
+					users.add(customer);
 				}
 			}
-//			for(ServiceRequest i:sr) {
-//				String str = i.getService_start_time();
-//				str = str.replaceAll("\\s.*", "");
-//				str = str.replaceAll(":", ".");
-//				i.setService_start_time(str);
-//				System.out.println("str:-" +str);
-//				float service_start_time = Float.parseFloat(str);
-//				System.out.println("service_start_time:-" + service_start_time);
-//				float total_service_time = service_start_time + i.getService_hours() + i.getExtra_hours();
-//				System.out.println("total_service_time:- "+total_service_time);
-//				String newstr = String.valueOf(total_service_time);
-//				System.out.println("newstr= " + newstr);
-//				newstr = newstr.replace(".", ":");
-//				System.out.println("newstr:- " + newstr);
-//				i.setTotal_service_time(newtotalservicetime);	
-//			}
+			System.out.println(users);
 			model.addAttribute("servicerequests", sr);
 			model.addAttribute("users" , users);
 			model.addAttribute("srAddress" , srAddress);
-			model.addAttribute("spRating", spRating);
-			return "/customer/customer-service-history";
+			return "/sp/sp-service-history";
 		}
 		else {
-			return "index";
+			return "redirect:/";
 		}
 	}
 	
-	@RequestMapping(value="/customer-settings")
+	@RequestMapping(value="/upcoming-services")
+	public String showUpcomingServices(HttpServletRequest request, HttpServletResponse response, Model model) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userinfo") != null) {
+			User userinfo = (User)session.getAttribute("userinfo");
+			
+
+			List<ServiceRequest> sr = serviceRequestService.getServiceRequestBySPIdAndStatus(userinfo.getUser_id() , 3);
+			
+			Set<User> users = new HashSet<User>();
+			List<ServiceRequestAddress> srAddress = new ArrayList<ServiceRequestAddress>();
+			
+			users.add(userinfo);
+			
+			for(ServiceRequest i : sr) {
+				ServiceRequestAddress a = this.serviceRequestService.getServiceRequestAddressByServiceRequestId(i.getService_req_id());
+				srAddress.add(a);
+				User userCust = this.userService.getUserByUserId(i.getUser_id());
+				users.add(userCust);
+			}
+			
+			List<Integer> completeId = new ArrayList<Integer>();
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			Date dtToday = new Date();
+			
+			for(ServiceRequest i : sr) {
+				String a = i.getService_start_date() +" "+ i.getService_start_time();
+				System.out.println(a);
+				try {
+					Date sdate = sdf.parse(a);
+					float totalTime = i.getService_hours() + i.getExtra_hours();
+					long k = (long) (sdate.getTime() + (totalTime*3600*1000));
+					
+					Date dcomplete = new Date(k);
+					if(dcomplete.before(dtToday)) {
+						completeId.add(i.getService_req_id());
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			model.addAttribute("servicerequests", sr);
+			model.addAttribute("users" , users);
+			model.addAttribute("srAddress" , srAddress);
+			model.addAttribute("completeId" , completeId);
+			return "sp/upcoming-services";
+		}
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/service-complete/{service_req_id}", method=RequestMethod.POST)
+	public @ResponseBody String completeServiceRequest(@PathVariable int service_req_id, HttpServletRequest request, HttpServletResponse response){
+		System.out.println(service_req_id);
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userinfo") != null) {
+			User userinfo = (User)session.getAttribute("userinfo");
+			serviceRequestService.serviceRequestComplete(userinfo, service_req_id);
+			System.out.println("service-complete");
+			return "true";
+		}
+		return "false";
+	}
+	
+	@RequestMapping("/my-ratings")
+	public String spMyRating(Model model , @RequestParam(value="ratingType" , defaultValue = "all") String ratingType, HttpServletRequest request, HttpServletResponse response) {
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userinfo") != null) {
+			User userinfo = (User)session.getAttribute("userinfo");
+			List<Rating> ratings = serviceRequestService.getRatingsByRatingTo(userinfo.getUser_id());
+			System.out.println(ratings);
+			Set<User> users = new HashSet<User>();
+			List<ServiceRequest> sr = new ArrayList<ServiceRequest>();
+			users.add(userinfo);
+			
+			for(Rating r : ratings) {
+				User userFrom = userService.getUserByUserId(r.getRating_from());
+				users.add(userFrom);
+				
+				ServiceRequest s = serviceRequestService.getServiceRequestById(r.getService_req_id());
+				sr.add(s);
+			}
+			System.out.println(sr);
+			System.out.println(users);
+			model.addAttribute("service_requests" , sr);
+			model.addAttribute("users" , users);
+			
+			List<Rating> ratingsFilteredVeryGood = new ArrayList<Rating>();		
+			List<Rating> ratingsFilteredGood = new ArrayList<Rating>();		
+			List<Rating> ratingsFilteredAverage = new ArrayList<Rating>();		
+			List<Rating> ratingsFilteredPoor = new ArrayList<Rating>();
+			
+			for(Rating r : ratings) {
+				if(r.getRatings() == 5) {
+					ratingsFilteredVeryGood.add(r);
+				}
+				if(r.getRatings() == 4) {
+					ratingsFilteredGood.add(r);
+				}
+				if(r.getRatings() == 3) {
+					ratingsFilteredAverage.add(r);
+				}
+				if(r.getRatings() == 2) {
+					ratingsFilteredPoor.add(r);
+				}
+			}
+			
+			if(ratingType.equals("all")) {
+				model.addAttribute("ratings", ratings);
+				model.addAttribute("typeSelect" , "all");
+			}
+			if(ratingType.equals("verygood")) {
+				model.addAttribute("ratings", ratingsFilteredVeryGood);
+				model.addAttribute("typeSelect" , "verygood");
+			}
+			if(ratingType.equals("good")) {
+				model.addAttribute("ratings", ratingsFilteredGood);
+				model.addAttribute("typeSelect" , "good");
+			}
+			if(ratingType.equals("average")) {
+				model.addAttribute("ratings", ratingsFilteredAverage);
+				model.addAttribute("typeSelect" , "average");
+			}
+			if(ratingType.equals("poor")) {
+				model.addAttribute("ratings", ratingsFilteredPoor);
+				model.addAttribute("typeSelect" , "poor");
+			}
+			return "sp/myRatings";
+
+			
+		}
+		return "redirect:/";
+		
+	}
+	
+	@RequestMapping("/block-customer")
+	public String spBlockCustomer(HttpServletRequest request , HttpServletResponse response, Model model) {
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userinfo") != null) {
+			User userinfo = (User)session.getAttribute("userinfo");
+			List<ServiceRequest> sr = serviceRequestService.getServiceRequestBySPId(userinfo.getUser_id());
+			Set<User> users = new HashSet<User>();
+			List<FavouriteBlocked> favBlocked = userService.getFavBlockByUserId(userinfo.getUser_id()); 
+			List<Integer> blockedId = new ArrayList<Integer>();
+			Set<Integer> usersId = new HashSet<Integer>();
+			List<User> usersList = new ArrayList<User>();
+			if(sr != null) {
+				for(ServiceRequest i: sr) {
+					User u = userService.getUserByUserId(i.getUser_id());
+					users.add(u);
+				}
+			}
+			if(favBlocked != null) {
+				for(FavouriteBlocked i: favBlocked) {
+					blockedId.add(i.getTarget_user_id());
+				}
+			}
+			if(users != null) {
+				for(User i: users) {
+					usersId.add(i.getUser_id());
+					usersList.add(i);
+				}
+			}
+			System.out.println(users);
+			System.out.println(favBlocked);
+			System.out.println(usersId);
+			System.out.println(blockedId);
+			model.addAttribute("blocked",favBlocked);
+			model.addAttribute("usersId",usersId);
+			model.addAttribute("blockedId",blockedId);
+			model.addAttribute("users", users);
+			return "sp/block-customer";
+		}
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/block-customer" , method=RequestMethod.POST)
+	public @ResponseBody String blockCustomer(@RequestBody int id, HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userinfo") != null) {
+			User userinfo = (User)session.getAttribute("userinfo");
+			FavouriteBlocked alreadyAdded = userService.getFavBlockByUserIdAndTargetUserId(userinfo.getUser_id(), id);
+			if(alreadyAdded == null) {
+				FavouriteBlocked newFavBlock = new FavouriteBlocked();
+				newFavBlock.setIs_blocked(true);
+				newFavBlock.setTarget_user_id(id);
+				newFavBlock.setUser_id(userinfo.getUser_id());
+				newFavBlock.setIs_favourite(false);
+				userService.addFavBlock(newFavBlock);
+			}
+			else {
+				FavouriteBlocked favBlock = userService.getFavBlockById(alreadyAdded.getId());
+				favBlock.setIs_blocked(true);
+				userService.updateFavBlock(favBlock);
+			}
+			return "true";
+		}
+		return "false";
+	}
+	
+	@RequestMapping(value = "/unblock-customer" , method=RequestMethod.POST)
+	public @ResponseBody String unblockCustomer(@RequestBody int id, HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userinfo") != null) {
+			User userinfo = (User)session.getAttribute("userinfo");
+			FavouriteBlocked favBlock = userService.getFavBlockByUserIdAndTargetUserId(userinfo.getUser_id(), id);
+			favBlock.setIs_blocked(false);
+			
+			userService.updateFavBlock(favBlock);
+			return "true";
+		}
+		
+		return "false";
+	}
+	
+	/*@RequestMapping(value="/customer-settings")
 	public String showCustomerSettings(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userinfo") != null) {
@@ -377,22 +586,7 @@ public class SPController {
 		return "false";
 	}
 	
-	@RequestMapping(value="/service-cancel/{service_req_id}", method=RequestMethod.POST)
-	public @ResponseBody String cancelServiceRequest(@PathVariable int service_req_id, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("serviceRequest") ServiceRequest serviceRequest){
-		System.out.println(service_req_id);
-		System.out.println(serviceRequest.toString());
-		HttpSession session = request.getSession();
-		if(session.getAttribute("userinfo") != null) {
-			User userinfo = (User)session.getAttribute("userinfo");
-			serviceRequest.setModified_by(userinfo.getUser_type_id());
-			serviceRequest.setStatus(2);
-			
-			serviceRequestService.cancelService(service_req_id, serviceRequest);
-			System.out.println("service-cancel");
-			return "true";
-		}
-		return "false";
-	}
+	
 	
 	@RequestMapping(value = "/service-rating-data/{service_req_id}")
 	public @ResponseBody List<Object> serviceRatingData(@PathVariable int service_req_id) {

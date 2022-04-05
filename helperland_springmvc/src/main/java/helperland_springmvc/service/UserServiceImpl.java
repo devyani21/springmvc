@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import helperland_springmvc.dao.UserDao;
+import helperland_springmvc.model.FavouriteBlocked;
 import helperland_springmvc.model.Login;
 import helperland_springmvc.model.User;
 import helperland_springmvc.model.UserAddress;
@@ -93,6 +94,61 @@ public class UserServiceImpl implements UserService {
 	public User getUserByUserId(int userid) {
 		// TODO Auto-generated method stub
 		return userDao.getUserByUserId(userid);
+	}
+
+	@Override
+	public List<FavouriteBlocked> getFavBlockByUserId(int user_id) {
+		// TODO Auto-generated method stub
+		return userDao.getFavBlockByUserId(user_id);
+	}
+
+	@Override
+	public FavouriteBlocked getFavBlockByUserIdAndTargetUserId(int user_id, int id) {
+		// TODO Auto-generated method stub
+		return userDao.getFavBlockByUserIdAndTargetUserId(user_id, id);
+	}
+
+	@Override
+	public void addFavBlock(FavouriteBlocked newFavBlock) {
+		// TODO Auto-generated method stub
+		userDao.addFavBlock(newFavBlock);
+		
+	}
+
+	@Override
+	public FavouriteBlocked getFavBlockById(int id) {
+		// TODO Auto-generated method stub
+		return userDao.getFavBlockById(id);
+	}
+
+	@Override
+	public void updateFavBlock(FavouriteBlocked favBlock) {
+		// TODO Auto-generated method stub
+		userDao.updateFavBlock(favBlock);
+	}
+
+	@Override
+	public List<User> getAllUser() {
+		// TODO Auto-generated method stub
+		return userDao.getAllUser();
+	}
+
+	@Override
+	public List<UserAddress> getAllUserAddress() {
+		// TODO Auto-generated method stub
+		return userDao.getAllUserAddress();
+	}
+
+	@Override
+	public void updateUser(User userToModify) {
+		// TODO Auto-generated method stub
+		userDao.updateUser(userToModify);
+	}
+
+	@Override
+	public void approveUser(User userToModify) {
+		// TODO Auto-generated method stub
+		userDao.approveUser(userToModify);
 	}
 	
     

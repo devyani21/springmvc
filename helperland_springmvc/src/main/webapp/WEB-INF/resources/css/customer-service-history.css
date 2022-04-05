@@ -36,7 +36,7 @@ body {
   .table-container {
     margin-top: 144px;
     margin-left: 65px;
-    height: 500px;
+    min-height: 1000px;
   }
   .nav-li{
     color: black;
@@ -67,10 +67,10 @@ body {
 .sidenav-link{
   color: white;
 }
-.sidenav .active{
+/*.sidenav .active{
 	background-color:#146371;
 	color: white;
-}
+}*/
 /* .sidenav-primary .sidenav-item .sidenav-link.active {
   background-color: #146371;
 }
@@ -82,9 +82,9 @@ body {
   background-color: #146371;
   outline: none;
 }
-.sidenav-link:active{
+/*.sidenav-link:active{
   background-color: #146371;
-}
+}*/
 /* .sidenav-primary .sidenav-link.active:active{
   color: white;
   background-color: #146371;
@@ -308,7 +308,7 @@ thead {
 .table-container {
   margin-top: -42px;
   margin-left: 315px;
-  height: 500px;
+  min-height: 1000px;
 }
 .btn{
   border-radius: 20px;

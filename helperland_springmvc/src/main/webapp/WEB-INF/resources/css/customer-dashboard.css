@@ -308,8 +308,30 @@ thead {
 .table-container {
   margin-top: -42px;
   margin-left: 315px;
-  height: 800px;
+  height: 1000px;
 }
+#rating-div{
+border: 2px solid #e0e0e0;
+    margin-left: 1px;
+    border-radius: 2px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+#block-customer-div{
+	border: 2px solid #e0e0e0;
+	margin-top: 10px;
+	padding-top: 10px;
+    padding-bottom: 10px;
+}
+.custom-border{
+	border-top: 2px solid #e0e0e0!important;
+    width: 97%;
+    margin-left: 12px;
+    margin-top: 5px;
+}
+
 .btn{
   border-radius: 20px;
 }
@@ -562,3 +584,4 @@ thead {
   color: grey !important;
   text-decoration: none;
 }
+

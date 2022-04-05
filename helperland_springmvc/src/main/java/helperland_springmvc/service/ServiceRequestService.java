@@ -6,6 +6,7 @@ import helperland_springmvc.model.Rating;
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
 import helperland_springmvc.model.ServiceRequestExtra;
+import helperland_springmvc.model.User;
 
 public interface ServiceRequestService {
 	 
@@ -23,4 +24,10 @@ public interface ServiceRequestService {
 	List<ServiceRequest> getAllServiceRequestByPostalCodeHavingNoPets(String postalcode);
 	List<ServiceRequest> getServiceRequestBySPIdAndStatus(int user_id , int status);
 	void updateServiceRequestStatus(ServiceRequest sr);
+	void serviceRequestComplete(User userinfo, int service_req_id);
+	List<ServiceRequest> getServiceRequestBySPIdWhichArePending(int user_id ,int status);
+	List<ServiceRequest> getServiceRequestHistoryBySPId(int sp_id);
+	List<ServiceRequest> getServiceRequestBySPId(int sp_id);
+	List<ServiceRequest> getAllServiceRequests();
+	void updateServiceRequestAddress(ServiceRequestAddress srAddress);
 }

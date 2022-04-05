@@ -9,6 +9,7 @@ import helperland_springmvc.model.Rating;
 import helperland_springmvc.model.ServiceRequest;
 import helperland_springmvc.model.ServiceRequestAddress;
 import helperland_springmvc.model.ServiceRequestExtra;
+import helperland_springmvc.model.User;
 
 public class ServiceRequestServiceImpl implements ServiceRequestService {
 
@@ -86,6 +87,36 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
 		// TODO Auto-generated method stub
 		serviceRequestDao.updateServiceRequestStatus(sr);
 	}
-	
+	@Override
+	public void serviceRequestComplete(User userinfo,int service_req_id) {
+		// TODO Auto-generated method stub
+		serviceRequestDao.serviceRequestComplete(userinfo, service_req_id);
+	}
+	@Override
+	public List<ServiceRequest> getServiceRequestBySPIdWhichArePending(int user_id, int status) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getServiceRequestBySPIdWhichArePending(user_id , status);
+	}
+	@Override
+	public List<ServiceRequest> getServiceRequestHistoryBySPId(int sp_id) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getServiceRequestHistoryBySPId(sp_id);
+	}
+	@Override
+	public List<ServiceRequest> getServiceRequestBySPId(int sp_id) {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getServiceRequestBySPId(sp_id);
+	}
+	@Override
+	public List<ServiceRequest> getAllServiceRequests() {
+		// TODO Auto-generated method stub
+		return serviceRequestDao.getAllServiceRequests();
+	}
+	@Override
+	public void updateServiceRequestAddress(ServiceRequestAddress srAddress) {
+		// TODO Auto-generated method stub
+		serviceRequestDao.updateServiceRequestAddress(srAddress);
+	}
+
 	
 }

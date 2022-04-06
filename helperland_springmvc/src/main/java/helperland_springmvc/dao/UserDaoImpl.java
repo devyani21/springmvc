@@ -33,9 +33,9 @@ public class UserDaoImpl implements UserDao {
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String currentTime = sdf.format(dt);
-		String sql = "insert into user(first_name,last_name,email,password,mobile,user_type_id,created_date) values(?,?,?,?,?,?,?)";
+		String sql = "insert into user(first_name,last_name,email,password,mobile,user_type_id,created_date,is_active,is_approved,is_deleted) values(?,?,?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(sql, new Object[] { user.getFirst_name(), user.getLast_name(), user.getEmail(),
-				user.getPassword(), user.getMobile(), user.getUser_type_id() ,currentTime });
+				user.getPassword(), user.getMobile(), user.getUser_type_id() ,currentTime, user.getIs_active(),user.getIs_approved(),user.getIs_deleted() });
 
 	}
 
@@ -197,7 +197,7 @@ public class UserDaoImpl implements UserDao {
 	public void addFavBlock(FavouriteBlocked newFavBlock) {
 		// TODO Auto-generated method stub
 		String sql = "insert into favourite_blocked(user_id,target_user_id,is_favourite,is_blocked) values(?,?,?,?)";
-		jdbcTemplate.update(sql, new Object[] {newFavBlock.getUser_id(), newFavBlock.getTarget_user_id(),newFavBlock.isIs_favourite(),newFavBlock.isIs_blocked()});
+		jdbcTemplate.update(sql, new Object[] {newFavBlock.getUser_id(), newFavBlock.getTarget_user_id(),newFavBlock.getIs_favourite(),newFavBlock.getIs_blocked()});
 	}
 	
 	@Override
@@ -211,17 +211,21 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void updateFavBlock(FavouriteBlocked favBlock) {
 		// TODO Auto-generated method stub
-		System.out.println(favBlock.isIs_blocked());
-		if(favBlock.isIs_blocked()) {
-			String sql = "update favourite_blocked set is_blocked='"+1+"'where id='"+favBlock.getId()+"'";
+		System.out.println(favBlock.getIs_blocked());
+			String sql = "update favourite_blocked set is_blocked='"+favBlock.getIs_blocked()+"'where id='"+favBlock.getId()+"'";
 			jdbcTemplate.update(sql);
-		}
-		else {
-			String sql = "update favourite_blocked set is_blocked='"+0+"'where id='"+favBlock.getId()+"'";
-			jdbcTemplate.update(sql);
-		}	
 		
 	}
+	
+	@Override
+	public void updateFavouriteFavBlock(FavouriteBlocked favBlock) {
+		// TODO Auto-generated method stub
+		System.out.println(favBlock.getIs_favourite());
+		String sql = "update favourite_blocked set is_favourite='"+favBlock.getIs_favourite()+"'where id='"+favBlock.getId()+"'";
+		jdbcTemplate.update(sql);
+
+	}
+
 	
 	@Override
 	public List<User> getAllUser() {
@@ -320,12 +324,13 @@ public class UserDaoImpl implements UserDao {
 			favouriteblocked.setId(rs.getInt("id"));
 			favouriteblocked.setUser_id(rs.getInt("user_id"));
 			favouriteblocked.setTarget_user_id(rs.getInt("target_user_id"));
-			favouriteblocked.setIs_favourite(rs.getBoolean("is_favourite"));
-			favouriteblocked.setIs_blocked(rs.getBoolean("is_blocked"));
+			favouriteblocked.setIs_blocked(rs.getInt("is_blocked"));
+			favouriteblocked.setIs_favourite(rs.getInt("is_favourite"));
 			return favouriteblocked;
 		}
 	}
 
+	
 	
 
 	

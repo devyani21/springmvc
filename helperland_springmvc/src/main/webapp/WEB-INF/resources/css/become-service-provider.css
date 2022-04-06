@@ -58,7 +58,10 @@ body {
 }
 a{
 	text-decoration: none;
-	color: white;
+	 color: white;
+}
+.md{
+	width:75%;
 }
 .vh-100{
   margin-top: 200px;
@@ -536,3 +539,21 @@ a{
         float: none;
     }
   }
+  
+  form#loginForm .input-group{
+	width: 100%;
+}
+form#forgotpasswordform .input-group{
+	width: 100%;
+}
+
+#forgotpassword a {
+  color: #1d7a8c;
+}
+#forgotpassword a:hover{
+  color: #6eabef;
+}
+.md{
+	width:75%;
+}
+  

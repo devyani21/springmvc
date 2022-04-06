@@ -109,9 +109,10 @@
 						<div class="card shadow-2-strong card-registration">
 							<div class="card-body p-4 p-md-5">
 								<h6>${ error_msg }</h6>
+								<span id="err" class="text-danger"><h6></h6></span>
 								<!-- <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Register here</h3> -->
-								<form:form modelAttribute="user" action="registerProcess"
-									method="post" name="registration">
+								<form:form modelAttribute="user" action="customer-register"
+									method="post" name="registration" id="registration">
 									<div class="row">
 										<div class="col-md-6 mb-4">
 
@@ -239,8 +240,93 @@
 		crossorigin="anonymous"></script>
 	<script src="<c:url value='/resources/js/common.js' />"
 		type="text/javascript"></script>
-	<script type="text/javascript"
-		src="<c:url value='/resources/js/formvalidate.js' />"></script>
+	<%-- <script type="text/javascript"
+		src="<c:url value='/resources/js/formvalidate.js' />"></script> --%>
+		
+		
+		<script type="text/javascript">
+		$(document).ready(function () {
+			console.log("page is ready..");
+			$('#registration').submit(function(event) {
+				event.preventDefault();
+				if(!validd()) return false;
+				$.ajax({
+					url:"customer-register",
+					data:$("#registration").serialize(),
+					type:"POST",
+					success: function(data,textStatus,jqXHR){
+						console.log(data);
+						console.log("Success...");
+						if(data == "true"){
+							document.getElementById("registration").reset();
+							window.location.replace("helperland_springmvc");
+							$("#loginbtn").click();
+						}
+						else if(data == "false"){
+							document.getElementById("forgotpasswordform").reset();
+							$("#err").html("User already exists with this email id!");
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						console.log(data);
+						console.log("error...");
+						alert("some error occured..");
+					}
+				})
+			})
+		})
+		</script>
+		
+		<!-- <script>
+		function validd() {
+			  var first_name = document.registration.first_name.value;
+			  var last_name = document.registration.last_name.value;
+			  var number = document.registration.mobile.value;
+			  var email = document.registration.email.value;
+			  var passwd = document.registration.password.value;
+			  var confirmpasswd = document.registration.confirm_password.value;
+
+			  if (nam == "") {
+			    alert('Please Fill Your Name');
+			    document.contactform.namee.focus();
+			    return false;
+			  }
+
+			  if (number == "" || number == null) {
+			    alert('Please Enter Your Number');
+			    document.contactform.numberr.focus();
+			    return false;
+			  }
+
+			  if (number.length < 9) {
+			    alert('Please Enter Your Number at least 10 Digit');
+			    document.contactform.numberr.focus();
+			    return false;
+			  }
+
+
+			  if (email == "" || email == null) {
+			    alert('Enteryour Email');
+			    document.contactform.emaill.focus();
+			    return false;
+			  }
+
+			  if (subject == "" || subject == null) {
+			    alert('Please Fill Your Subject');
+			    document.contactform.subjectt.focus();
+			    return false;
+			  }
+
+			  if (message == "" || message == null) {
+			    alert('Please Fill Your Message');
+			    document.contactform.messagee.focus();
+			    return false;
+			  } else {
+			    return true;
+			  }
+			}
+
+		</script> -->
 </body>
 
 </html>

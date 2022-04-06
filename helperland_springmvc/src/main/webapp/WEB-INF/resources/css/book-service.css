@@ -59,19 +59,6 @@ body{
     margin: 1.75rem auto;
 }
 }
-form#login .input-group{
-	width: 100%;
-}
-form#forgotpasswordform .input-group{
-	width: 100%;
-}
-
-#forgotpassword a {
-  color: #1d7a8c;
-}
-#forgotpassword a:hover{
-  color: #6eabef;
-}
  
 
 @media screen and (max-width: 1020px){
@@ -728,3 +715,18 @@ div.mydiv label {
 		border: solid 4px #1d7a8c;
 		color: purple;
 	}
+	
+form#loginForm .input-group{
+	width: 100%;
+}
+form#forgotpasswordform .input-group{
+	width: 100%;
+}
+
+#forgotpassword a {
+  color: #1d7a8c;
+}
+#forgotpassword a:hover{
+  color: #6eabef;
+}
+

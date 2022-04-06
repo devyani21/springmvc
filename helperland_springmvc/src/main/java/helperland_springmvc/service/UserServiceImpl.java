@@ -150,6 +150,12 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		userDao.approveUser(userToModify);
 	}
+
+	@Override
+	public void updateFavouriteFavBlock(FavouriteBlocked favBlock) {
+		// TODO Auto-generated method stub
+		userDao.updateFavouriteFavBlock(favBlock);
+	}
 	
     
 	

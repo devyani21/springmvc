@@ -6,9 +6,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import helperland_springmvc.model.Login;
@@ -30,37 +32,51 @@ public class LoginController {
   }
 
   @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
-  public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response,
-  @ModelAttribute("login") Login login) {
-    ModelAndView mav = null;
+  public @ResponseBody String loginProcess(HttpServletRequest request, HttpServletResponse response,
+  @ModelAttribute("login") Login login,Model model) {
+   // ModelAndView mav = null;
 
     User user = userService.validateUser(login);
 
     if (user != null) {
     	HttpSession session = request.getSession();
-    	session.setAttribute("userinfo", user);
+    	
     	if(user.getUser_type_id() == 1) {
-	        mav = new ModelAndView("redirect:/customer-dashboard");
+    		session.setAttribute("userinfo", user);
+    		return "customer";
+	        //return "redirect:/customer-dashboard";
 	        //mav.addObject("first_name", user.getFirst_name());
     	}
     	else if(user.getUser_type_id() == 2) {
-    		mav = new ModelAndView("redirect:/sp-dashboard");
+    		if(user.getIs_approved() == 1 && user.getIs_active() == 1) {
+    			session.setAttribute("userinfo", user);
+    			return "service-provider";
+    			//return "redirect:/sp-dashboard";
+    		}
+    		else {
+    			//model.addAttribute("errmsg","Please wait for the admin to approve and activate your account!");
+    			return "false";
+    		}
+    		
 	        //mav.addObject("first_name", user.getFirst_name());
     	}
     	else if(user.getUser_type_id() == 0) {
-    		mav = new ModelAndView("redirect:/service-requests");
+    		session.setAttribute("userinfo", user);
+    		return "admin";
+    		//mav = new ModelAndView("redirect:/service-requests");
     	}
     	else {
-    		mav = new ModelAndView("redirect:/");
+    		return "home";
+    		//mav = new ModelAndView("redirect:/");
     	}
     	
      } else {
         	System.out.println("Running else condition...");
-        mav = new ModelAndView("loginProcess");
-        mav.addObject("invalid_login", "Username or Password is wrong!!");
+        //mav = new ModelAndView("loginProcess");
+        //model.addAttribute("errmsg", "Invalid Username or Password");
+        return "invalid";
         }
 
-        return mav;
       }
   
   @RequestMapping(value="/logout")

@@ -432,6 +432,60 @@
 			})
 		})
 		</script>
+		
+		<script type="text/javascript">
+		$(document).ready(function () {
+			console.log("page is ready..");
+			$('#loginForm').on('submit',function(event) {
+				event.preventDefault();
+				
+				$.ajax({
+					url:"loginProcess",
+					data:$("#loginForm").serialize(),
+					type:"POST",
+					success: function(data,textStatus,jqXHR){
+						console.log(data);
+						console.log("Success...");
+						if(data == "customer"){
+							var currLoc = $(location).attr('href');
+							console.log(currLoc);
+							window.location.replace(currLoc+"customer-dashboard");	
+						}
+						else if(data == "service-provider"){
+							var currLoc = $(location).attr('href');
+							console.log(currLoc);
+							window.location.replace(currLoc+"sp-dashboard");	
+						}
+						else if(data == "false"){
+							document.getElementById("loginForm").reset();
+							$("#message2").html("Please wait for the admin to approve and activate your account!");
+							location.reload();
+						}
+						else if(data == "admin"){
+							var currLoc = $(location).attr('href');
+							console.log(currLoc);
+							window.location.replace(currLoc+"service-requests");
+						}
+						else if(data == "invalid"){
+							document.getElementById("loginForm").reset();
+							$("#message2").html("Invalid username or password!");
+						}
+						else if(data == "home"){
+							//var currLoc = $(location).attr('href');
+							//console.log(currLoc);
+							window.location.replace("/"); 
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						console.log(data);
+						console.log("error...");
+						alert("some error..");
+					}
+				})
+				event.preventDefault();
+			})
+		})
+		</script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 // Wait for the DOM to be ready
-$(function() {
+function validd() {
   // Initialize form validation on the registration form.
   // It has the name attribute "registration"
   $("form[name='registration']").validate({
@@ -47,4 +47,6 @@ $(function() {
       form.submit();
     }
   });
-});
+};
+
+

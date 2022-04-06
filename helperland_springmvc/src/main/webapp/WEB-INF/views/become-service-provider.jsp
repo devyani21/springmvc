@@ -35,8 +35,8 @@
 
 										<form:form modelAttribute="user"
 											action="become-service-provider"
-											id="serviceproviderregistration">
-
+											id="serviceproviderregistration" name="serviceproviderregistration">
+											<span id="err" class="text-danger"><h6></h6></span>
 											<div class="form-outline mb-4">
 												<input type="text" id="first-name"
 													class="form-control form-control-lg"
@@ -46,34 +46,34 @@
 											<div class="form-outline mb-4">
 												<input type="text" id="last-name"
 													class="form-control form-control-lg"
-													placeholder="Last Name"  name="last_name" /> <label class="form-label"
+													placeholder="Last Name"  name="last_name"/> <label class="form-label"
 													for="last-name"></label>
 											</div>
 
 											<div class="form-outline mb-4">
 												<input type="email" id="email"
 													class="form-control form-control-lg"
-													placeholder="Email Address" name="email"/> <label class="form-label"
+													placeholder="Email Address" name="email" required/> <label class="form-label"
 													for="email"></label>
 											</div>
 
 											<div class="form-outline mb-4">
 												<span class="rounded"></span> <input type="tel" id="phone"
 													class="form-control form-control-lg"
-													placeholder="Phone Number" name="mobile"> <label
+													placeholder="Phone Number" name="mobile" required> <label
 													class="form-label input-group-addon" for="phone"></label>
 											</div>
 
 											<div class="form-outline mb-4">
 												<input type="password" id="password"
-													class="form-control form-control-lg" placeholder="Password" name="password"/>
+													class="form-control form-control-lg" placeholder="Password" name="password" required/>
 												<label class="form-label" for="password"></label>
 											</div>
 
 											<div class="form-outline mb-4">
 												<input type="password" id="Repeat-password"
 													class="form-control form-control-lg"
-													placeholder="Confirm Password" name="confirm_password"/> <label
+													placeholder="Confirm Password" name="confirm_password" required/> <label
 													class="form-label" for="Repeat-password"></label>
 											</div>
 
@@ -193,12 +193,14 @@
                         class="Layer-598">
                 </div>
             </div>
-        </section>
+        </section> 
 <%@include file="../views/footers/footer2.jsp" %>
     </div>
 
     <!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
@@ -206,7 +208,92 @@
 		src="<c:url value='/resources/js/common.js' />"></script>
 	<script type="text/javascript"
 		src="<c:url value='/resources/js/formvalidate.js' />"></script>
+		
+		<script type="text/javascript">
+		$(document).ready(function () {
+			console.log("page is ready..");
+			$('#serviceproviderregistration').on('submit',function(event) {
+				event.preventDefault();
+				validd2();
+				$.ajax({
+					url:"become-service-provider",
+					data:$("#serviceproviderregistration").serialize(),
+					type:"POST",
+					success: function(data,textStatus,jqXHR){
+						console.log(data);
+						console.log("Success...");
+						if(data == "true"){
+							document.getElementById("serviceproviderregistration").reset();
+							location.reload();
+							$("#loginbtn").click();
+						}
+						else{
+							document.getElementById("serviceproviderregistration").reset();
+							$("#err").html("User already exists with this email id!");
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						console.log(data);
+						console.log("error...");
+						alert("some error occured..");
+					}
+				})
+				event.preventDefault();
+			})
+		})
+		</script>
+		
+		<script>
+		function validd2(){
+		$("form[id='serviceproviderregistration']").validate({
+		    // Specify validation rules
+		    rules: {
+		      // The key name on the left side is the name attribute
+		      // of an input field. Validation rules are defined
+		      // on the right side
+		      first_name: "required",
+		      last_name: "required",
+		      email: {
+		        required: true,
+		        // Specify that email should be validated
+		        // by the built-in "email" rule
+		        email: true
+		      },
+		      password: {
+		        required: true,
+		        minlength: 5
+		      },
+		      confirm_password: {
+		    	  equalTo: '#Repeat-password'
+		      },
+		      mobile: {
+				  required: true,
+				  number: true,
+				  minlength: 10,
+				  maxlength: 10
+				}
+		    },
+		    // Specify validation error messages
+		    messages: {
+		      first_name: "Please enter your firstname",
+		      last_name: "Please enter your lastname",
+		      password: {
+		        required: "Please provide a password",
+		        minlength: "Your password must be at least 5 characters long"
+		      },
+		      mobile: "Please enter 10 digit phone number",
+		      email: "Please enter a valid email address"
+		    },
+		    // Make sure the form is submitted to the destination defined
+		    // in the "action" attribute of the form when valid
+		    submitHandler: function(form) {
+		      form.submit();
+		    }
+		  });
+		}
 
+		
+		</script>
 </body>
 
 </html>

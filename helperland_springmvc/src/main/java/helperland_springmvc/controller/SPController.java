@@ -447,15 +447,15 @@ public class SPController {
 			FavouriteBlocked alreadyAdded = userService.getFavBlockByUserIdAndTargetUserId(userinfo.getUser_id(), id);
 			if(alreadyAdded == null) {
 				FavouriteBlocked newFavBlock = new FavouriteBlocked();
-				newFavBlock.setIs_blocked(true);
+				newFavBlock.setIs_blocked(1);
 				newFavBlock.setTarget_user_id(id);
 				newFavBlock.setUser_id(userinfo.getUser_id());
-				newFavBlock.setIs_favourite(false);
+				newFavBlock.setIs_favourite(0);
 				userService.addFavBlock(newFavBlock);
 			}
 			else {
 				FavouriteBlocked favBlock = userService.getFavBlockById(alreadyAdded.getId());
-				favBlock.setIs_blocked(true);
+				favBlock.setIs_blocked(1);
 				userService.updateFavBlock(favBlock);
 			}
 			return "true";
@@ -469,7 +469,7 @@ public class SPController {
 		if(session.getAttribute("userinfo") != null) {
 			User userinfo = (User)session.getAttribute("userinfo");
 			FavouriteBlocked favBlock = userService.getFavBlockByUserIdAndTargetUserId(userinfo.getUser_id(), id);
-			favBlock.setIs_blocked(false);
+			favBlock.setIs_blocked(0);
 			
 			userService.updateFavBlock(favBlock);
 			return "true";

@@ -35,6 +35,10 @@ a{
       text-decoration: none;
       color: white;
   }
+  
+ .error{
+ 	color: red;
+ }
 .white_logo_transparent_background {
     width: 73px;
     height: 54px;

@@ -4,22 +4,23 @@
             <div class="modal fade" id="login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
+                    <div class="modal-content md">
                         <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel">Login to your account</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form:form modelAttribute="login" action="loginProcess" method="post">
+                            <form:form modelAttribute="login" action="loginProcess" method="post" name="loginForm" id="loginForm">
+                                <span id="message2" class="text-danger"><h6> </h6></span>
                                 <div class="input-group mb-3">
                                     <input type="email" class="form-control" placeholder="Email"
-                                        aria-label="Recipient's username" aria-describedby="basic-addon2" name="email">
+                                        aria-label="Recipient's username" aria-describedby="basic-addon2" name="email" required>
                                     <span class="input-group-text" id="email"><i class="fa fa-user"
                                             aria-hidden="true"></i></span>
                                 </div>
                                 <div class="input-group mb-3">
                                     <input id="passwordshow" type="password" class="form-control" placeholder="Password"
-                                        aria-label="Recipient's username" aria-describedby="basic-addon2" name="password">
+                                        aria-label="Recipient's username" aria-describedby="basic-addon2" name="password" required>
                                     <span class="input-group-text" id="password"><i class="fa fa-lock"
                                             aria-hidden="true"></i></span>
                                 </div>

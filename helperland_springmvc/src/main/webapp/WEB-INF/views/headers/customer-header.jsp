@@ -13,10 +13,7 @@
                         <a class="sidenav-link" href="customer-service-history"><span>Service History</span></a>
                     </li>
                     <li class="sidenav-item li-class">
-                        <a class="sidenav-link" href="upcoming-service.html"><span>Service Schedule</span></a>
-                    </li>
-                    <li class="sidenav-item li-class">
-                        <a class="sidenav-link"><span>Favourite Pros</span></a>
+                        <a class="sidenav-link" href="favourite-pros"><span>Favourite Pros</span></a>
                     </li>
                     <li class="sidenav-item li-class">
                         <a class="sidenav-link"><span>Invoices</span></a>

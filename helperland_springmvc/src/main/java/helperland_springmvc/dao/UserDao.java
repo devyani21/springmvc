@@ -34,4 +34,5 @@ public interface UserDao {
 	List<UserAddress> getAllUserAddress();
 	void updateUser(User userToModify);
 	void approveUser(User userToModify);
+	void updateFavouriteFavBlock(FavouriteBlocked favBlock);
 }

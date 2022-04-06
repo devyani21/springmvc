@@ -70,10 +70,10 @@
                             	<c:if test = "${fn:contains(blockedId, u.user_id)}">
 	                            	<c:forEach var="blocked" items="${blocked }">
 	                            		<c:if test="${blocked.target_user_id == u.user_id }">
-	                            			<c:if test="${blocked.is_blocked == true }">
+	                            			<c:if test="${blocked.is_blocked == 1 }">
 		                            			<div class="btn btn-success" data-favblockId = "${blocked.target_user_id }" onclick="unblockFunction($(this).attr('data-favblockId'))">Unblock</div>		
 		                            		</c:if>
-		                            		<c:if test="${blocked.is_blocked == false }">
+		                            		<c:if test="${blocked.is_blocked == 0 }">
 		                            			<div class="btn btn-danger" data-favblockId = "${blocked.target_user_id }" onclick="blockFunction($(this).attr('data-favblockId'))">Block</div>		
 		                            		</c:if>	
 	                            		</c:if>

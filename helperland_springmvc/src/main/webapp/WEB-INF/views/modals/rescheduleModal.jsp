@@ -17,21 +17,28 @@
 			</div>
 				<form name="rescheduleserviceform" id="rescheduleserviceform" method="post">
 					<div class="row mb-2">
-
+						
 						<div class="col-md-6 col">
-							<input name="service_start_date" type="date" class="datepicker"
-								id="nservicestartdate" required style="width: 180px;" />
+							<label class="form-label">Date</label> 
+							<input name="servicedate" type="date"
+								class="datepicker form-control" id="servicestartdate" />
 						</div>
 						<div class="col-md-6 col">
+							<label class="form-label">Time</label> 
 							<select name="service_start_time"
-								class="form-select user-name-select time"
-								aria-label="Default select example" id="nservicestarttime">
-								<option value="12:00 PM" selected>12:00 PM</option>
-								<option value="11:00 AM">11:00 AM</option>
-								<option value="1:00 PM">1:00 PM</option>
-								<option value="2:00 PM">2:00 PM</option>
-								<option value="3:00 PM">3:00 PM</option>
-							</select>
+								class="form-select"
+								aria-label="Default select example" id="servicestarttime">
+								<option value="08:00:00" selected>08:00</option>
+								<option value="08:30:00">08:30</option>
+								<option value="09:00:00">09:00</option>
+								<option value="09:30:00">09:30</option>
+								<option value="10:00:00">10:00</option>
+							</select> <input type="hidden" id="service_start_date"
+								name="service_start_date"> <input type="hidden"
+								id="rescheduleServiceReqId" name="service_req_id">
+						</div>
+						<div class="p-1 w-100">
+							<small class="text-danger" id="conflictError"></small>
 						</div>
 
 					</div>

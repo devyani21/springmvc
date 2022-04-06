@@ -205,6 +205,7 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.min.js"
 		integrity="sha512-ZvbjbJnytX9Sa03/AcbP/nh9K95tar4R0IAxTS2gh2ChiInefr1r7EpnVClpTWUEN7VarvEsH3quvkY1h0dAFg=="
 		crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	<script src="<c:url value='/resources/js/upcoming-service.js' />"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -252,6 +253,70 @@
     	})
     	
     </script>
+    
+    <script type="text/javascript">
+		$(document).ready(
+				function() {
+					var date = new Date();
+					var year = date.getFullYear();
+					var month = ("0" + (date.getMonth() + 1)).slice(-2);
+					var todayDate = ("0" + date.getDate()).slice(-2);
+					var datePattern = year + '-' + month + '-' + todayDate;
+					$("#servicestartdate").attr('min', datePattern);
+					console.log(datePattern);
+					$("#servicestartdate").val(datePattern);
+					var newdate = datePattern.slice(8, 10) + "/"
+							+ datePattern.slice(5, 7) + "/"
+							+ datePattern.slice(0, 4);
+					console.log(newdate);
+					$("#servicestartdatevalue").html(newdate);
+
+					document.getElementById('servicestartdate')
+							.addEventListener(
+									'change',
+									function() {
+										newdate = (this.value).slice(8, 10)
+												+ "/"
+												+ (this.value).slice(5, 7)
+												+ "/"
+												+ (this.value).slice(0, 4);
+										var newdatevalue = (this.value).slice(
+												0, 4)
+												+ "-"
+												+ (this.value).slice(5, 7)
+												+ "-"
+												+ (this.value).slice(8, 10);
+										$("#servicestartdatevalue").html(
+												newdate);
+										$("#servicedatetime").show();
+										$("#servicestartdate")
+												.val(newdatevalue);
+									});
+
+					console.log($("select#servicestarttime").val());
+					$("#servicestarttimevalue").html(servicestarttime.value);
+
+					$("select#servicestarttime").change(function() {
+						$("#servicestarttimevalue").html(this.value);
+					})
+				});
+    </script>
+    
+    <script type="text/javascript">
+	$("#servicestartdate , #servicestarttime").on(
+			"change",
+			function() {
+				var serviceDate = $("#servicestartdate").val();
+				var serviceTime = $("#servicestarttime").val();
+				var date = moment(serviceDate + ' ' + serviceTime).format(
+						"YYYY-MM-DD HH:mm:ss.SSS");
+				var sdate = new Date(date);
+				console.log(date);
+				$("#service_start_date").val(sdate);
+			});
+
+	
+	</script>
 	
     	
     	<script>
@@ -353,6 +418,7 @@
     	function rescheduleServiceFun(id){
     		console.log(id);
     		jQuery(document).ready(function($) {
+    			$('#rescheduleServiceReqId').val(id);
 				$("#rescheduleserviceform").submit(function(event) {
 					event.preventDefault();
 					rescheduleserviceformfun(id);
@@ -362,17 +428,19 @@
     	function rescheduleserviceformfun(id) {
     		console.log(id);
     		console.log($("#rescheduleserviceform").serialize());
-			$
-					.ajax({
+			console.log(rescheduleserviceformfun);
+					$.ajax({
 						type : "POST",
-						url : "/helperland_springmvc/service-reschedule/"+id,
+						url : "service-reschedule",
 						data : $("#rescheduleserviceform").serialize(),
 						success : function(data,textStatus,jqXHR) {
 							console.log("SUCCESS: ", data);
-							location.reload();
-							//document.getElementById('successmessage').innerHTML = 'successmessage';
-							//$('#nav-profile-tab').click();
-							//$("#editaddressmodalclose").click();
+							if(data == "conflict"){
+								$("#conflictError").html("Another service request has already been assigned to this service provider which has time overlap with this service request. You can’t pick this one!");
+							}
+							else{
+								location.reload();
+							}
 						},
 						error : function(e) {
 							console.log("ERROR: ", e);

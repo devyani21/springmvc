@@ -733,3 +733,29 @@ body{
         margin-left: 4.5rem!important;
     }
 }
+
+form#loginForm .input-group{
+	width: 100%;
+}
+form#forgotpasswordform .input-group{
+	width: 100%;
+}
+
+#forgotpassword a {
+  color: #1d7a8c;
+}
+#forgotpassword a:hover{
+  color: #6eabef;
+}
+.md{
+	width:75%;
+}
+
+.btn-lg {
+    color: white;
+    background-color: #1d7a8c;
+}
+
+.btn {
+    border-radius: 23px;
+}

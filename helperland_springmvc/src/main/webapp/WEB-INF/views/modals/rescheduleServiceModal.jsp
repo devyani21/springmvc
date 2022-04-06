@@ -15,7 +15,7 @@
 					<div>
 						<div>
 							<strong><span id="rservicestartdate"></span><span
-								id="rservicestarttime"></span> - <span id="rserviceendtime"></span></strong>
+								id="rservicestarttime"></span> <span id="rserviceendtime"></span></strong>
 							<br> <strong>Duration: <span id="rtotalservicetime"></span></strong>
 						</div>
 						<div class="border-top"></div>
